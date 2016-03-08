@@ -22,10 +22,37 @@ namespace ImageStitchingSystem
     /// </summary>
     public partial class Base : UserControl
     {
+
+        public PhotoCollection Photos;
+
         public Base()
         {
             InitializeComponent();
-            baseGrid.ShowGridLines = true;
+            this.Photos = (PhotoCollection)(this.Resources["Photos"] as ObjectDataProvider).Data;
+        }
+
+        private void OnPhotoClick(object sender, RoutedEventArgs e)
+        {
+            //PhotoView pvWindow = new PhotoView();
+            //pvWindow.SelectedPhoto = (Photo)photosListBox.SelectedItem;
+            //pvWindow.Show();
+        }
+
+        private void editPhoto(object sender, RoutedEventArgs e)
+        {
+            PhotoView pvWindow = new PhotoView();
+            pvWindow.SelectedPhoto = (Photo)photosListBox.SelectedItem;
+            pvWindow.Show();
+        }
+
+        private void OnImagesDirChangeClick(object sender, RoutedEventArgs e)
+        {
+           // this.Photos.Path = ImagesDir.Text;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            //ImagesDir.Text = Environment.CurrentDirectory + "\\images";
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -43,34 +70,17 @@ namespace ImageStitchingSystem
 
         private void insertImgs(String[] imgs)
         {
-            baseGrid.Children.Clear();
-            int col = (int)baseGrid.GetValue(Grid.ColumnProperty);
-            for(int i = 0; i < imgs.Length/col+1; i++)
+            for(int i = 0; i < imgs.Length; i++)
             {
-                RowDefinition rowD = new RowDefinition();
-                rowD.Height = new GridLength(200);
-                baseGrid.RowDefinitions.Add(new RowDefinition());
-            }  
-            for (int i = 0; i < imgs.Length; i++)
-            {
-                System.Windows.Controls.Image image = new System.Windows.Controls.Image();
-                SetSource(image, imgs[i]);
-                
-                image.SetValue(Grid.ColumnProperty, i % col);
-                image.SetValue(Grid.RowProperty, (i / col));
-                baseGrid.Children.Add(image);
+                this.Photos.Add(new Photo(imgs[i]));
             }
+            
+            photosListBox.ItemsSource = this.Photos;
         }
 
         private void insertImg(String img)
         {
-            System.Windows.Controls.Image image = new System.Windows.Controls.Image();
-            SetSource(image, img);
-            int col = (int)baseGrid.GetValue(Grid.ColumnProperty);
-            int count = baseGrid.Children.Count;
-            image.SetValue(Grid.ColumnProperty, count % col + 1);
-            image.SetValue(Grid.RowProperty, count / col +1);
-            baseGrid.Children.Insert(baseGrid.Children.Count, image);
+           
         }
 
         private void SetSource(System.Windows.Controls.Image image, string fileName)
