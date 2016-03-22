@@ -27,7 +27,7 @@ namespace ImageStitchingSystem
         private string _path;
 
         private Uri _source;
-        public string Source { get { return _path; } }
+        public string Source { get { return _path; } set { _path = value; } }
 
         private BitmapFrame _image;
         public BitmapFrame Image { get { return _image; } set { _image = value; } }

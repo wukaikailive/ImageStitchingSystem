@@ -28,21 +28,23 @@ namespace ImageStitchingSystem
         public Base()
         {
             InitializeComponent();
-            this.Photos = (PhotoCollection)(this.Resources["Photos"] as ObjectDataProvider).Data;
+          //this.Photos = (PhotoCollection)(this.Resources["Photos"] as ObjectDataProvider).Data;
+            this.Photos = (PhotoCollection)(Application.Current.Resources["Photos"] as ObjectDataProvider).Data;
+            
         }
 
         private void OnPhotoClick(object sender, RoutedEventArgs e)
         {
-            //PhotoView pvWindow = new PhotoView();
-            //pvWindow.SelectedPhoto = (Photo)photosListBox.SelectedItem;
-            //pvWindow.Show();
+            PhotoView pvWindow = new PhotoView();
+            pvWindow.SelectedPhoto = (Photo)photosListBox.SelectedItem;
+            pvWindow.Show();
         }
 
         private void editPhoto(object sender, RoutedEventArgs e)
         {
-            PhotoView pvWindow = new PhotoView();
-            pvWindow.SelectedPhoto = (Photo)photosListBox.SelectedItem;
-            pvWindow.Show();
+            PhotoEditWindow pw = new PhotoEditWindow();
+            pw.SelectedPhoto = (Photo)photosListBox.SelectedItem;
+            pw.Show();
         }
 
         private void OnImagesDirChangeClick(object sender, RoutedEventArgs e)
@@ -121,6 +123,19 @@ namespace ImageStitchingSystem
                 imageHeight = 100;
                 imageWidth = Convert.ToInt32(aspect * imageHeight);
             }
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            PhotoEditWindow pw = new PhotoEditWindow();
+            pw.SelectedPhoto = (Photo)photosListBox.SelectedItem;
+            pw.Show();
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Photos.Remove((Photo)photosListBox.SelectedItem);
+
         }
     }
 }

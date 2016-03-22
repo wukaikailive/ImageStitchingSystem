@@ -55,7 +55,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FeaturePoint.cs" />
+    <Compile Include="PhotoEditWindow.xaml.cs">
+      <DependentUpon>PhotoEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SimpleView.xaml.cs">
+      <DependentUpon>SimpleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TextUtils.cs" />
+    <Compile Include="ZoomItem.cs" />
     <Page Include="Base.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoadingDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -72,10 +85,17 @@
     </Compile>
     <Compile Include="converters.cs" />
     <Compile Include="data.cs" />
+    <Compile Include="LoadingDialog.xaml.cs">
+      <DependentUpon>LoadingDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PhotoEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PhotoItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -83,6 +103,10 @@
     <Page Include="photoview.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SimpleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -119,9 +143,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="image\ic_delete_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\ic_edit_green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\ic_add_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="feature_alg\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

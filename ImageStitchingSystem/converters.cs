@@ -167,4 +167,27 @@ namespace ImageStitchingSystem
             }
         }
     }
+
+    public class PhotoFileNameConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null)
+            {
+                Photo photo = (Photo)value;
+                PhotoCollection Photos = (PhotoCollection)(App.Current.Resources["Photos"] as ObjectDataProvider).Data;
+                int index=Photos.IndexOf(photo);
+                return "#"+index+": "+TextUtils.getFileName(photo.Source);
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
