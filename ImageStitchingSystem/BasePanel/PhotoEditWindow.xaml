@@ -1,0 +1,101 @@
+﻿<Window x:Class="ImageStitchingSystem.PhotoEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageStitchingSystem"
+        mc:Ignorable="d"
+        Loaded="WindowLoaded"
+        Title="photoEditWindow" Height="500" Width="800">
+    <Grid x:Name="MainPanel">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+
+            <TransformGroup x:Key="ImageTransformResource">
+
+                <ScaleTransform />
+
+                <TranslateTransform />
+
+            </TransformGroup>
+
+        </Grid.Resources>
+
+        <WrapPanel Background="#424242">
+            <Button Margin="8" Height="36" Width="80">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="image/ic_save_green.png" Height="16" Width="16"></Image>
+                        <TextBlock Text="保存" FontSize="16" FontWeight="Thin"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Margin="8" Height="36" Width="80">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="image/ic_restore_purple.png" Height="16" Width="16"></Image>
+                        <TextBlock Text="还原" FontSize="16" FontWeight="Thin"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </WrapPanel>
+
+        <Grid Grid.Row="1">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Background="#424242">
+                <StackPanel>
+                    <TextBlock Text="裁剪" ></TextBlock>
+                    <WrapPanel>
+                        <Button Margin="4" Height="36" Width="36" Background="#212121">
+                            <Button.Content>
+                                <Image ></Image>
+                            </Button.Content>
+                        </Button>
+
+                    </WrapPanel>
+                </StackPanel>
+              
+            </Grid>
+            <Grid Grid.Column="1" Background="#212121"></Grid>
+
+            <Rectangle Grid.Column="1" x:Name="MasterImage"
+
+                   MouseLeftButtonDown="MasterImage_MouseLeftButtonDown"
+
+                   MouseLeftButtonUp="MasterImage_MouseLeftButtonUp"
+
+                   MouseMove="MasterImage_MouseMove"
+
+                   MouseWheel="MasterImage_MouseWheel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+                <Rectangle.Fill>
+
+                    <VisualBrush Transform="{StaticResource ImageTransformResource}" Stretch="Uniform">
+
+                        <VisualBrush.Visual>
+
+                            <Image x:Name="ViewedPhoto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                        </VisualBrush.Visual>
+
+                    </VisualBrush>
+
+                </Rectangle.Fill>
+
+            </Rectangle>
+        </Grid>
+
+    </Grid>
+</Window>

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\App.xaml
-7-2124357879
-
-21-112338999
-141012385901
-Base.xaml;LoadingDialog.xaml;MainWindow.xaml;PhotoEditWindow.xaml;PhotoItem.xaml;photoview.xaml;SimpleView.xaml;
+7257012158
+11222405994
+191789409633
+17941493460
+BasePanel\Base.xaml;MainWindow.xaml;BasePanel\PhotoEditWindow.xaml;BasePanel\PhotoItem.xaml;BasePanel\photoview.xaml;SimplePanel\SimpleView.xaml;SimplePanel\StichingParamsWindow.xaml;
 
 False
 

@@ -27,9 +27,6 @@
             <TabItem Header="简单">
                 <my:SimpleView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></my:SimpleView>
             </TabItem>
-            <TabItem Header="高级">
-                <Grid Background="#FFE5E5E5"/>
-            </TabItem>
         </TabControl>
 
     </Grid>

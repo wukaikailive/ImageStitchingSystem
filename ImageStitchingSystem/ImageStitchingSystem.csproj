@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Emgu.CV.UI">
+      <HintPath>..\..\..\..\..\..\..\Emgu\emgucv-windesktop 3.1.0.2282\bin\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.World">
+      <HintPath>..\..\..\..\..\..\..\Emgu\emgucv-windesktop 3.1.0.2282\bin\Emgu.CV.World.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -49,6 +55,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ZedGraph">
+      <HintPath>..\..\..\..\..\..\..\Emgu\emgucv-windesktop 3.1.0.2282\bin\ZedGraph.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -56,19 +65,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="FeaturePoint.cs" />
-    <Compile Include="PhotoEditWindow.xaml.cs">
+    <Compile Include="BasePanel\PhotoEditWindow.xaml.cs">
       <DependentUpon>PhotoEditWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SimpleView.xaml.cs">
+    <Compile Include="SimplePanel\SimpleView.xaml.cs">
       <DependentUpon>SimpleView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TextUtils.cs" />
-    <Compile Include="ZoomItem.cs" />
-    <Page Include="Base.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="LoadingDialog.xaml">
+    <Compile Include="SimplePanel\StichingParamsWindow.xaml.cs">
+      <DependentUpon>StichingParamsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\TextUtils.cs" />
+    <Page Include="BasePanel\Base.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -80,41 +87,41 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Base.xaml.cs">
+    <Compile Include="BasePanel\Base.xaml.cs">
       <DependentUpon>Base.xaml</DependentUpon>
     </Compile>
     <Compile Include="converters.cs" />
     <Compile Include="data.cs" />
-    <Compile Include="LoadingDialog.xaml.cs">
-      <DependentUpon>LoadingDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PhotoEditWindow.xaml">
+    <Page Include="BasePanel\PhotoEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PhotoItem.xaml">
+    <Page Include="BasePanel\PhotoItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="photoview.xaml">
+    <Page Include="BasePanel\photoview.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SimpleView.xaml">
+    <Page Include="SimplePanel\SimpleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SimplePanel\StichingParamsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PContext.cs" />
-    <Compile Include="PhotoItem.xaml.cs">
+    <Compile Include="BasePanel\PhotoItem.xaml.cs">
       <DependentUpon>PhotoItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="photoview.xaml.cs">
+    <Compile Include="BasePanel\photoview.xaml.cs">
       <DependentUpon>photoview.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -154,6 +161,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="feature_alg\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\ic_save_green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="image\ic_restore_purple.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
