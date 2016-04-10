@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using ImageStitchingSystem.Other;
 
 namespace ImageStitchingSystem
 {
@@ -182,6 +183,27 @@ namespace ImageStitchingSystem
             else
             {
                 return string.Empty;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class PixelPrecisionConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(value != null)
+            {
+                double v = (double)value;
+                return v.ToString("0.00");
+            }
+            else
+            {
+                return String.Empty;
             }
         }
 

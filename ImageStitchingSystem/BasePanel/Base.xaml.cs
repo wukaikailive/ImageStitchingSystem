@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ImageStitchingSystem.Models;
 
 namespace ImageStitchingSystem
 {
@@ -48,16 +49,6 @@ namespace ImageStitchingSystem
             pw.Show();
         }
 
-        private void OnImagesDirChangeClick(object sender, RoutedEventArgs e)
-        {
-           // this.Photos.Path = ImagesDir.Text;
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            //ImagesDir.Text = Environment.CurrentDirectory + "\\images";
-        }
-
         private void button_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -66,8 +57,8 @@ namespace ImageStitchingSystem
 
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                PContext.imgs = openFileDialog.FileNames;
-                insertImgs(PContext.imgs);
+                //PContext.imgs = ;
+                insertImgs(openFileDialog.FileNames);
             }
         }
 
@@ -75,15 +66,10 @@ namespace ImageStitchingSystem
         {
             for(int i = 0; i < imgs.Length; i++)
             {
-                this.Photos.Add(new Photo(imgs[i]));
+                this.Photos.Add(new Photo(imgs[i],i));
             }
-            
+            Photos.UpdateItemIndex();
             photosListBox.ItemsSource = this.Photos;
-        }
-
-        private void insertImg(String img)
-        {
-           
         }
 
         private void SetSource(System.Windows.Controls.Image image, string fileName)
@@ -137,7 +123,7 @@ namespace ImageStitchingSystem
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             Photos.Remove((Photo)photosListBox.SelectedItem);
-
+            Photos.UpdateItemIndex();
         }
     }
 }

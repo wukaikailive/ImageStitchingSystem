@@ -28,15 +28,7 @@ namespace ImageStitchingSystem
 
         private void loadImgs_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "图片文件|*.jpg;*.png;*.bmp";
-            openFileDialog.Multiselect = true;
-
-            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                PContext.imgs = openFileDialog.FileNames;
-
-            }
+           
         }
     }
 }

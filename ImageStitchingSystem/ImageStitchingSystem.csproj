@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ImageStitchingSystem</RootNamespace>
     <AssemblyName>ImageStitchingSystem</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,18 +65,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="FeaturePoint.cs" />
+    <Compile Include="Exceptions\UnSupportException.cs" />
     <Compile Include="BasePanel\PhotoEditWindow.xaml.cs">
       <DependentUpon>PhotoEditWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ImageBox.xaml.cs">
+      <DependentUpon>ImageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Converters.cs" />
+    <Compile Include="Models\FeaturePoint.cs" />
+    <Compile Include="Models\Photo.cs" />
+    <Compile Include="PContext.cs" />
     <Compile Include="SimplePanel\SimpleView.xaml.cs">
       <DependentUpon>SimpleView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SimplePanel\StichingParamsWindow.xaml.cs">
-      <DependentUpon>StichingParamsWindow.xaml</DependentUpon>
+    <Compile Include="SimplePanel\StitcheParamsWindow.xaml.cs">
+      <DependentUpon>StitcheParamsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\BitmapUtils.cs" />
+    <Compile Include="Utils\CVUtils.cs" />
+    <Compile Include="Utils\ImageUtils.cs" />
+    <Compile Include="Utils\MMath.cs" />
     <Compile Include="Utils\TextUtils.cs" />
     <Page Include="BasePanel\Base.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ImageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -112,7 +128,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SimplePanel\StichingParamsWindow.xaml">
+    <Page Include="SimplePanel\StitcheParamsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -166,6 +182,7 @@
     <Resource Include="image\ic_save_green.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="image\ic_clip.png" />
     <Content Include="image\ic_restore_purple.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

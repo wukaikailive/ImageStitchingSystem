@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ImageStitchingSystem.Models;
+using ImageStitchingSystem.Utils;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -37,7 +39,7 @@ namespace ImageStitchingSystem
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
-            ViewedPhoto.Source = _photo.Image;
+            ViewedPhoto.Source = BitmapUtils.ChangeBitmapToImageSource(_photo.Bitmap);
         }
 
 
@@ -144,18 +146,35 @@ namespace ImageStitchingSystem
             TransformGroup group = MainPanel.FindResource("ImageTransformResource") as TransformGroup;
 
             Debug.Assert(group != null);
+            Point point = Mouse.GetPosition(sender as Rectangle);
 
-            ScaleTransform transform = group.Children[0] as ScaleTransform;
+            var delta = e.Delta * 0.002;
+            DowheelZoom(group, point, delta);
 
-            Point point=Mouse.GetPosition(MasterImage);
+            //var pointToContent = group.Inverse.Transform(point);
 
-            transform.CenterX = point.X;
-            transform.CenterY = point.Y;
+            //ScaleTransform transform = group.Children[0] as ScaleTransform;
 
-            transform.ScaleX += e.Delta * 0.002;
+            // transform.CenterX = pointToContent.X;
+            //transform.CenterY = pointToContent.Y;
 
-            transform.ScaleY += e.Delta * 0.002;
+            // transform.ScaleX += e.Delta * 0.002;
 
+            //transform.ScaleY += e.Delta * 0.002;
+
+        }
+
+
+        private void DowheelZoom(TransformGroup group, Point point, double delta)
+        {
+            var pointToContent = group.Inverse.Transform(point);
+            var transform = group.Children[0] as ScaleTransform;
+            if (transform.ScaleX + delta < 0.1) return;
+            transform.ScaleX += delta;
+            transform.ScaleY += delta;
+            var transform1 = group.Children[1] as TranslateTransform;
+            transform1.X = -1 * ((pointToContent.X * transform.ScaleX) - point.X);
+            transform1.Y = -1 * ((pointToContent.Y * transform.ScaleY) - point.Y);
         }
 
         /// <summary>   

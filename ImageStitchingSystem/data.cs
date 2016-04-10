@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace ImageStitchingSystem
+namespace ImageStitchingSystem.Other
 {
     /// <summary>
     /// This class describes a single photo - its location, the image and 
@@ -88,7 +88,6 @@ namespace ImageStitchingSystem
 
         DirectoryInfo _directory;
     }
-
 
     public enum ColorRepresentation
     {

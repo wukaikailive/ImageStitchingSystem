@@ -3,13 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ImageStitchingSystem"
+             xmlns:local="clr-namespace:ImageStitchingSystem.Models"
              xmlns:c="clr-namespace:System.Collections;assembly=mscorlib"
              xmlns:cx="clr-namespace:System;assembly=mscorlib"
+             xmlns:model="clr-namespace:ImageStitchingSystem.Models"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600">
 
     <UserControl.Resources>
+
+ 
+        <local:PixelPrecisionConverter x:Key="PixelPrecisionConverter"/>
+
+        <DataTemplate x:Key="Index">
+            <TextBlock Name="index" Text="{Binding Index}" ></TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="LX" >
+            <TextBlock Name="index" Text="{Binding LX, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="LY" >
+            <TextBlock Name="index" Text="{Binding LY, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="RX" >
+            <TextBlock Name="index" Text="{Binding RX, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="RY" >
+            <TextBlock Name="index" Text="{Binding RY, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="Distance">
+            <TextBlock Name="index" Text="{Binding Distance, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
+        </DataTemplate>
 
         <c:ArrayList x:Key="zoom">
             <cx:String>25%</cx:String>
@@ -25,9 +48,10 @@
 
         <c:ArrayList x:Key="featureAlg">
             <cx:String>SURF</cx:String>
+            <cx:String>Orb</cx:String>
         </c:ArrayList>
         <cx:String x:Key="SURF">SURF</cx:String>
-        
+
         <local:ExposureModeConverter x:Key="ExposureModeConverter"/>
         <local:PhotoFileNameConverter x:Key="PhotoFileNameConverter"/>
         <DataTemplate DataType="{x:Type local:Photo}">
@@ -35,8 +59,16 @@
                 <Label Content="{Binding Converter={StaticResource PhotoFileNameConverter}}"/>
             </Grid>
         </DataTemplate>
+
+        <TransformGroup x:Key="TransformL">
+            <ScaleTransform/>
+            <TranslateTransform/>
+        </TransformGroup>
         
-        
+        <TransformGroup x:Key="TransformR">
+            <ScaleTransform/>
+            <TranslateTransform/>
+        </TransformGroup>
 
     </UserControl.Resources>
     <Grid Background="#eeeeee" Margin="16">
@@ -55,33 +87,48 @@
         </Grid.RowDefinitions>
         <GroupBox Grid.Column="0" Grid.Row="0">
             <StackPanel Orientation="Horizontal">
-                <ComboBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource zoom}}" SelectedItem="自动适应">
+                <ComboBox x:Name="comboBoxLImg" ItemsSource="{Binding Mode=OneWay, Source={StaticResource zoom}}" SelectedItem="自动适应">
                     
                 </ComboBox>
            </StackPanel>
         </GroupBox>
         <GroupBox Grid.Column="2" Grid.Row="0">
             <StackPanel Orientation="Horizontal">
-                <ComboBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource zoom}}" SelectedItem="自动适应">
+                <ComboBox x:Name="comboBoxRImg" ItemsSource="{Binding Mode=OneWay, Source={StaticResource zoom}}" SelectedItem="自动适应" SelectionChanged="comboBoxRImg_SelectionChanged">
 
                 </ComboBox>
             </StackPanel>
         </GroupBox>
         <ComboBox Grid.Column="0" Grid.Row="1"
-                  x:Name="comboBoxL"  d:LayoutOverrides="Height"
+                  x:Name="comboBoxL"  d:LayoutOverrides="Height" SelectedIndex="0"
                   ItemsSource="{Binding Mode=OneWay, Source={StaticResource Photos}}" SelectionChanged="comboBoxL_SelectionChanged" >
 
         </ComboBox>
         <ComboBox Grid.Column="2" Grid.Row="1"
-                  x:Name="comboBoxR" d:LayoutOverrides="Height"
+                  x:Name="comboBoxR" d:LayoutOverrides="Height" SelectedIndex="1"
                  ItemsSource="{Binding Mode=OneWay, Source={StaticResource Photos}}" SelectionChanged="comboBoxR_SelectionChanged"
                   />
-        <ScrollViewer Grid.Column="0" Grid.Row="2" Background="#bdbdbd">
-            <Image x:Name="imgL"></Image>
-        </ScrollViewer>
-        <ScrollViewer Grid.Column="2" Grid.Row="2" Background="#bdbdbd">
-            <Image x:Name="imgR"></Image>
-        </ScrollViewer>
+
+        <Rectangle x:Name="rectangleL" Grid.Column="0" Grid.Row="2" 
+                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MouseWheel="rectangleL_MouseWheel" MouseLeftButtonDown="rectangleL_MouseLeftButtonDown" MouseLeftButtonUp="rectangleL_MouseLeftButtonUp" MouseMove="rectangleL_MouseMove">
+            <Rectangle.Fill>
+                <VisualBrush Transform="{StaticResource TransformL}" Stretch="Uniform">
+                    <VisualBrush.Visual>
+                        <Image x:Name="imgL" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                    </VisualBrush.Visual>
+                </VisualBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="rectangleR" Grid.Column="2" Grid.Row="2"
+                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MouseWheel="rectangleR_MouseWheel" MouseLeftButtonDown="rectangleR_MouseLeftButtonDown" MouseLeftButtonUp="rectangleR_MouseLeftButtonUp" MouseMove="rectangleR_MouseMove">
+            <Rectangle.Fill>
+                <VisualBrush Transform="{StaticResource TransformR}" Stretch="Uniform">
+                    <VisualBrush.Visual>
+                        <Image x:Name="imgR" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                    </VisualBrush.Visual>
+                </VisualBrush>
+            </Rectangle.Fill>
+        </Rectangle>
 
         <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3">
 
@@ -102,22 +149,23 @@
                                 
                     </ComboBox>
 
-                    <Button Height="20" Content="查找特征点" x:Name="buttonFindFeatures"/>
+                    <Button Height="20" Content="查找特征点" x:Name="buttonFindFeatures" Click="buttonFindFeatures_Click"/>
+                    <Button Height="20" Content="预览" x:Name="buttonPreview" Click="buttonPreview_Click"></Button>
                 </StackPanel>
                
             </Grid>
 
             <GroupBox Grid.Column="1" Grid.Row="1">
                 <ScrollViewer>
-                    <ListView>
+                    <ListView x:Name="listViewPoints" ItemsSource="{Binding featurePointCollection}" SelectedIndex="0">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="#" Width="50" />
-                                <GridViewColumn Header="左x" Width="50"/>
-                                <GridViewColumn Header="左y" Width="50"/>
-                                <GridViewColumn Header="右x" Width="50"/>
-                                <GridViewColumn Header="右y" Width="50"/>
-                                <GridViewColumn Header="距离" Width="50"/>
+                                <GridViewColumn Header="#" Width="50" CellTemplate="{StaticResource Index}"/>
+                                <GridViewColumn Header="左x" Width="70" CellTemplate="{StaticResource LX}"/>
+                                <GridViewColumn Header="左y" Width="70" CellTemplate="{StaticResource LY}"/>
+                                <GridViewColumn Header="右x" Width="70" CellTemplate="{StaticResource RX}"/>
+                                <GridViewColumn Header="右y" Width="70" CellTemplate="{StaticResource RY}"/>
+                                <GridViewColumn Header="距离" Width="70" CellTemplate="{StaticResource Distance}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -128,13 +176,13 @@
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Button Content="新增" Width="40" Height="40" Name="addButton"/>
-                        <Button Content="删除" Width="40" Height="40" Name="deleteButton" Margin="10 0 0 0"/>
+                        <Button Content="删除" Width="40" Height="40" Name="deleteButton" Margin="10 0 0 0" Click="deleteButton_Click"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 40 0 0">
                         <CheckBox Content="自动估算" IsChecked="True" Name="autoEstimateCheckBox"></CheckBox>
                     </StackPanel>
                     <StackPanel Margin="0 10 0 0">
-                        <Button Width="80" Height="40">下一步</Button>
+                        <Button Width="80" Height="40" x:Name="buttonNext" Click="buttonNext_Click">下一步</Button>
                     </StackPanel>
                 </StackPanel>
             </Grid>

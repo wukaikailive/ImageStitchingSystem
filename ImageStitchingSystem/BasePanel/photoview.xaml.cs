@@ -6,7 +6,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Media.Imaging;
-
+using ImageStitchingSystem.Models;
 namespace ImageStitchingSystem
 {
 
@@ -28,7 +28,7 @@ namespace ImageStitchingSystem
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
             ViewedPhoto.Source = _photo.Image;
-            ViewedCaption.Content = _photo.Source;
+            ViewedCaption.Content = _photo.Path;
         }
 
         private void Rotate(object sender, RoutedEventArgs e)

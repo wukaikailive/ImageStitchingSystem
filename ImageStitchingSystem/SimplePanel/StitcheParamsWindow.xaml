@@ -1,0 +1,41 @@
+﻿<Window x:Class="ImageStitchingSystem.StichingParamsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageStitchingSystem"
+        mc:Ignorable="d"
+        Title="StichingParamsWindow" Height="600" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65*"/>
+            <RowDefinition Height="95*"/>
+            <RowDefinition Height="95*"/>
+            <RowDefinition Height="314*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="175*"/>
+            <ColumnDefinition Width="617*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="融合参数" Margin="63.5,24.88" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" />
+        <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="0,9.852" Width="107.042" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+            <CheckBox Content="DefaultBlender" x:Name="checkDefaultBlender" IsChecked="True"></CheckBox>
+            <CheckBox Content="FeatherBlender" x:Name="checkFeatherBlender"></CheckBox>
+            <CheckBox Content="MultiBand" x:Name="checkBoxMultiBand"></CheckBox>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="0,24.852" Width="166.215" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+            <CheckBox x:Name="checkBoxBlocksGainCompensator" Content="BlocksGainCompensation" HorizontalAlignment="Left" Height="auto" Width="auto" IsChecked="True"/>
+            <CheckBox x:Name="checkBoxNoCompensator" Content="NoCompensation" HorizontalAlignment="Left" Height="auto" Width="auto"/>
+            <CheckBox x:Name="checkBoxGainCompensator" Content="GainCompensator" HorizontalAlignment="Left" Height="auto" Width="auto"/>
+
+        </StackPanel>
+        <TextBlock x:Name="textBlock1" Grid.Row="1" TextWrapping="Wrap" Text="曝光补偿参数" Margin="51.5,39.88" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <TextBlock x:Name="textBlock2"  Grid.Row="2" TextWrapping="Wrap" Text="缝合估计参数" Margin="51.5,39.88" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <StackPanel Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left" Height="0" Margin="0,42.5,0,0" Width="0" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" >
+            
+
+        </StackPanel>
+
+
+    </Grid>
+</Window>

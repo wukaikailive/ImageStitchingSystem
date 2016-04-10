@@ -30,7 +30,7 @@
             <Button Margin="8" Height="36" Width="80">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="image/ic_save_green.png" Height="16" Width="16"></Image>
+                        <Image Source="/image/ic_save_green.png" Height="16" Width="16"></Image>
                         <TextBlock Text="保存" FontSize="16" FontWeight="Thin"></TextBlock>
                     </StackPanel>
                 </Button.Content>
@@ -38,7 +38,7 @@
             <Button Margin="8" Height="36" Width="80">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="image/ic_restore_purple.png" Height="16" Width="16"></Image>
+                        <Image Source="/image/ic_restore_purple.png" Height="16" Width="16"></Image>
                         <TextBlock Text="还原" FontSize="16" FontWeight="Thin"></TextBlock>
                     </StackPanel>
                 </Button.Content>
@@ -56,15 +56,19 @@
 
             <Grid Grid.Column="0" Background="#424242">
                 <StackPanel>
-                    <TextBlock Text="裁剪" ></TextBlock>
+                    <TextBlock Text="工具" ></TextBlock>
                     <WrapPanel>
-                        <Button Margin="4" Height="36" Width="36" Background="#212121">
+                        <Button Margin="4" Height="36" Width="36" Background="#212121" Name="buttonClip">
                             <Button.Content>
-                                <Image ></Image>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                    <Image Source="/image/ic_clip.png" Width="24" Height="24"></Image>
+                                    <TextBlock Text="裁剪" FontSize="8" HorizontalAlignment="Center"></TextBlock>
+                                </StackPanel>
                             </Button.Content>
                         </Button>
-
                     </WrapPanel>
+                    
+                    
                 </StackPanel>
               
             </Grid>
