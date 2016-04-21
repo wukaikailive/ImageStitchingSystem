@@ -1,0 +1,26 @@
+﻿<Window x:Class="ImageStitchingSystemNew.UI.TabTest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageStitchingSystemNew.UI"
+      xmlns:igThemes="http://infragistics.com/Themes"
+      xmlns:igWindows="http://infragistics.com/Windows"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="TabTest" Height="600" Width="800">
+    <Grid>
+        <igWindows:XamTabControl x:Name="xamTabControl"  Height="100"  VerticalAlignment="Top" HorizontalAlignment="Stretch" Theme="Metro">
+            <igWindows:TabItemEx Padding="8" x:Name="tab_file" Header="文件">
+                <Grid/>
+            </igWindows:TabItemEx>
+            <igWindows:TabItemEx Padding="8" IsSelected="True" x:Name="tab_start" Header="开始">
+                <Grid/>
+            </igWindows:TabItemEx>
+            <igWindows:TabItemEx Padding="8" x:Name="tab_find_point" Header="特征点寻找">
+                <Grid/>
+            </igWindows:TabItemEx>
+        </igWindows:XamTabControl>
+
+    </Grid>
+</Window>

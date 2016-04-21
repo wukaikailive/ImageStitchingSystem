@@ -184,9 +184,9 @@ namespace ImageStitchingSystem.Utils
             return result;
         }
 
-        public static Image<Bgr,byte> Draw(Image<Bgr,byte> img, List<MKeyPoint> points)
+        public static Image<Bgr, byte> Draw(Image<Bgr, byte> img, List<MKeyPoint> points)
         {
-            foreach(var v in points)
+            foreach (var v in points)
             {
                 int index = points.IndexOf(v);
                 CvInvoke.Circle(img, Point.Round(v.Point), 5, new MCvScalar(0, 0, 255));
@@ -260,6 +260,27 @@ namespace ImageStitchingSystem.Utils
             }
             return result;
 
+        }
+
+        public static Image<Bgr, byte> DrawCursor(Image<Bgr, byte> img, Point point)
+        {
+            //CvInvoke.D
+            return img;
+        }
+        public static Image<Bgr, byte> DrawCenterCross(Image<Bgr, byte> img)
+        {
+            Point top = new Point(img.Width / 2, 0);
+            Point bottom = new Point(img.Width / 2, img.Height);
+            Point left = new Point(0, img.Height / 2);
+            Point right = new Point(img.Width, img.Height / 2);
+            img.Draw(new LineSegment2D(top, bottom), new Bgr(255, 255, 255), 1);
+            img.Draw(new LineSegment2D(left, right), new Bgr(255, 255, 255), 1);
+            return img;
+        }
+
+        public static Image<Bgr,byte> DrawTextWithBackground(Image<Bgr, byte> img,String text)
+        {
+            return img;
         }
 
     }

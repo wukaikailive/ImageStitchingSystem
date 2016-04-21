@@ -176,8 +176,8 @@ namespace ImageStitchingSystem.Models
             if (value != null)
             {
                 Photo photo = (Photo)value;
-               
-                return "#"+photo.Index+": "+photo.FileName;
+                
+                return "#"+1;
             }
             else
             {

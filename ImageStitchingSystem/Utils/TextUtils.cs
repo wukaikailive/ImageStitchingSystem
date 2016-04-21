@@ -13,5 +13,10 @@ namespace ImageStitchingSystem
             string[] ps = filePath.Split('\\');
             return ps[ps.Length - 1];
         }
+
+        public static double parseZoomString()
+        {
+            return 0;
+        }
     }
 }

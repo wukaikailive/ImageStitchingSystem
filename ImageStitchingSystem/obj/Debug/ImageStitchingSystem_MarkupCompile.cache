@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\
 ImageStitchingSystem
 none
 false
 DEBUG;TRACE
-C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\App.xaml
-81734637257
-11222405994
-24556846589
-171810348662
-BasePanel\Base.xaml;ImageBox.xaml;MainWindow.xaml;BasePanel\PhotoEditWindow.xaml;BasePanel\PhotoItem.xaml;BasePanel\photoview.xaml;SimplePanel\SimpleView.xaml;SimplePanel\StitcheParamsWindow.xaml;
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\UI\App.xaml
+8-1348564605
+1-1944912270
+26-732150914
+261368836386
+UI\BasePanel\Base.xaml;UI\ImageBox.xaml;UI\MainWindow.xaml;UI\BasePanel\PhotoEditWindow.xaml;UI\BasePanel\PhotoItem.xaml;UI\BasePanel\photoview.xaml;UI\SimplePanel\SimpleView.xaml;UI\SimplePanel\StitcheParamsWindow.xaml;
 
 False
 

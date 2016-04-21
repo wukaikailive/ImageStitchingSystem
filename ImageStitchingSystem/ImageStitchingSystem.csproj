@@ -41,9 +41,19 @@
     <Reference Include="Emgu.CV.World">
       <HintPath>..\..\..\..\..\..\..\Emgu\emgucv-windesktop 3.1.0.2282\bin\Emgu.CV.World.dll</HintPath>
     </Reference>
+    <Reference Include="InfragisticsWPF4.Controls.Charts.XamTreemap.v15.2, Version=15.2.20152.2100, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="InfragisticsWPF4.Controls.Layouts.XamTileManager.v15.2, Version=15.2.20152.2100, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="InfragisticsWPF4.DataVisualization.v15.2, Version=15.2.20152.2100, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="InfragisticsWPF4.v15.2, Version=15.2.20152.2100, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework, Version=3.2.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\NUnit.org\framework\3.2.0.0\net-4.0\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +63,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -61,83 +73,85 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="UI\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Exceptions\UnSupportException.cs" />
-    <Compile Include="BasePanel\PhotoEditWindow.xaml.cs">
+    <Compile Include="UI\BasePanel\PhotoEditWindow.xaml.cs">
       <DependentUpon>PhotoEditWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ImageBox.xaml.cs">
+    <Compile Include="UI\ImageBox.xaml.cs">
       <DependentUpon>ImageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Converters.cs" />
     <Compile Include="Models\FeaturePoint.cs" />
-    <Compile Include="Models\Photo.cs" />
-    <Compile Include="PContext.cs" />
-    <Compile Include="SimplePanel\SimpleView.xaml.cs">
+    <Compile Include="Other\Photo.cs" />
+    <Compile Include="UI\SimplePanel\SimpleView.xaml.cs">
       <DependentUpon>SimpleView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SimplePanel\StitcheParamsWindow.xaml.cs">
+    <Compile Include="UI\SimplePanel\StitcheParamsWindow.xaml.cs">
       <DependentUpon>StitcheParamsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Weight\CanvasWithImage.cs" />
+    <Compile Include="UI\Weight\ImageWithCenterCross.cs" />
+    <Compile Include="UI\Weight\MyImage.cs" />
     <Compile Include="Utils\BitmapUtils.cs" />
     <Compile Include="Utils\CVUtils.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\MMath.cs" />
     <Compile Include="Utils\TextUtils.cs" />
-    <Page Include="BasePanel\Base.xaml">
+    <Compile Include="Utils\UIHelper.cs" />
+    <Page Include="UI\BasePanel\Base.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ImageBox.xaml">
+    <Page Include="UI\ImageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="UI\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BasePanel\Base.xaml.cs">
+    <Compile Include="UI\BasePanel\Base.xaml.cs">
       <DependentUpon>Base.xaml</DependentUpon>
     </Compile>
-    <Compile Include="converters.cs" />
-    <Compile Include="data.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Models\data.cs" />
+    <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="BasePanel\PhotoEditWindow.xaml">
+    <Page Include="UI\BasePanel\PhotoEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BasePanel\PhotoItem.xaml">
+    <Page Include="UI\BasePanel\PhotoItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BasePanel\photoview.xaml">
+    <Page Include="UI\BasePanel\photoview.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SimplePanel\SimpleView.xaml">
+    <Page Include="UI\SimplePanel\SimpleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SimplePanel\StitcheParamsWindow.xaml">
+    <Page Include="UI\SimplePanel\StitcheParamsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasePanel\PhotoItem.xaml.cs">
+    <Compile Include="UI\BasePanel\PhotoItem.xaml.cs">
       <DependentUpon>PhotoItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BasePanel\photoview.xaml.cs">
+    <Compile Include="UI\BasePanel\photoview.xaml.cs">
       <DependentUpon>photoview.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -153,6 +167,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -164,26 +179,24 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="UI\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="image\ic_delete_red.png" />
+    <Resource Include="Resource\Images\ic_delete_red.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="image\ic_edit_green.png" />
+    <Resource Include="Resource\Images\ic_edit_green.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="image\ic_add_blue.png" />
+    <Resource Include="Resource\Images\ic_add_blue.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resource\Images\ic_save_green.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="feature_alg\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="image\ic_save_green.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="image\ic_clip.png" />
-    <Content Include="image\ic_restore_purple.png" />
+    <Resource Include="Resource\Images\ic_clip.png" />
+    <Content Include="Resource\Images\ic_restore_purple.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
