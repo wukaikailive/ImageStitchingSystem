@@ -37,7 +37,25 @@ namespace ImageStitchingSystem.UI
 
         MDMatch[] matchers;
 
+        #region 动态资源
+
         public FeaturePointCollection pointColletion;
+
+        private FeaturePoint selectedPoint;
+        private int selectedPointIndex = 0;
+
+        private string zoomStringL = "100%";
+        private string zoomStringR = "100%";
+
+
+        private System.Drawing.Point leftPoint = new System.Drawing.Point();
+        private System.Drawing.Point rightPoint = new System.Drawing.Point();
+
+        private bool isInLeft = false;
+        private bool isInRight = true;
+
+        #endregion
+
 
         public SimpleView()
         {
@@ -45,25 +63,119 @@ namespace ImageStitchingSystem.UI
             pointColletion = (FeaturePointCollection)(Application.Current.Resources["featurePointCollection"] as ObjectDataProvider).Data;
         }
 
+        
+
+        /// <summary>
+        /// 渲染
+        /// </summary>
+        private void bindPoints()
+        {
+            Binding bind = new Binding();
+            bind.Source = pointColletion;
+            pointColletion.OrderBy(o => o.LX).ThenBy(o => o.LY);
+            listViewPoints.SetBinding(ListView.ItemsSourceProperty, bind);
+
+            Image<Bgr, byte> l = new Image<Bgr, byte>((comboBoxL.SelectedItem as Photo).Source);
+            Image<Bgr, byte> r = new Image<Bgr, byte>((comboBoxR.SelectedItem as Photo).Source);
+            int i = -1;
+            Random romdom = new Random();
+
+            var point = selectedPoint;
+            var index = selectedPointIndex;
+
+            UIHelper.ZoomImage(imgL, scrollViewerL, zoomStringL);
+            UIHelper.ZoomImage(imgR, scrollViewerR, zoomStringR);
+
+
+
+            //if(checkBoxIsClosePoint.IsChecked.Value==false)
+            //{
+            //    foreach (var v in pointColletion)
+            //    {
+            //        i++;
+            //        var mcv = new MCvScalar(romdom.Next(255), romdom.Next(255), 0);
+            //        CVUtils.DrawPointAndCursor(l, r, v, i, mcv);
+            //    }
+            //}
+
+            //if (selectedPoint != null && selectedPointIndex != -1)
+            //{
+            //    var mcv = new MCvScalar(0, 0, 255);
+            //    CVUtils.DrawPointAndCursor(l, r, selectedPoint, selectedPointIndex, mcv);
+            //}
+
+            if (leftPoint.X > 0 && leftPoint.Y > 0)
+            {
+                UIHelper.SetSmallImg(imgLD, l, leftPoint, imgLD.Width);
+                // CVUtils.DrawPointAndCursor(l, leftPoint, "new", new MCvScalar(0, 0, 255));
+                imgL.AddPoint = new Point(leftPoint.X, leftPoint.Y);
+            }
+            else
+            {
+                if (selectedPoint != null && index != -1)
+                {
+                    System.Drawing.Point pl = new System.Drawing.Point((int)point.LX, (int)point.LY);
+                    UIHelper.SetSmallImg(imgLD, l, pl, imgLD.Width);
+                    comboBoxLImg.SelectedItem = zoomStringL;
+                    UIHelper.MoveToPoint(scrollViewerL, pl);
+                }
+
+            }
+
+
+            if (rightPoint.X > 0 && rightPoint.Y > 0)
+            {
+                UIHelper.SetSmallImg(imgRD, r, rightPoint, imgRD.Width);
+                //CVUtils.DrawPointAndCursor(r, rightPoint, "new", new MCvScalar(0, 0, 255));
+                imgR.AddPoint = new Point(rightPoint.X, rightPoint.Y);
+            }
+            else
+            {
+                if (selectedPoint != null && index != -1)
+                {
+                    System.Drawing.Point pr = new System.Drawing.Point((int)point.RX, (int)point.RY);
+                    UIHelper.SetSmallImg(imgRD, r, pr, imgRD.Width);
+                    comboBoxRImg.SelectedItem = zoomStringR;
+                    UIHelper.MoveToPoint(scrollViewerR, pr);
+                }
+            }
+
+
+            imgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
+            imgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
+
+            imgL.Points = pointColletion.Select(o => new Point(o.LX, o.LY)).ToList();
+            imgR.Points = pointColletion.Select(o => new Point(o.RX, o.RY)).ToList();
+        }
+
+        #region 事件
+
+        
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            if (!imgL.IsMouseOver && !imgR.IsMouseOver && ((leftPoint.X > 0 && leftPoint.Y > 0) || (rightPoint.X > 0 && rightPoint.Y > 0)))
+            {
+                leftPoint = new System.Drawing.Point();
+                rightPoint = new System.Drawing.Point();
+                bindPoints();
+            }
+
+            base.OnMouseDown(e);
+        }
+
         private void comboBoxL_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Photo item = comboBoxL.SelectedItem as Photo;
-            //Binding binding = new Binding("Image");
-            //binding.Source = item;
-            //binding.Mode = BindingMode.OneWay;
-            //imgL.SetBinding(Image.SourceProperty, binding);
-            imgL.Source = item.Image;
-            //paint(imgL, comboBoxL.SelectedItem as Photo, pointColletion.Select(o => new PointD(o.LX, o.LY)).ToList());
+            if (item != null)
+                imgL.Source = item.Image;
         }
 
         private void comboBoxR_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Photo item = comboBoxR.SelectedItem as Photo;
-            //Binding binding = new Binding("Image");
-            //binding.Source = item;
-            //binding.Mode = BindingMode.OneWay;
-            //imgR.SetBinding(Image.SourceProperty, binding);
-            imgR.Source = item.Image;
+            if (item != null)
+                imgR.Source = item.Image;
         }
 
         private void algsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -108,7 +220,14 @@ namespace ImageStitchingSystem.UI
                 CVUtils.FindMatch(l.Mat, r.Mat, out matchTime, out modelKeyPoints, out observedKeyPoints, matches,
                   out mask, out homography);
 
-                const float minRatio = 1f / 1.5f;
+                //double featurePointFinderThreshold =(double)Application.Current.Resources["FeaturePointFinderThreshold"];
+                double featurePointFinderThreshold = 1.5;
+                if (!double.TryParse(textBoxThreshold.Text, out featurePointFinderThreshold))
+                {
+                    return;
+                }
+
+                double minRatio = 1 / featurePointFinderThreshold;
 
                 List<MDMatch> matchList = new List<MDMatch>();
 
@@ -125,8 +244,6 @@ namespace ImageStitchingSystem.UI
 
                 matchers = matchList.ToArray();
 
-                // List<FeaturePoint> pointList = new List<FeaturePoint>();
-
                 for (int i = 0; i < matchers.Length; i++)
                 {
 
@@ -139,9 +256,6 @@ namespace ImageStitchingSystem.UI
                     pointColletion.Add(p);
 
                 }
-
-                // points = pointList.ToArray();
-                //todo repaint
             }
 
             bindPoints();
@@ -149,53 +263,12 @@ namespace ImageStitchingSystem.UI
 
         }
 
-        private void bindPoints()
-        {
-            Binding bind = new Binding();
-            bind.Source = pointColletion;
-            pointColletion.OrderBy(o => o.LX);
-            listViewPoints.SetBinding(ListView.ItemsSourceProperty, bind);
-
-            Image<Bgr, byte> l = new Image<Bgr, byte>((comboBoxL.SelectedItem as Photo).Source);
-            Image<Bgr, byte> r = new Image<Bgr, byte>((comboBoxR.SelectedItem as Photo).Source);
-            int i = -1;
-            Random romdom = new Random();
-            foreach (var v in pointColletion)
-            {
-                i++;
-                var mcv = new MCvScalar(romdom.Next(255), romdom.Next(255), romdom.Next(255));
-                CvInvoke.PutText(l, i + "", new System.Drawing.Point((int)v.LX, (int)v.LY), FontFace.HersheyComplex, 0.7, mcv);
-                CvInvoke.PutText(r, i + "", new System.Drawing.Point((int)v.RX, (int)v.RY), FontFace.HersheyComplex, 0.7, mcv);
-                l.Draw(new Cross2DF(v.TrainPoint.Point, 15, 15), new Bgr(255, 255, 255), 1);
-                r.Draw(new Cross2DF(v.QueryPoint.Point, 15, 15), new Bgr(255, 255, 255), 1);
-            }
-            imgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
-            imgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
-        }
-
-        private void DrawVisual(Image img, String pth)
-        {
-            BitmapImage bitmap = new BitmapImage(new Uri(pth));
-
-        }
-
-        private void paint(Image image, Photo photo, List<PointD> points)
-        {
-
-        }
-
         private void comboBoxLImg_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             if (scrollViewerL == null) return;
 
-            var view = scrollViewerL;
-            var img = imgL;
-
             ComboBox box = sender as ComboBox;
-            String sel = box.SelectedItem as string;
-
-            UIHelper.ZoomImage(img, view, sel);
+            zoomStringL = box.SelectedItem as string;
 
             bindPoints();
         }
@@ -205,16 +278,10 @@ namespace ImageStitchingSystem.UI
 
             if (scrollViewerR == null) return;
 
-            var view = scrollViewerR;
-            var img = imgR;
-
             ComboBox box = sender as ComboBox;
-            String sel = box.SelectedItem as string;
+            zoomStringR = box.SelectedItem as string;
 
-            UIHelper.ZoomImage(img, view, sel);
-
-            //paint();
-
+            bindPoints();
         }
 
         private void buttonPreview_Click(object sender, RoutedEventArgs e)
@@ -242,47 +309,109 @@ namespace ImageStitchingSystem.UI
             var point = listViewPoints.SelectedItem as FeaturePoint;
             Debug.Assert(point != null);
             pointColletion.Remove(point);
-            pointColletion.UpdateItemIndex();
+            pointColletion.UpdateIndex();
 
             bindPoints();
 
         }
 
-
         private void listViewPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var point = (sender as ListView).SelectedItem as FeaturePoint;
-            var index = (sender as ListView).SelectedIndex;
-            if (index != -1)
+            selectedPoint = (sender as ListView).SelectedItem as FeaturePoint;
+            if (selectedPoint == null) return;
+            selectedPointIndex = (sender as ListView).SelectedIndex;
+
+            zoomStringL = "150%";
+            zoomStringR = "150%";
+
+            imgL.SelectedIndex = selectedPointIndex;
+            imgR.SelectedIndex = selectedPointIndex;
+            UIHelper.MoveToPoint(scrollViewerL, new System.Drawing.Point((int)selectedPoint.LX, (int)selectedPoint.LY));
+            UIHelper.MoveToPoint(scrollViewerR, new System.Drawing.Point((int)selectedPoint.RX, (int)selectedPoint.RY));
+
+            bindPoints();
+        }
+
+        private void buttonDeleteAll_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult r = MessageBox.Show("你确定要全部删除吗", "提示", MessageBoxButton.OKCancel);
+            if (r == MessageBoxResult.OK)
             {
-                int R = (int)Math.Round(imgLD.Width) / 2;
-
-                System.Drawing.Point pl = new System.Drawing.Point((int)point.LX, (int)point.LY);
-                System.Drawing.Point pr = new System.Drawing.Point((int)point.RX, (int)point.RY);
-
-
-                //Rect rl = new Rect(ImageUtils.GetLeftPoint(pl, R), new Size(R, R));
-                //Rect rr = new Rect(ImageUtils.GetLeftPoint(pr, R), new Size(R, R));
-                Image<Bgr, byte> l = new Image<Bgr, byte>((comboBoxL.SelectedItem as Photo).Source);
-                Image<Bgr, byte> r = new Image<Bgr, byte>((comboBoxR.SelectedItem as Photo).Source);
-
-                Image<Bgr, byte> ld = new Image<Bgr, byte>(R, R);
-                Image<Bgr, byte> rd = new Image<Bgr, byte>(R, R);
-                l.ROI = new System.Drawing.Rectangle(ImageUtils.GetLeftPoint(pl, R), new System.Drawing.Size(R, R));
-                l.CopyTo(ld);
-                l.ROI = System.Drawing.Rectangle.Empty;
-                r.ROI = new System.Drawing.Rectangle(ImageUtils.GetLeftPoint(pr, R), new System.Drawing.Size(R, R));
-                r.CopyTo(rd);
-                r.ROI = System.Drawing.Rectangle.Empty;
-
-                ld = CVUtils.DrawCenterCross(ld);
-                rd = CVUtils.DrawCenterCross(rd);
-
-
-                imgLD.Source = BitmapUtils.ChangeBitmapToImageSource(ld.Bitmap);
-                imgRD.Source = BitmapUtils.ChangeBitmapToImageSource(rd.Bitmap);
-
+                pointColletion.Clear();
+                selectedPoint = null;
+                selectedPointIndex = -1;
+                bindPoints();
             }
         }
+
+        private void imgL_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Image v = sender as Image;
+            var p = e.GetPosition(v);
+            ImageSource imageSource = v.Source;
+            double pixelMousePositionX = e.GetPosition(v).X * imageSource.Width / v.ActualWidth;
+            double pixelMousePositionY = e.GetPosition(v).Y * imageSource.Height / v.ActualHeight;
+
+            p = new Point(pixelMousePositionX, pixelMousePositionY);
+            leftPoint = new System.Drawing.Point(Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
+
+            bindPoints();
+
+        }
+
+        private void imgR_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Image v = sender as Image;
+            var p = e.GetPosition(v);
+            ImageSource imageSource = v.Source;
+            double pixelMousePositionX = e.GetPosition(v).X * imageSource.Width / v.ActualWidth;
+            double pixelMousePositionY = e.GetPosition(v).Y * imageSource.Height / v.ActualHeight;
+
+            p = new Point(pixelMousePositionX, pixelMousePositionY);
+            rightPoint = new System.Drawing.Point(Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
+
+            bindPoints();
+        }
+
+        private void scrollViewerL_KeyDown(object sender, KeyEventArgs e)
+        {
+            //todo unfinished
+            Image img = imgL;
+            ScrollViewer view = scrollViewerL;
+            ImageSource Source = img.Source;
+
+            var _addPoint = leftPoint;
+
+            if (view.IsMouseOver && _addPoint != null)
+            {
+                switch (e.Key)
+                {
+                    case Key.Up:
+                        _addPoint.Y--;
+                        if (_addPoint.Y < 0)
+                            _addPoint.Y = 0;
+                        break;
+                    case Key.Down:
+                        _addPoint.Y++;
+                        if (_addPoint.Y > Source.Height)
+                            _addPoint.Y = (int)Source.Height;
+                        break;
+                    case Key.Left:
+                        _addPoint.X--;
+                        if (_addPoint.X < 0)
+                            _addPoint.X = 0;
+                        break;
+                    case Key.Right:
+                        _addPoint.X++;
+                        if (_addPoint.X > Source.Width)
+                            _addPoint.X = (int)Source.Width;
+                        break;
+                }
+                bindPoints();
+            }
+        }
+
+        #endregion
+
     }
 }

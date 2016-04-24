@@ -54,13 +54,13 @@ namespace ImageStitchingSystem.UI
             System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
             openFileDialog.Filter = "图片文件|*.jpg;*.png;*.bmp";
             openFileDialog.Multiselect = true;
-            spinnerBalls.Visibility = Visibility.Visible;
+            //spinnerBalls.Visibility = Visibility.Visible;
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 //PContext.imgs = ;
                 insertImgs(openFileDialog.FileNames);
             }
-            spinnerBalls.Visibility = Visibility.Collapsed;
+           // spinnerBalls.Visibility = Visibility.Collapsed;
         }
 
         private void insertImgs(String[] imgs)
@@ -69,7 +69,7 @@ namespace ImageStitchingSystem.UI
             {
                 this.Photos.Add(new Photo(imgs[i]));
             }
-            //Photos.UpdateItemIndex();
+            Photos.UpdateIndex();
             photosListBox.ItemsSource = this.Photos;
         }
 
@@ -124,7 +124,7 @@ namespace ImageStitchingSystem.UI
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             Photos.Remove((Photo)photosListBox.SelectedItem);
-            //Photos.UpdateItemIndex();
+            Photos.UpdateIndex();
         }
     }
 }

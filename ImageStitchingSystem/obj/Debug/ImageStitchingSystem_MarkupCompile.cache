@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\UI\App.xaml
-8-1348564605
-1-1944912270
-26-732150914
-261368836386
-UI\BasePanel\Base.xaml;UI\ImageBox.xaml;UI\MainWindow.xaml;UI\BasePanel\PhotoEditWindow.xaml;UI\BasePanel\PhotoItem.xaml;UI\BasePanel\photoview.xaml;UI\SimplePanel\SimpleView.xaml;UI\SimplePanel\StitcheParamsWindow.xaml;
+111469677847
+2-1536882767
+28-893705993
+21659602234
+Resource\UserControl1.xaml;UI\BasePanel\Base.xaml;UI\ImageBox.xaml;UI\MainWindow.xaml;UI\BasePanel\PhotoEditWindow.xaml;UI\BasePanel\PhotoItem.xaml;UI\BasePanel\photoview.xaml;UI\SettingDictionary.xaml;UI\SimplePanel\SimpleView.xaml;UI\SimplePanel\StitcheParamsWindow.xaml;UI\Weight\TabControlWithBackground.xaml;
 
 False
 

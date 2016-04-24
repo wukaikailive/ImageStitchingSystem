@@ -267,6 +267,7 @@ namespace ImageStitchingSystem.Utils
             //CvInvoke.D
             return img;
         }
+
         public static Image<Bgr, byte> DrawCenterCross(Image<Bgr, byte> img)
         {
             Point top = new Point(img.Width / 2, 0);
@@ -283,5 +284,33 @@ namespace ImageStitchingSystem.Utils
             return img;
         }
 
+        public static void DrawPointAndCursor(Image<Bgr,byte> img1,Image<Bgr,byte> img2,FeaturePoint v,int number,MCvScalar color)
+        {
+            CvInvoke.PutText(img1, number + "", new System.Drawing.Point((int)v.LX, (int)v.LY), FontFace.HersheyComplex, 0.7, color);
+            CvInvoke.PutText(img2, number + "", new System.Drawing.Point((int)v.RX, (int)v.RY), FontFace.HersheyComplex, 0.7, color);
+            img1.Draw(new Cross2DF(v.TrainPoint.Point, 15, 15), new Bgr(255, 255, 255), 1);
+            img2.Draw(new Cross2DF(v.QueryPoint.Point, 15, 15), new Bgr(255, 255, 255), 1);
+        }
+
+        public static void DrawPointAndCursor(Image<Bgr, byte> img1, Image<Bgr, byte> img2, FeaturePoint v, String text, MCvScalar color)
+        {
+            CvInvoke.PutText(img1, text + "", new System.Drawing.Point((int)v.LX, (int)v.LY), FontFace.HersheyComplex, 0.7, color);
+            CvInvoke.PutText(img2, text + "", new System.Drawing.Point((int)v.RX, (int)v.RY), FontFace.HersheyComplex, 0.7, color);
+            img1.Draw(new Cross2DF(v.TrainPoint.Point, 15, 15), new Bgr(255, 255, 255), 1);
+            img2.Draw(new Cross2DF(v.QueryPoint.Point, 15, 15), new Bgr(255, 255, 255), 1);
+        }
+
+        public static void DrawPointAndCursor(Image<Bgr, byte> img,System.Drawing.Point p, String text, MCvScalar color)
+        {
+            CvInvoke.PutText(img, text + "", p, FontFace.HersheyComplex, 0.7, color);
+            img.Draw(new Cross2DF(p, 15, 15), new Bgr(255, 255, 255), 1);
+        }
+
+        public static void DrawPointAndCursorAndImage(Image<Bgr, byte> img1, Image<Bgr, byte> img2, FeaturePoint v, int number, MCvScalar color)
+        {
+            DrawPointAndCursor(img1, img2, v, number, color);
+
+
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿<UserControl xmlns:ig="http://schemas.infragistics.com/xaml"  x:Class="ImageStitchingSystem.UI.Base"
+﻿<UserControl  x:Class="ImageStitchingSystem.UI.Base"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,7 +7,7 @@
       xmlns:er="clr-namespace:ImageStitchingSystem.Models" 
       xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
       xmlns:my="clr-namespace:ImageStitchingSystem.UI"
-
+              
     mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="850"
       >
@@ -133,7 +133,7 @@
 
     </UserControl.Resources>
 
-    <Grid Background="#eeeeee" Margin="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid Background="#eeeeee" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
@@ -143,7 +143,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ig:XamBusyIndicator Grid.Row="1" IsBusy="True" Animation="SpinnerBalls" Visibility="Collapsed" Name="spinnerBalls" />
+        <!--<ig:XamBusyIndicator Grid.Row="1" IsBusy="True" Animation="SpinnerBalls" Visibility="Collapsed" Name="spinnerBalls" />-->
 
         <DockPanel Grid.Column="0" Grid.Row="0"  Margin="16,16,16,16">
             <Button  DockPanel.Dock="Left" x:Name="loadimg" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="24" Height="24" Click="button_Click">
@@ -154,7 +154,7 @@
             <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="16 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                 <Label DockPanel.Dock="Left">Zoom:</Label>
                 <Slider Name="ZoomSlider" 
-                        Width="300"
+                        Width="320"
                     Margin="10,0,0,0" 
                   Orientation="Horizontal" 
                   VerticalAlignment="Center"

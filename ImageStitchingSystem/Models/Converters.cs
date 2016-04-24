@@ -177,7 +177,7 @@ namespace ImageStitchingSystem.Models
             {
                 Photo photo = (Photo)value;
                 
-                return "#"+1;
+                return "#"+photo.Index+": "+TextUtils.getFileName(photo.Source);
             }
             else
             {
@@ -223,6 +223,63 @@ namespace ImageStitchingSystem.Models
                
             }
             return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class DoubleToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null)
+            {
+                double d = (double)value;
+                return d.ToString("0.0");
+            }
+            return string.Empty;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null)
+            {
+                string d = (string)value;
+                return double.Parse(d);
+            }
+            return 0;
+        }
+    }
+
+    public class IsNotNullConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class IsNullConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return true;
+            }
+            return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

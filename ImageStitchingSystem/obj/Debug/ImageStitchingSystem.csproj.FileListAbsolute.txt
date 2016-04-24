@@ -51,11 +51,6 @@ C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\Imag
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.exe
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.pdb
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.csprojResolveAssemblyReference.cache
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.exe.config
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.exe
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.pdb
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\nunit.framework.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\nunit.framework.xml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.csprojResolveAssemblyReference.cache
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\photoview.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\Base.g.cs
@@ -66,6 +61,7 @@ F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\photoview.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\SimplePanel\SimpleView.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\SimplePanel\StitcheParamsWindow.g.cs
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\Weight\TabControlWithBackground.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\App.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem_Content.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\GeneratedInternalTypeHelper.g.cs
@@ -77,31 +73,17 @@ F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\MainWindow.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\PhotoEditWindow.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\PhotoItem.baml
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\SettingDictionary.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\SimplePanel\SimpleView.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\SimplePanel\StitcheParamsWindow.baml
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\Weight\TabControlWithBackground.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.g.resources
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.Properties.Resources.resources
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.csproj.GenerateResource.Cache
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.exe
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.pdb
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\InfragisticsWPF4.v15.2.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\InfragisticsWPF4.v15.2.xml
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\de\InfragisticsWPF4.v15.2.resources.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\es\InfragisticsWPF4.v15.2.resources.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\fr\InfragisticsWPF4.v15.2.resources.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\InfragisticsWPF4.Controls.Charts.XamTreemap.v15.2.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\InfragisticsWPF4.Controls.Layouts.XamTileManager.v15.2.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\InfragisticsWPF4.DataVisualization.v15.2.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\InfragisticsWPF4.Controls.Charts.XamTreemap.v15.2.xml
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\InfragisticsWPF4.Controls.Layouts.XamTileManager.v15.2.xml
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\InfragisticsWPF4.DataVisualization.v15.2.xml
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\de\InfragisticsWPF4.Controls.Charts.XamTreemap.v15.2.resources.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\es\InfragisticsWPF4.Controls.Charts.XamTreemap.v15.2.resources.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\fr\InfragisticsWPF4.Controls.Charts.XamTreemap.v15.2.resources.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\de\InfragisticsWPF4.Controls.Layouts.XamTileManager.v15.2.resources.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\es\InfragisticsWPF4.Controls.Layouts.XamTileManager.v15.2.resources.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\fr\InfragisticsWPF4.Controls.Layouts.XamTileManager.v15.2.resources.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\de\InfragisticsWPF4.DataVisualization.v15.2.resources.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\es\InfragisticsWPF4.DataVisualization.v15.2.resources.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\fr\InfragisticsWPF4.DataVisualization.v15.2.resources.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.exe.licenses
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.exe.config
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.exe
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.pdb
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.exe
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\Resource\UserControl1.g.cs
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\Resource\UserControl1.baml

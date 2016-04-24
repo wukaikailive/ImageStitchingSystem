@@ -1,5 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Windows.Media.Imaging;
 
@@ -9,10 +11,19 @@ namespace ImageStitchingSystem.Models
     /// This class describes a single photo - its location, the image and 
     /// the metadata extracted from the image.
     /// </summary>
-    public class Photo
+    public class Photo : INotifyPropertyChanged
     {
         public Photo(string path)
         {
+            _path = path;
+            _source = new Uri(path);
+            _image = BitmapFrame.Create(_source);
+            _metadata = new ExifMetadata(_source);
+        }
+
+        public Photo(int index,string path)
+        {
+            _index = index;
             _path = path;
             _source = new Uri(path);
             _image = BitmapFrame.Create(_source);
@@ -24,6 +35,27 @@ namespace ImageStitchingSystem.Models
             return _source.ToString();
         }
 
+        private int _index;
+        public int Index
+        {
+            get
+            {
+                return _index;
+            }
+            set
+            {
+                _index = value;
+                this.Changed("Index");
+            }
+        }
+        private void Changed(String propertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         private string _path;
 
         private Uri _source;
@@ -33,6 +65,9 @@ namespace ImageStitchingSystem.Models
         public BitmapFrame Image { get { return _image; } set { _image = value; } }
 
         private ExifMetadata _metadata;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public ExifMetadata Metadata { get { return _metadata; } }
 
     }
@@ -40,7 +75,7 @@ namespace ImageStitchingSystem.Models
     /// <summary>
     /// This class represents a collection of photos in a directory.
     /// </summary>
-    public class PhotoCollection : ObservableCollection<Photo>
+    public class PhotoCollection : ObservableCollection<Photo>,INotifyCollectionChanged
     {
         public PhotoCollection() { }
 
@@ -71,6 +106,7 @@ namespace ImageStitchingSystem.Models
             }
             get { return _directory; }
         }
+
         private void Update()
         {
             this.Clear();
@@ -86,7 +122,19 @@ namespace ImageStitchingSystem.Models
             }
         }
 
+        public void UpdateIndex()
+        {
+            int i = -1;
+            foreach(var v in this)
+            {
+                i++;
+                v.Index = i;
+            }
+        }
+
         DirectoryInfo _directory;
+
+        
     }
 
     public enum ColorRepresentation

@@ -58,7 +58,7 @@ namespace ImageStitchingSystem.Models
     {
         public int Index { get; set; }
 
-        public void UpdateItemIndex()
+        public void UpdateIndex()
         {
             int i = -1;
             foreach(var v in this)

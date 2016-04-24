@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resource/images/ic_add.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resource/images/ic_restore_purple.png")]
 
 
