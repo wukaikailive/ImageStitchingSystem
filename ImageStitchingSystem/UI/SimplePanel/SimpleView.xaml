@@ -219,7 +219,7 @@
         <DockPanel  Grid.Column="0" Grid.Row="2" >
             <ScrollViewer x:Name="scrollViewerL" DockPanel.Dock="Top"
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                       VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled"  Background="#BDBDBD" KeyDown="scrollViewerL_KeyDown">
+                       VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" Background="#BDBDBD" CanContentScroll="False">
                 <weight:MyImage Cursor="Cross" x:Name="imgL" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonDown="imgL_MouseLeftButtonDown"></weight:MyImage>
             </ScrollViewer>
 

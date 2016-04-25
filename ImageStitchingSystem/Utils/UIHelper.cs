@@ -121,6 +121,19 @@ namespace ImageStitchingSystem.Utils
             imgSmall.Source = BitmapUtils.ChangeBitmapToImageSource(ld.Bitmap);
         }
 
+        public static void SetSmallImg(Image imgSmall, Image<Bgr, byte> img, System.Windows.Point center, double width, int mult = 2)
+        {
+            int R = (int)Math.Round(width) / mult;
+            Image<Bgr, byte> ld = new Image<Bgr, byte>(R, R);
+            img.ROI = new System.Drawing.Rectangle(ImageUtils.GetLeftPoint(new System.Drawing.Point((int)center.X,(int)center.Y),R), new System.Drawing.Size(R, R));
+            img.CopyTo(ld);
+            img.ROI = System.Drawing.Rectangle.Empty;
+
+            ld = CVUtils.DrawCenterCross(ld);
+
+            imgSmall.Source = BitmapUtils.ChangeBitmapToImageSource(ld.Bitmap);
+        }
+
         public static void MoveToPoint(ScrollViewer view, System.Drawing.Point p)
         {
             view.ScrollToHorizontalOffset(p.X);

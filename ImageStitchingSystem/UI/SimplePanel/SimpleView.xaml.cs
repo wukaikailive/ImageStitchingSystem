@@ -26,6 +26,7 @@ using System.Globalization;
 using System.IO;
 using ZedGraph;
 using Emgu.CV.CvEnum;
+using ImageStitchingSystem.UI.Weight;
 
 namespace ImageStitchingSystem.UI
 {
@@ -48,8 +49,8 @@ namespace ImageStitchingSystem.UI
         private string zoomStringR = "100%";
 
 
-        private System.Drawing.Point leftPoint = new System.Drawing.Point();
-        private System.Drawing.Point rightPoint = new System.Drawing.Point();
+        private Point leftPoint = new Point();
+        private Point rightPoint = new Point();
 
         private bool isInLeft = false;
         private bool isInRight = true;
@@ -63,7 +64,7 @@ namespace ImageStitchingSystem.UI
             pointColletion = (FeaturePointCollection)(Application.Current.Resources["featurePointCollection"] as ObjectDataProvider).Data;
         }
 
-        
+
 
         /// <summary>
         /// 渲染
@@ -150,14 +151,14 @@ namespace ImageStitchingSystem.UI
 
         #region 事件
 
-        
+
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             if (!imgL.IsMouseOver && !imgR.IsMouseOver && ((leftPoint.X > 0 && leftPoint.Y > 0) || (rightPoint.X > 0 && rightPoint.Y > 0)))
             {
-                leftPoint = new System.Drawing.Point();
-                rightPoint = new System.Drawing.Point();
+                leftPoint = new Point();
+                rightPoint = new Point();
                 bindPoints();
             }
 
@@ -353,7 +354,7 @@ namespace ImageStitchingSystem.UI
             double pixelMousePositionY = e.GetPosition(v).Y * imageSource.Height / v.ActualHeight;
 
             p = new Point(pixelMousePositionX, pixelMousePositionY);
-            leftPoint = new System.Drawing.Point(Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
+            leftPoint = p;
 
             bindPoints();
 
@@ -368,20 +369,33 @@ namespace ImageStitchingSystem.UI
             double pixelMousePositionY = e.GetPosition(v).Y * imageSource.Height / v.ActualHeight;
 
             p = new Point(pixelMousePositionX, pixelMousePositionY);
-            rightPoint = new System.Drawing.Point(Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
+            rightPoint = p;
 
             bindPoints();
         }
 
-        private void scrollViewerL_KeyDown(object sender, KeyEventArgs e)
+        protected override void OnKeyUp(KeyEventArgs e)
         {
-            //todo unfinished
-            Image img = imgL;
-            ScrollViewer view = scrollViewerL;
-            ImageSource Source = img.Source;
+            Point _addPoint = new Point();
+            MyImage img = null;
+            ScrollViewer view = null;
+            ImageSource Source;
 
-            var _addPoint = leftPoint;
+            if (imgL.IsMouseOver)
+            {
+                _addPoint = leftPoint;
+                img = imgL;
+                view = scrollViewerL;
+            }
+            if (imgR.IsMouseOver)
+            {
+                _addPoint = rightPoint;
+                img = imgR;
+                view = scrollViewerR;
+            }
 
+            if (img == null || view == null) { base.OnKeyUp(e); return; }
+            Source = img.Source;
             if (view.IsMouseOver && _addPoint != null)
             {
                 switch (e.Key)
@@ -390,28 +404,44 @@ namespace ImageStitchingSystem.UI
                         _addPoint.Y--;
                         if (_addPoint.Y < 0)
                             _addPoint.Y = 0;
+                        view.LineUp();
                         break;
                     case Key.Down:
                         _addPoint.Y++;
                         if (_addPoint.Y > Source.Height)
                             _addPoint.Y = (int)Source.Height;
+                        view.LineDown();
                         break;
                     case Key.Left:
                         _addPoint.X--;
                         if (_addPoint.X < 0)
                             _addPoint.X = 0;
+                        view.LineLeft();
                         break;
                     case Key.Right:
                         _addPoint.X++;
                         if (_addPoint.X > Source.Width)
                             _addPoint.X = (int)Source.Width;
+                        view.LineRight();
                         break;
+                }
+                img.AddPoint = _addPoint;
+                if (imgL.IsMouseOver)
+                {
+                    leftPoint = _addPoint;
+                }
+                if (imgR.IsMouseOver)
+                {
+                    rightPoint = _addPoint;
                 }
                 bindPoints();
             }
+           // base.OnKeyUp(e);
         }
+
 
         #endregion
 
+  
     }
 }

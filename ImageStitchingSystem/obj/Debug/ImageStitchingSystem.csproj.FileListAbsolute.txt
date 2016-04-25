@@ -51,8 +51,8 @@ C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\Imag
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.exe
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.pdb
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.csprojResolveAssemblyReference.cache
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.csprojResolveAssemblyReference.cache
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\photoview.baml
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\Resource\UserControl1.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\Base.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\ImageBox.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\MainWindow.g.cs
@@ -67,7 +67,11 @@ F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\GeneratedInternalTypeHelper.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem_MarkupCompile.cache
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem_MarkupCompile.lref
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.exe.config
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.exe
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.pdb
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\App.baml
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\Resource\UserControl1.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\Base.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\ImageBox.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\MainWindow.baml
@@ -80,10 +84,7 @@ F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.g.resources
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.Properties.Resources.resources
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.csproj.GenerateResource.Cache
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.pdb
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.exe.config
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.exe
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.pdb
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.exe
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\Resource\UserControl1.g.cs
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\Resource\UserControl1.baml
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.pdb
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\Weight\ScrollViewerWithoutKeyDown.g.cs
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\Weight\ScrollViewerWithoutKeyDown.baml

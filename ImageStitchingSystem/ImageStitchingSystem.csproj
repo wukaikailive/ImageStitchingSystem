@@ -91,6 +91,9 @@
     <Compile Include="UI\Weight\CanvasWithImage.cs" />
     <Compile Include="UI\Weight\ImageWithCenterCross.cs" />
     <Compile Include="UI\Weight\MyImage.cs" />
+    <Compile Include="UI\Weight\ScrollViewerWithoutKeyDown.xaml.cs">
+      <DependentUpon>ScrollViewerWithoutKeyDown.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Weight\TabControlWithBackground.xaml.cs">
       <DependentUpon>TabControlWithBackground.xaml</DependentUpon>
     </Compile>
@@ -149,6 +152,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\SimplePanel\StitcheParamsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Weight\ScrollViewerWithoutKeyDown.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
