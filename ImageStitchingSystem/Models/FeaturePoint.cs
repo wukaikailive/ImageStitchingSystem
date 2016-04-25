@@ -23,6 +23,13 @@ namespace ImageStitchingSystem.Models
                 this.Changed("Index");
             }
         }
+
+        public FeaturePoint()
+        {
+            TrainPoint = new MKeyPoint();
+            QueryPoint = new MKeyPoint();
+        }
+
         private void Changed(String propertyName)
         {
             if (this.PropertyChanged != null)
@@ -31,18 +38,46 @@ namespace ImageStitchingSystem.Models
             }
         }
 
-        public MKeyPoint TrainPoint { get; set; }
-        public MKeyPoint QueryPoint { get; set; }
+        private MKeyPoint _trainPoint;
+
+        private MKeyPoint _queryPoint;
+
+        public MKeyPoint TrainPoint
+        {
+            get
+            {
+                return _trainPoint;
+            }
+
+            set
+            {
+                _trainPoint = value;
+            }
+        }
+
+        public MKeyPoint QueryPoint
+        {
+            get
+            {
+                return _queryPoint;
+            }
+
+            set
+            {
+                _queryPoint = value;
+            }
+        }
         public double LX
         {
-            get { return TrainPoint.Point.X; }
+            set { _trainPoint.Point.X = (float)value; }
+
+            get { return _trainPoint.Point.X; }
         }
-        public double LY { get { return TrainPoint.Point.Y; } }
-        public double RX { get { return QueryPoint.Point.X; } }
-        public double RY { get { return QueryPoint.Point.Y; } }
+        public double LY { get { return TrainPoint.Point.Y; } set { _trainPoint.Point.Y = (float)value; } }
+        public double RX { get { return QueryPoint.Point.X; } set { _queryPoint.Point.X = (float)value; } }
+        public double RY { get { return QueryPoint.Point.Y; } set { _queryPoint.Point.Y = (float)value; } }
         public double Distance { get; set; }
 
-        public FeaturePoint() { }
         public FeaturePoint(int index, MKeyPoint t, MKeyPoint q, Double distance)
         {
             Index = index;

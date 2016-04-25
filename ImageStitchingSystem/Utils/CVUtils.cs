@@ -309,8 +309,15 @@ namespace ImageStitchingSystem.Utils
         public static void DrawPointAndCursorAndImage(Image<Bgr, byte> img1, Image<Bgr, byte> img2, FeaturePoint v, int number, MCvScalar color)
         {
             DrawPointAndCursor(img1, img2, v, number, color);
+        }
 
-
+        public static MCvScalar GetColor(int n)
+        {
+            Random r = new Random(n);
+            int R = r.Next(255);
+            int G = r.Next(255);
+            int B = r.Next(255);
+            return new MCvScalar(B,G,R);
         }
     }
 }

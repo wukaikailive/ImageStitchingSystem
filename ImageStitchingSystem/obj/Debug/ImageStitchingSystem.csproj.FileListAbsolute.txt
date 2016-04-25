@@ -88,3 +88,4 @@ F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.pdb
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\Weight\ScrollViewerWithoutKeyDown.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\Weight\ScrollViewerWithoutKeyDown.baml
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.csprojResolveAssemblyReference.cache

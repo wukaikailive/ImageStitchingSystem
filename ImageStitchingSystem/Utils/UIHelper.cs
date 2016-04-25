@@ -189,5 +189,30 @@ namespace ImageStitchingSystem.Utils
             }
             return null;
         }
+
+        public static Brush GetBrush(int n)
+        {
+            Random r = new Random(n);
+            int R = r.Next(256);
+            int G = r.Next(256);
+            int B = (R + G > 400) ? 0 : 400 - R - G;
+            B = B > 255 ? 255 : B;
+            Brush b = new SolidColorBrush(Color.FromRgb((byte)R, (byte)G,(byte)B));
+            return b;
+        }
+
+        public static Color GetDarkerColor(Color color)
+        {
+            const int max = 255;
+            int increase = new Random(Guid.NewGuid().GetHashCode()).Next(30, 255); //还可以根据需要调整此处的值
+
+
+            int r = Math.Abs(Math.Min(color.R - increase, max));
+            int g = Math.Abs(Math.Min(color.G - increase, max));
+            int b = Math.Abs(Math.Min(color.B - increase, max));
+
+
+            return Color.FromRgb((byte)r, (byte)g, (byte)b);
+        }
     }
 }

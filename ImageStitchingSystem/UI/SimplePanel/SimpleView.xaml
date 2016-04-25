@@ -149,7 +149,7 @@
             <DockPanel Grid.Column="3" Margin="4 4 5 4">
                 <StackPanel DockPanel.Dock="Top">
                     <WrapPanel >
-                        <Button x:Name="buttonAdd" Width="32" Height="32" ToolTip="新增特征点" VerticalAlignment="Top">
+                        <Button x:Name="buttonAdd" Width="32" Height="32" ToolTip="新增特征点" VerticalAlignment="Top" Click="buttonAdd_Click">
                             <Button.Content>
                                 <Image Source="/Resource/Images/ic_add_blue.png"></Image>
                             </Button.Content>

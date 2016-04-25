@@ -115,7 +115,7 @@ namespace ImageStitchingSystem.UI.Weight
                     zoom = ActualHeight / Source.Height;
                 }
 
-                SolidColorBrush brush = Brushes.Blue;
+                Brush brush = Brushes.Blue;
                 FormattedText text;
 
                 foreach (var v in _points)
@@ -127,7 +127,7 @@ namespace ImageStitchingSystem.UI.Weight
                     }
                     else
                     {
-                        brush = Brushes.Blue;
+                        brush = UIHelper.GetBrush(i);
                     }
                     text = UIHelper.GetEnTextObject(i + "", 13, brush);
 
@@ -136,7 +136,7 @@ namespace ImageStitchingSystem.UI.Weight
                     UIHelper.DrawCross(dc, p, 15, Brushes.White);
                 }
 
-                if (_addPoint != null)
+                if (_addPoint != null && _addPoint.X>0 && _addPoint.Y>0)
                 {
                     Point p = new Point(_addPoint.X * zoom, _addPoint.Y * zoom);
                     text = UIHelper.GetCnTextObject("新建", 13, Brushes.Red);

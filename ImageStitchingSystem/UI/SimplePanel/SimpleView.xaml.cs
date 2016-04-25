@@ -147,18 +147,41 @@ namespace ImageStitchingSystem.UI
 
             imgL.Points = pointColletion.Select(o => new Point(o.LX, o.LY)).ToList();
             imgR.Points = pointColletion.Select(o => new Point(o.RX, o.RY)).ToList();
+            imgL.AddPoint = leftPoint;
+            imgR.AddPoint = rightPoint;
         }
 
         #region 事件
 
 
+        private void buttonAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if(leftPoint.X > 0 && leftPoint.Y > 0 && rightPoint.X > 0 && rightPoint.Y > 0)
+            {
+                FeaturePoint point = new FeaturePoint();
+                point.LX = leftPoint.X;
+                point.LY = leftPoint.Y;
+                point.RX = rightPoint.X;
+                point.RY = rightPoint.Y;
+                point.Distance = 0;
+
+                pointColletion.Add(point);
+                pointColletion.UpdateIndex();
+                listViewPoints.SelectedItem = pointColletion.Last();
+                leftPoint = new Point();
+                rightPoint = new Point();
+                bindPoints();
+            }
+        }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            if (!imgL.IsMouseOver && !imgR.IsMouseOver && ((leftPoint.X > 0 && leftPoint.Y > 0) || (rightPoint.X > 0 && rightPoint.Y > 0)))
+            //每次如果鼠标点击了图片意外的位置，如果此时在增加模式下把增加取消掉
+            if ((!imgL.IsMouseOver) && (!imgR.IsMouseOver) && ((leftPoint.X > 0 && leftPoint.Y > 0) || (rightPoint.X > 0 && rightPoint.Y > 0)))
             {
                 leftPoint = new Point();
                 rightPoint = new Point();
+                
                 bindPoints();
             }
 
@@ -404,25 +427,25 @@ namespace ImageStitchingSystem.UI
                         _addPoint.Y--;
                         if (_addPoint.Y < 0)
                             _addPoint.Y = 0;
-                        view.LineUp();
+                        //view.LineUp();
                         break;
                     case Key.Down:
                         _addPoint.Y++;
                         if (_addPoint.Y > Source.Height)
                             _addPoint.Y = (int)Source.Height;
-                        view.LineDown();
+                        //view.LineDown();
                         break;
                     case Key.Left:
                         _addPoint.X--;
                         if (_addPoint.X < 0)
                             _addPoint.X = 0;
-                        view.LineLeft();
+                        //view.LineLeft();
                         break;
                     case Key.Right:
                         _addPoint.X++;
                         if (_addPoint.X > Source.Width)
                             _addPoint.X = (int)Source.Width;
-                        view.LineRight();
+                        //view.LineRight();
                         break;
                 }
                 img.AddPoint = _addPoint;
@@ -440,8 +463,9 @@ namespace ImageStitchingSystem.UI
         }
 
 
+
         #endregion
 
-  
+        
     }
 }
