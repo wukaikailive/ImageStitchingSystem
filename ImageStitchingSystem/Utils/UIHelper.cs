@@ -148,7 +148,29 @@ namespace ImageStitchingSystem.Utils
         {
             int r = (int)Math.Round(width) / mult;
             Image<Bgr, byte> ld = new Image<Bgr, byte>(r, r);
-            img.ROI = new System.Drawing.Rectangle(ImageUtils.GetLeftPoint(new System.Drawing.Point((int)center.X,(int)center.Y),r), new System.Drawing.Size(r, r));
+            Size size = new Size(r, r);
+            System.Windows.Point left = ImageUtils.GetLeftPoint(center, r);
+            if (left.X < 0)
+            {
+                size.Width = (int) (size.Width + left.X);
+                left.X = 0;
+            }
+            if (left.Y < 0)
+            {
+                size.Height = (int) (size.Height + left.Y);
+                left.Y = 0;
+            }
+            if (left.X > img.Width)
+            {
+                size.Width = (int) (size.Width - left.X);
+                left.X = img.Width;
+            }
+            if (left.Y > img.Height)
+            {
+                size.Height = (int) (size.Height - left.Y);
+                left.Y = img.Height;
+            }
+            img.ROI = new System.Drawing.Rectangle(new System.Drawing.Point((int) left.X,(int) left.Y), size);
             img.CopyTo(ld);
             img.ROI = System.Drawing.Rectangle.Empty;
 

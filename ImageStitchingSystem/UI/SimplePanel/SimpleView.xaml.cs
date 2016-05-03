@@ -30,6 +30,7 @@ using Emgu.CV.CvEnum;
 using ImageStitchingSystem.UI.Weight;
 using Image = System.Windows.Controls.Image;
 using Point = System.Windows.Point;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace ImageStitchingSystem.UI
 {
@@ -469,10 +470,10 @@ namespace ImageStitchingSystem.UI
             System.Drawing.PointF[] pointsr = PointColletion.Select(o => new System.Drawing.PointF((float)o.Rx, (float)o.Ry)).ToArray();
 
 
-
-            Mat H = new Mat(3, 3, DepthType.Cv32F, 1);
+            Matrix<double> H = new Matrix<double>(3, 3);
+            //Mat H = new Mat(3, 3, DepthType.Cv32F, 1);
             Mat mask = new Mat();
-            CvInvoke.FindHomography(pointsl, pointsr,H,HomographyMethod.Ransac,0);
+            CvInvoke.FindHomography(pointsl, pointsr, H, HomographyMethod.Ransac);
 
 
             Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
@@ -490,17 +491,30 @@ namespace ImageStitchingSystem.UI
             //    [3, 1] = l.Rows
             //};
             //Matrix<float> sceneCorners=new Matrix<float>(4,2);
-            Image<Bgr, byte> result = new Image<Bgr, byte>(r.Size);
+            int rows = Math.Max(l.Rows, r.Rows);
+
+            System.Drawing.Size size = new System.Drawing.Size(l.Cols + r.Cols, rows);
+
+            Image<Bgr, byte> result = new Image<Bgr, byte>(size);
             //Mat result = new Mat(r.Size,DepthType.Cv32F, 3);
+            double[,] data = { { 1.0, 0, l.Cols }, { 0, 1.0, 0 }, { 0, 0, 1.0 } };
+            Matrix<double> sh = new Matrix<double>(data);
+
             try
             {
                 //CvInvoke.PerspectiveTransform(l.Mat, r.Mat, H);
                 //CvInvoke.ProjectPoints()
-                CvInvoke.WarpPerspective(l.Mat, result.Mat, H, new System.Drawing.Size(r.Width,r.Height));
+
+                //result=l.WarpPerspective(sh*H,size.Width,size.Height, Inter.Linear, Warp.InverseMap, BorderType.Default, new Bgr());
+                CvInvoke.WarpPerspective(l, result, H, size);
+                //result.ROI = new System.Drawing.Rectangle(l.Cols, 0, r.Cols, r.Rows);
+                //r.CopyTo(result);
+                //result.ROI = Rectangle.Empty;
+
             }
             catch (Exception ex)
             {
-                
+                // ignored
             }
 
             //CvInvoke.Line(r,new System.Drawing.Point((int)sceneCorners[0,0]+l.Cols,(int)sceneCorners[0,1]), new System.Drawing.Point((int)sceneCorners[1, 0] + l.Cols, (int)sceneCorners[1, 1]),new MCvScalar(0,255,0),4);
@@ -510,12 +524,26 @@ namespace ImageStitchingSystem.UI
 
             //PhotoEditWindow window = new PhotoEditWindow {Bitmap = result.Bitmap};
             //window.Show();
+            
+            Image<Bgr, byte> last = new Image<Bgr, byte>(size);
+            try
+            {
+                CvUtils.CopyTo(result,last,a=> a.Blue != 0D && a.Green != 0D && a.Red != 0D);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            last.ROI = new Rectangle(0, 0, r.Cols, r.Rows);
+            r.CopyTo(last);
+            last.ROI = Rectangle.Empty;
+            
+            //last += result;
+            //last += r.Resize(size.Width, size.Height, Inter.Linear);
             ImageBox box = new ImageBox { Image = result.Bitmap };
             box.Show();
-            result = result + r;
-            ImageBox box2 = new ImageBox { Image =result.Bitmap };
-            box2.Show();
-
+            ImageBox box3 = new ImageBox { Image = last.Bitmap };
+            box3.Show();
             //Mat result = new Mat();
             //Mat result1 = new Mat();
             //try
