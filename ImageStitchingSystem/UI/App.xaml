@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ObjectDataProvider x:Key="Photos" ObjectType="{x:Type models:PhotoCollection}" />
-            <ObjectDataProvider x:Key="featurePointCollection" ObjectType="{x:Type models:FeaturePointCollection}"/>
+            <ObjectDataProvider x:Key="FeaturePointCollection" ObjectType="{x:Type models:FeaturePointCollection}"/>
             <!--定义按钮样式-->
             <Style TargetType="Button">
                 <Setter Property="Foreground" Value="Black"/>

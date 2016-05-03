@@ -12,7 +12,7 @@ namespace ImageStitchingSystem.UI
 
     public partial class PhotoView : Window
     {
-        Photo _photo;
+        private Photo _photo;
 
         public PhotoView()
         {

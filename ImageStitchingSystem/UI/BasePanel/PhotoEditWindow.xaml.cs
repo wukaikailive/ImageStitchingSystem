@@ -3,6 +3,7 @@ using ImageStitchingSystem.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -14,7 +15,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Point = System.Windows.Point;
+using Rectangle = System.Windows.Shapes.Rectangle;
 
 namespace ImageStitchingSystem.UI
 {
@@ -23,15 +25,19 @@ namespace ImageStitchingSystem.UI
     /// </summary>
     public partial class PhotoEditWindow : Window
     {
+        private Photo _photo;
+        private bool _mIsMouseLeftButtonDown;
 
-        Photo _photo;
-        private bool m_IsMouseLeftButtonDown;
+        private Bitmap _bitmap;
+
+        public Bitmap Bitmap { get; set; }
 
         public Photo SelectedPhoto
         {
             get { return _photo; }
             set { _photo = value; }
         }
+
         public PhotoEditWindow()
         {
             InitializeComponent();
@@ -39,7 +45,7 @@ namespace ImageStitchingSystem.UI
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
-            ViewedPhoto.Source = _photo.Image;
+            ViewedPhoto.Source = _photo != null ? _photo.Image : BitmapUtils.ChangeBitmapToImageSource(_bitmap);
         }
 
 
@@ -57,13 +63,13 @@ namespace ImageStitchingSystem.UI
 
             rectangle.ReleaseMouseCapture();
 
-            m_IsMouseLeftButtonDown = false;
+            _mIsMouseLeftButtonDown = false;
 
         }
 
 
 
-        private Point m_PreviousMousePoint;
+        private Point _mPreviousMousePoint;
 
         private void MasterImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 
@@ -79,9 +85,9 @@ namespace ImageStitchingSystem.UI
 
             rectangle.CaptureMouse();
 
-            m_IsMouseLeftButtonDown = true;
+            _mIsMouseLeftButtonDown = true;
 
-            m_PreviousMousePoint = e.GetPosition(rectangle);
+            _mPreviousMousePoint = e.GetPosition(rectangle);
 
         }
 
@@ -99,7 +105,7 @@ namespace ImageStitchingSystem.UI
 
 
 
-            if (m_IsMouseLeftButtonDown)
+            if (_mIsMouseLeftButtonDown)
 
                 DoImageMove(rectangle, e);
 
@@ -127,13 +133,13 @@ namespace ImageStitchingSystem.UI
 
             Point position = e.GetPosition(rectangle);
 
-            transform.X += position.X - m_PreviousMousePoint.X;
+            transform.X += position.X - _mPreviousMousePoint.X;
 
-            transform.Y += position.Y - m_PreviousMousePoint.Y;
+            transform.Y += position.Y - _mPreviousMousePoint.Y;
 
 
 
-            m_PreviousMousePoint = position;
+            _mPreviousMousePoint = position;
 
         }
 

@@ -48,7 +48,7 @@ namespace ImageStitchingSystem.Models
                 this.Changed("Index");
             }
         }
-        private void Changed(String propertyName)
+        private void Changed(string propertyName)
         {
             if (this.PropertyChanged != null)
             {
@@ -132,14 +132,14 @@ namespace ImageStitchingSystem.Models
             }
         }
 
-        DirectoryInfo _directory;
+        private DirectoryInfo _directory;
 
         
     }
 
     public enum ColorRepresentation
     {
-        sRGB,
+        SRgb,
         Uncalibrated
     }
 
@@ -180,7 +180,7 @@ namespace ImageStitchingSystem.Models
 
     public class ExifMetadata
     {
-        BitmapMetadata _metadata;
+        private BitmapMetadata _metadata;
 
         public ExifMetadata(Uri imageUri)
         {
@@ -290,7 +290,7 @@ namespace ImageStitchingSystem.Models
             get
             {
                 object val = QueryMetadata("/app1/ifd/exif:{uint=271}");
-                return (val != null ? (string)val : String.Empty);
+                return (val != null ? (string)val : string.Empty);
             }
         }
 
@@ -299,7 +299,7 @@ namespace ImageStitchingSystem.Models
             get
             {
                 object val = QueryMetadata("/app1/ifd/exif:{uint=272}");
-                return (val != null ? (string)val : String.Empty);
+                return (val != null ? (string)val : string.Empty);
             }
         }
 
@@ -308,7 +308,7 @@ namespace ImageStitchingSystem.Models
             get
             {
                 object val = QueryMetadata("/app1/ifd/exif:{uint=305}");
-                return (val != null ? (string)val : String.Empty);
+                return (val != null ? (string)val : string.Empty);
             }
         }
 
@@ -317,7 +317,7 @@ namespace ImageStitchingSystem.Models
             get
             {
                 if ((ushort)QueryMetadata("/app1/ifd/exif/subifd:{uint=40961}") == 1)
-                    return ColorRepresentation.sRGB;
+                    return ColorRepresentation.SRgb;
                 else
                     return ColorRepresentation.Uncalibrated;
             }

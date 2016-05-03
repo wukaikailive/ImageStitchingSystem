@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,8 @@ using System.IO;
 using ZedGraph;
 using Emgu.CV.CvEnum;
 using ImageStitchingSystem.UI.Weight;
+using Image = System.Windows.Controls.Image;
+using Point = System.Windows.Point;
 
 namespace ImageStitchingSystem.UI
 {
@@ -35,25 +38,21 @@ namespace ImageStitchingSystem.UI
     /// </summary>
     public partial class SimpleView : UserControl
     {
-
-        MDMatch[] matchers;
+        private MDMatch[] _matchers;
 
         #region 动态资源
 
-        public FeaturePointCollection pointColletion;
+        public FeaturePointCollection PointColletion;
 
-        private FeaturePoint selectedPoint;
-        private int selectedPointIndex = 0;
+        private FeaturePoint _selectedPoint;
+        private int _selectedPointIndex = 0;
 
-        private string zoomStringL = "100%";
-        private string zoomStringR = "100%";
+        private string _zoomStringL = "100%";
+        private string _zoomStringR = "100%";
 
 
-        private Point leftPoint = new Point();
-        private Point rightPoint = new Point();
-
-        private bool isInLeft = false;
-        private bool isInRight = true;
+        private Point _leftPoint = new Point();
+        private Point _rightPoint = new Point();
 
         #endregion
 
@@ -61,7 +60,7 @@ namespace ImageStitchingSystem.UI
         public SimpleView()
         {
             InitializeComponent();
-            pointColletion = (FeaturePointCollection)(Application.Current.Resources["featurePointCollection"] as ObjectDataProvider).Data;
+            PointColletion = (FeaturePointCollection)(Application.Current.Resources["FeaturePointCollection"] as ObjectDataProvider).Data;
         }
 
 
@@ -69,23 +68,23 @@ namespace ImageStitchingSystem.UI
         /// <summary>
         /// 渲染
         /// </summary>
-        private void bindPoints()
+        private void BindPoints()
         {
-            Binding bind = new Binding();
-            bind.Source = pointColletion;
-            pointColletion.OrderBy(o => o.LX).ThenBy(o => o.LY);
-            listViewPoints.SetBinding(ListView.ItemsSourceProperty, bind);
+            Binding bind = new Binding { Source = PointColletion };
+            //todo the below ex is not used
+            //PointColletion.OrderBy(o => o.Lx).ThenBy(o => o.Ly);
+            ListViewPoints.SetBinding(ItemsControl.ItemsSourceProperty, bind);
 
-            Image<Bgr, byte> l = new Image<Bgr, byte>((comboBoxL.SelectedItem as Photo).Source);
-            Image<Bgr, byte> r = new Image<Bgr, byte>((comboBoxR.SelectedItem as Photo).Source);
+            Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
+            Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
             int i = -1;
             Random romdom = new Random();
 
-            var point = selectedPoint;
-            var index = selectedPointIndex;
+            var point = _selectedPoint;
+            var index = _selectedPointIndex;
 
-            UIHelper.ZoomImage(imgL, scrollViewerL, zoomStringL);
-            UIHelper.ZoomImage(imgR, scrollViewerR, zoomStringR);
+            UiHelper.ZoomImage(ImgL, ScrollViewerL, _zoomStringL);
+            UiHelper.ZoomImage(ImgR, ScrollViewerR, _zoomStringR);
 
 
 
@@ -105,50 +104,50 @@ namespace ImageStitchingSystem.UI
             //    CVUtils.DrawPointAndCursor(l, r, selectedPoint, selectedPointIndex, mcv);
             //}
 
-            if (leftPoint.X > 0 && leftPoint.Y > 0)
+            if (_leftPoint.X > 0 && _leftPoint.Y > 0)
             {
-                UIHelper.SetSmallImg(imgLD, l, leftPoint, imgLD.Width);
+                UiHelper.SetSmallImg(ImgLd, l, _leftPoint, ImgLd.Width);
                 // CVUtils.DrawPointAndCursor(l, leftPoint, "new", new MCvScalar(0, 0, 255));
-                imgL.AddPoint = new Point(leftPoint.X, leftPoint.Y);
+                ImgL.AddPoint = new Point(_leftPoint.X, _leftPoint.Y);
             }
             else
             {
-                if (selectedPoint != null && index != -1)
+                if (_selectedPoint != null && index != -1)
                 {
-                    System.Drawing.Point pl = new System.Drawing.Point((int)point.LX, (int)point.LY);
-                    UIHelper.SetSmallImg(imgLD, l, pl, imgLD.Width);
-                    comboBoxLImg.SelectedItem = zoomStringL;
-                    UIHelper.MoveToPoint(scrollViewerL, pl);
+                    System.Drawing.Point pl = new System.Drawing.Point((int)point.Lx, (int)point.Ly);
+                    UiHelper.SetSmallImg(ImgLd, l, pl, ImgLd.Width);
+                    ComboBoxLImg.SelectedItem = _zoomStringL;
+                    UiHelper.MoveToPoint(ScrollViewerL, pl);
                 }
 
             }
 
 
-            if (rightPoint.X > 0 && rightPoint.Y > 0)
+            if (_rightPoint.X > 0 && _rightPoint.Y > 0)
             {
-                UIHelper.SetSmallImg(imgRD, r, rightPoint, imgRD.Width);
+                UiHelper.SetSmallImg(ImgRd, r, _rightPoint, ImgRd.Width);
                 //CVUtils.DrawPointAndCursor(r, rightPoint, "new", new MCvScalar(0, 0, 255));
-                imgR.AddPoint = new Point(rightPoint.X, rightPoint.Y);
+                ImgR.AddPoint = new Point(_rightPoint.X, _rightPoint.Y);
             }
             else
             {
-                if (selectedPoint != null && index != -1)
+                if (_selectedPoint != null && index != -1)
                 {
-                    System.Drawing.Point pr = new System.Drawing.Point((int)point.RX, (int)point.RY);
-                    UIHelper.SetSmallImg(imgRD, r, pr, imgRD.Width);
-                    comboBoxRImg.SelectedItem = zoomStringR;
-                    UIHelper.MoveToPoint(scrollViewerR, pr);
+                    System.Drawing.Point pr = new System.Drawing.Point((int)point.Rx, (int)point.Ry);
+                    UiHelper.SetSmallImg(ImgRd, r, pr, ImgRd.Width);
+                    ComboBoxRImg.SelectedItem = _zoomStringR;
+                    UiHelper.MoveToPoint(ScrollViewerR, pr);
                 }
             }
 
 
-            imgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
-            imgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
+            ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
+            ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
 
-            imgL.Points = pointColletion.Select(o => new Point(o.LX, o.LY)).ToList();
-            imgR.Points = pointColletion.Select(o => new Point(o.RX, o.RY)).ToList();
-            imgL.AddPoint = leftPoint;
-            imgR.AddPoint = rightPoint;
+            ImgL.Points = PointColletion.Select(o => new Point(o.Lx, o.Ly)).ToList();
+            ImgR.Points = PointColletion.Select(o => new Point(o.Rx, o.Ry)).ToList();
+            ImgL.AddPoint = _leftPoint;
+            ImgR.AddPoint = _rightPoint;
         }
 
         #region 事件
@@ -156,33 +155,33 @@ namespace ImageStitchingSystem.UI
 
         private void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
-            if(leftPoint.X > 0 && leftPoint.Y > 0 && rightPoint.X > 0 && rightPoint.Y > 0)
+            if (_leftPoint.X > 0 && _leftPoint.Y > 0 && _rightPoint.X > 0 && _rightPoint.Y > 0)
             {
                 FeaturePoint point = new FeaturePoint();
-                point.LX = leftPoint.X;
-                point.LY = leftPoint.Y;
-                point.RX = rightPoint.X;
-                point.RY = rightPoint.Y;
+                point.Lx = _leftPoint.X;
+                point.Ly = _leftPoint.Y;
+                point.Rx = _rightPoint.X;
+                point.Ry = _rightPoint.Y;
                 point.Distance = 0;
 
-                pointColletion.Add(point);
-                pointColletion.UpdateIndex();
-                listViewPoints.SelectedItem = pointColletion.Last();
-                leftPoint = new Point();
-                rightPoint = new Point();
-                bindPoints();
+                PointColletion.Add(point);
+                PointColletion.UpdateIndex();
+                ListViewPoints.SelectedItem = PointColletion.Last();
+                _leftPoint = new Point();
+                _rightPoint = new Point();
+                BindPoints();
             }
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             //每次如果鼠标点击了图片意外的位置，如果此时在增加模式下把增加取消掉
-            if ((!imgL.IsMouseOver) && (!imgR.IsMouseOver) && ((leftPoint.X > 0 && leftPoint.Y > 0) || (rightPoint.X > 0 && rightPoint.Y > 0)))
+            if ((!ImgL.IsMouseOver) && (!ImgR.IsMouseOver) && ((_leftPoint.X > 0 && _leftPoint.Y > 0) || (_rightPoint.X > 0 && _rightPoint.Y > 0)))
             {
-                leftPoint = new Point();
-                rightPoint = new Point();
-                
-                bindPoints();
+                _leftPoint = new Point();
+                _rightPoint = new Point();
+
+                BindPoints();
             }
 
             base.OnMouseDown(e);
@@ -190,16 +189,16 @@ namespace ImageStitchingSystem.UI
 
         private void comboBoxL_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Photo item = comboBoxL.SelectedItem as Photo;
+            Photo item = ComboBoxL.SelectedItem as Photo;
             if (item != null)
-                imgL.Source = item.Image;
+                ImgL.Source = item.Image;
         }
 
         private void comboBoxR_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Photo item = comboBoxR.SelectedItem as Photo;
+            Photo item = ComboBoxR.SelectedItem as Photo;
             if (item != null)
-                imgR.Source = item.Image;
+                ImgR.Source = item.Image;
         }
 
         private void algsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -215,7 +214,7 @@ namespace ImageStitchingSystem.UI
 
         private void buttonFindFeatures_Click(object sender, RoutedEventArgs e)
         {
-            String s = algsComboBox.SelectedItem as String;
+            string s = AlgsComboBox.SelectedItem as string;
             Debug.Assert(s != null);
             Stitcher stitcher = new Stitcher(false);
             FeaturesFinder finder = null;
@@ -229,8 +228,8 @@ namespace ImageStitchingSystem.UI
                     break;
             }
             // stitcher.SetFeaturesFinder(finder);
-            Image<Bgr, byte> l = new Image<Bgr, byte>((comboBoxL.SelectedItem as Photo).Source);
-            Image<Bgr, byte> r = new Image<Bgr, byte>((comboBoxR.SelectedItem as Photo).Source);
+            Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
+            Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
 
             Mat homography;
             VectorOfKeyPoint modelKeyPoints;
@@ -241,12 +240,12 @@ namespace ImageStitchingSystem.UI
             {
                 Mat mask;
                 long matchTime;
-                CVUtils.FindMatch(l.Mat, r.Mat, out matchTime, out modelKeyPoints, out observedKeyPoints, matches,
+                CvUtils.FindMatch(l.Mat, r.Mat, out matchTime, out modelKeyPoints, out observedKeyPoints, matches,
                   out mask, out homography);
 
                 //double featurePointFinderThreshold =(double)Application.Current.Resources["FeaturePointFinderThreshold"];
                 double featurePointFinderThreshold = 1.5;
-                if (!double.TryParse(textBoxThreshold.Text, out featurePointFinderThreshold))
+                if (!double.TryParse(TextBoxThreshold.Text, out featurePointFinderThreshold))
                 {
                     return;
                 }
@@ -266,56 +265,56 @@ namespace ImageStitchingSystem.UI
                         matchList.Add(bestMatch);
                 }
 
-                matchers = matchList.ToArray();
+                _matchers = matchList.ToArray();
 
-                for (int i = 0; i < matchers.Length; i++)
+                for (int i = 0; i < _matchers.Length; i++)
                 {
 
-                    MKeyPoint ll = modelKeyPoints[matchers[i].TrainIdx];
+                    MKeyPoint ll = modelKeyPoints[_matchers[i].TrainIdx];
 
-                    MKeyPoint rr = observedKeyPoints[matchers[i].QueryIdx];
+                    MKeyPoint rr = observedKeyPoints[_matchers[i].QueryIdx];
 
-                    FeaturePoint p = new FeaturePoint(i, ll, rr, matchers[i].Distance);
+                    FeaturePoint p = new FeaturePoint(i, ll, rr, _matchers[i].Distance);
 
-                    pointColletion.Add(p);
+                    PointColletion.Add(p);
 
                 }
             }
 
-            bindPoints();
+            BindPoints();
 
 
         }
 
         private void comboBoxLImg_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (scrollViewerL == null) return;
+            if (ScrollViewerL == null) return;
 
             ComboBox box = sender as ComboBox;
-            zoomStringL = box.SelectedItem as string;
+            _zoomStringL = box.SelectedItem as string;
 
-            bindPoints();
+            BindPoints();
         }
 
         private void comboBoxRImg_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            if (scrollViewerR == null) return;
+            if (ScrollViewerR == null) return;
 
             ComboBox box = sender as ComboBox;
-            zoomStringR = box.SelectedItem as string;
+            _zoomStringR = box.SelectedItem as string;
 
-            bindPoints();
+            BindPoints();
         }
 
         private void buttonPreview_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                using (Image<Bgr, byte> l = new Image<Bgr, byte>((comboBoxL.SelectedItem as Photo).Source))
-                using (Image<Bgr, byte> r = new Image<Bgr, byte>((comboBoxR.SelectedItem as Photo).Source))
+                using (Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source))
+                using (Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source))
                 {
-                    Image<Bgr, byte> result = CVUtils.Draw(l, r, pointColletion.ToList());
+                    Image<Bgr, byte> result = CvUtils.Draw(l, r, PointColletion.ToList());
                     ImageBox box = new ImageBox();
                     box.Image = result.Bitmap;
                     box.Show();
@@ -330,30 +329,30 @@ namespace ImageStitchingSystem.UI
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var point = listViewPoints.SelectedItem as FeaturePoint;
+            var point = ListViewPoints.SelectedItem as FeaturePoint;
             Debug.Assert(point != null);
-            pointColletion.Remove(point);
-            pointColletion.UpdateIndex();
+            PointColletion.Remove(point);
+            PointColletion.UpdateIndex();
 
-            bindPoints();
+            BindPoints();
 
         }
 
         private void listViewPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedPoint = (sender as ListView).SelectedItem as FeaturePoint;
-            if (selectedPoint == null) return;
-            selectedPointIndex = (sender as ListView).SelectedIndex;
+            _selectedPoint = ((ListView)sender).SelectedItem as FeaturePoint;
+            if (_selectedPoint == null) return;
+            _selectedPointIndex = ((ListView)sender).SelectedIndex;
 
-            zoomStringL = "150%";
-            zoomStringR = "150%";
+            _zoomStringL = "150%";
+            _zoomStringR = "150%";
 
-            imgL.SelectedIndex = selectedPointIndex;
-            imgR.SelectedIndex = selectedPointIndex;
-            UIHelper.MoveToPoint(scrollViewerL, new System.Drawing.Point((int)selectedPoint.LX, (int)selectedPoint.LY));
-            UIHelper.MoveToPoint(scrollViewerR, new System.Drawing.Point((int)selectedPoint.RX, (int)selectedPoint.RY));
+            ImgL.SelectedIndex = _selectedPointIndex;
+            ImgR.SelectedIndex = _selectedPointIndex;
+            UiHelper.MoveToPoint(ScrollViewerL, new System.Drawing.Point((int)_selectedPoint.Lx, (int)_selectedPoint.Ly));
+            UiHelper.MoveToPoint(ScrollViewerR, new System.Drawing.Point((int)_selectedPoint.Rx, (int)_selectedPoint.Ry));
 
-            bindPoints();
+            BindPoints();
         }
 
         private void buttonDeleteAll_Click(object sender, RoutedEventArgs e)
@@ -361,10 +360,10 @@ namespace ImageStitchingSystem.UI
             MessageBoxResult r = MessageBox.Show("你确定要全部删除吗", "提示", MessageBoxButton.OKCancel);
             if (r == MessageBoxResult.OK)
             {
-                pointColletion.Clear();
-                selectedPoint = null;
-                selectedPointIndex = -1;
-                bindPoints();
+                PointColletion.Clear();
+                _selectedPoint = null;
+                _selectedPointIndex = -1;
+                BindPoints();
             }
         }
 
@@ -377,9 +376,9 @@ namespace ImageStitchingSystem.UI
             double pixelMousePositionY = e.GetPosition(v).Y * imageSource.Height / v.ActualHeight;
 
             p = new Point(pixelMousePositionX, pixelMousePositionY);
-            leftPoint = p;
+            _leftPoint = p;
 
-            bindPoints();
+            BindPoints();
 
         }
 
@@ -392,80 +391,216 @@ namespace ImageStitchingSystem.UI
             double pixelMousePositionY = e.GetPosition(v).Y * imageSource.Height / v.ActualHeight;
 
             p = new Point(pixelMousePositionX, pixelMousePositionY);
-            rightPoint = p;
+            _rightPoint = p;
 
-            bindPoints();
+            BindPoints();
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            Point _addPoint = new Point();
+            Point addPoint = new Point();
             MyImage img = null;
             ScrollViewer view = null;
-            ImageSource Source;
 
-            if (imgL.IsMouseOver)
+            if (ImgL.IsMouseOver)
             {
-                _addPoint = leftPoint;
-                img = imgL;
-                view = scrollViewerL;
+                addPoint = _leftPoint;
+                img = ImgL;
+                view = ScrollViewerL;
             }
-            if (imgR.IsMouseOver)
+            if (ImgR.IsMouseOver)
             {
-                _addPoint = rightPoint;
-                img = imgR;
-                view = scrollViewerR;
+                addPoint = _rightPoint;
+                img = ImgR;
+                view = ScrollViewerR;
             }
 
             if (img == null || view == null) { base.OnKeyUp(e); return; }
-            Source = img.Source;
-            if (view.IsMouseOver && _addPoint != null)
+            var source = img.Source;
+            if (view.IsMouseOver)
             {
                 switch (e.Key)
                 {
                     case Key.Up:
-                        _addPoint.Y--;
-                        if (_addPoint.Y < 0)
-                            _addPoint.Y = 0;
+                        addPoint.Y--;
+                        if (addPoint.Y < 0)
+                            addPoint.Y = 0;
                         //view.LineUp();
                         break;
                     case Key.Down:
-                        _addPoint.Y++;
-                        if (_addPoint.Y > Source.Height)
-                            _addPoint.Y = (int)Source.Height;
+                        addPoint.Y++;
+                        if (addPoint.Y > source.Height)
+                            addPoint.Y = (int)source.Height;
                         //view.LineDown();
                         break;
                     case Key.Left:
-                        _addPoint.X--;
-                        if (_addPoint.X < 0)
-                            _addPoint.X = 0;
+                        addPoint.X--;
+                        if (addPoint.X < 0)
+                            addPoint.X = 0;
                         //view.LineLeft();
                         break;
                     case Key.Right:
-                        _addPoint.X++;
-                        if (_addPoint.X > Source.Width)
-                            _addPoint.X = (int)Source.Width;
+                        addPoint.X++;
+                        if (addPoint.X > source.Width)
+                            addPoint.X = (int)source.Width;
                         //view.LineRight();
                         break;
                 }
-                img.AddPoint = _addPoint;
-                if (imgL.IsMouseOver)
+                img.AddPoint = addPoint;
+                if (ImgL.IsMouseOver)
                 {
-                    leftPoint = _addPoint;
+                    _leftPoint = addPoint;
                 }
-                if (imgR.IsMouseOver)
+                if (ImgR.IsMouseOver)
                 {
-                    rightPoint = _addPoint;
+                    _rightPoint = addPoint;
                 }
-                bindPoints();
+                BindPoints();
             }
-           // base.OnKeyUp(e);
+            // base.OnKeyUp(e);
         }
 
 
-
         #endregion
+        //缝合
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Drawing.PointF[] pointsl = PointColletion.Select(o => new System.Drawing.PointF((float)o.Lx, (float)o.Ly)).ToArray();
+            System.Drawing.PointF[] pointsr = PointColletion.Select(o => new System.Drawing.PointF((float)o.Rx, (float)o.Ry)).ToArray();
 
-        
+
+
+            Mat H = new Mat(3, 3, DepthType.Cv32F, 1);
+            Mat mask = new Mat();
+            CvInvoke.FindHomography(pointsl, pointsr,H,HomographyMethod.Ransac,0);
+
+
+            Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
+            Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
+
+            //Matrix<float> objCorners = new Matrix<float>(4, 2)
+            //{
+            //    [0, 0] = 0,
+            //    [0, 1] = 0,
+            //    [1, 0] = l.Cols,
+            //    [1, 1] = 0,
+            //    [2, 0] = l.Cols,
+            //    [2, 1] = l.Rows,
+            //    [3, 0] = 0,
+            //    [3, 1] = l.Rows
+            //};
+            //Matrix<float> sceneCorners=new Matrix<float>(4,2);
+            Image<Bgr, byte> result = new Image<Bgr, byte>(r.Size);
+            //Mat result = new Mat(r.Size,DepthType.Cv32F, 3);
+            try
+            {
+                //CvInvoke.PerspectiveTransform(l.Mat, r.Mat, H);
+                //CvInvoke.ProjectPoints()
+                CvInvoke.WarpPerspective(l.Mat, result.Mat, H, new System.Drawing.Size(r.Width,r.Height));
+            }
+            catch (Exception ex)
+            {
+                
+            }
+
+            //CvInvoke.Line(r,new System.Drawing.Point((int)sceneCorners[0,0]+l.Cols,(int)sceneCorners[0,1]), new System.Drawing.Point((int)sceneCorners[1, 0] + l.Cols, (int)sceneCorners[1, 1]),new MCvScalar(0,255,0),4);
+            //CvInvoke.Line(r, new System.Drawing.Point((int)sceneCorners[1, 0] + l.Cols, (int)sceneCorners[1, 1]), new System.Drawing.Point((int)sceneCorners[2, 0] + l.Cols, (int)sceneCorners[2, 1]), new MCvScalar(0, 255, 0), 4);
+            //CvInvoke.Line(r, new System.Drawing.Point((int)sceneCorners[2, 0] + l.Cols, (int)sceneCorners[2, 1]), new System.Drawing.Point((int)sceneCorners[3, 0] + l.Cols, (int)sceneCorners[3, 1]), new MCvScalar(0, 255, 0), 4);
+            //CvInvoke.Line(r, new System.Drawing.Point((int)sceneCorners[3, 0] + l.Cols, (int)sceneCorners[3, 1]), new System.Drawing.Point((int)sceneCorners[0, 0] + l.Cols, (int)sceneCorners[0, 1]), new MCvScalar(0, 255, 0), 4);
+
+            //PhotoEditWindow window = new PhotoEditWindow {Bitmap = result.Bitmap};
+            //window.Show();
+            ImageBox box = new ImageBox { Image = result.Bitmap };
+            box.Show();
+            result = result + r;
+            ImageBox box2 = new ImageBox { Image =result.Bitmap };
+            box2.Show();
+
+            //Mat result = new Mat();
+            //Mat result1 = new Mat();
+            //try
+            //{
+            //    CvInvoke.WarpPerspective(l, result, H, new System.Drawing.Size(l.Width * 2, l.Height * 2));
+            //    CvInvoke.WarpPerspective(r, result1, H, new System.Drawing.Size(r.Width * 2, r.Height * 2));
+            //}
+            //catch (Exception ex)
+            //{
+            //    // ignored
+            //}
+            ////result.Save("l.jpg");
+            ////result1.Save("r.jpg");
+            //long time;
+            //Mat rrr = CvUtils.Draw(l.Mat, r.Mat, out time);
+
+            //ImageBox box = new ImageBox { Image = rrr.Bitmap };
+            //box.Show();
+
+        }
+
+        private void buttonRe_Click(object sender, RoutedEventArgs e)
+        {
+            PointColletion.Clear();
+            this.buttonFindFeatures_Click(sender, e);
+        }
+
+        private void listViewPoints_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Delete:
+                    var point = ListViewPoints.SelectedItem as FeaturePoint;
+                    Debug.Assert(point != null);
+                    PointColletion.Remove(point);
+                    PointColletion.UpdateIndex();
+
+                    BindPoints();
+                    break;
+            }
+        }
+
+        private void buttonFilter_Click(object sender, RoutedEventArgs e)
+        {
+            //todo 过滤特征点
+            //VectorOfDMatch
+            //int pCount = PointColletion.Count;
+
+            //Matrix<float> p1 = new Matrix<float>(pCount, 2);
+            //Matrix<float> p2 = new Matrix<float>(pCount, 2);
+
+            //for (int i = 0; i < pCount; i++)
+            //{
+            //    FeaturePoint point = PointColletion.GetByIndex(i);
+            //    if (point == null) continue;
+            //    p1[i, 0] = (float)point.Rx;
+            //    p1[i, 1] = (float)point.Ry;
+            //    p2[i, 0] = (float)point.Lx;
+            //    p2[i, 1] = (float)point.Ly;
+            //}
+
+            //// Mat m_Fundamental = new Mat();
+            //Matrix<float> mRansacStatus=new Matrix<float>(pCount,1);
+            //try
+            //{
+            //    CvInvoke.FindFundamentalMat(p1, p2, mRansacStatus);
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    // ignored
+            //}
+
+            //var outlinerCount = 0;
+            //for (int i = 0; i < pCount; i++)
+            //{
+            //    if (mRansacStatus[i, 0] == 0)    // 状态为0表示野点  
+            //    {
+            //        outlinerCount++;
+            //    }
+            //}
+
+            //int inlinerCount = pCount - outlinerCount;   // 计算内点  
+            //Console.WriteLine(@"内点数为：" + inlinerCount);
+        }
+
     }
 }

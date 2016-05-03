@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="clr-namespace:ImageStitchingSystem.UI"
         xmlns:weight="clr-namespace:ImageStitchingSystem.UI.Weight"
-        Title="MainWindow" Height="600" Width="850">
+        Title="图像拼接" Height="600" Width="850">
     <Grid>
         <Grid.Resources>
            
@@ -29,7 +29,7 @@
             </MenuItem>
 
         </Menu>-->
-        <TabControl Background="#eeeeee" x:Name="tabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TabControl Background="#eeeeee" x:Name="TabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TabItem Header="文件" Background="#eeeeee" Height="21" VerticalAlignment="Top">
                 <ui:Base HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:Base>
             </TabItem>

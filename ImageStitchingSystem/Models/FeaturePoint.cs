@@ -10,16 +10,16 @@ namespace ImageStitchingSystem.Models
 {
     public class FeaturePoint : INotifyPropertyChanged
     {
-        private int index;
+        private int _index;
         public int Index
         {
             get
             {
-                return index;
+                return _index;
             }
             set
             {
-                index = value;
+                _index = value;
                 this.Changed("Index");
             }
         }
@@ -30,7 +30,7 @@ namespace ImageStitchingSystem.Models
             QueryPoint = new MKeyPoint();
         }
 
-        private void Changed(String propertyName)
+        private void Changed(string propertyName)
         {
             if (this.PropertyChanged != null)
             {
@@ -67,15 +67,15 @@ namespace ImageStitchingSystem.Models
                 _queryPoint = value;
             }
         }
-        public double LX
+        public double Lx
         {
             set { _trainPoint.Point.X = (float)value; }
 
             get { return _trainPoint.Point.X; }
         }
-        public double LY { get { return TrainPoint.Point.Y; } set { _trainPoint.Point.Y = (float)value; } }
-        public double RX { get { return QueryPoint.Point.X; } set { _queryPoint.Point.X = (float)value; } }
-        public double RY { get { return QueryPoint.Point.Y; } set { _queryPoint.Point.Y = (float)value; } }
+        public double Ly { get { return TrainPoint.Point.Y; } set { _trainPoint.Point.Y = (float)value; } }
+        public double Rx { get { return QueryPoint.Point.X; } set { _queryPoint.Point.X = (float)value; } }
+        public double Ry { get { return QueryPoint.Point.Y; } set { _queryPoint.Point.Y = (float)value; } }
         public double Distance { get; set; }
 
         public FeaturePoint(int index, MKeyPoint t, MKeyPoint q, Double distance)
@@ -102,6 +102,15 @@ namespace ImageStitchingSystem.Models
                 v.Index = i;
             }
             
+        }
+
+        public FeaturePoint GetByIndex(int index)
+        {
+            foreach(var v in this)
+            {
+                if (v.Index == index) return v;
+            }
+            return null;
         }
     }
 

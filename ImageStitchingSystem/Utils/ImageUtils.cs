@@ -24,7 +24,8 @@ namespace ImageStitchingSystem.Utils
         public static System.Drawing.Point GetLeftPoint(System.Drawing.Point point,int rectWith)
         {
             int h = rectWith / 2;
-            return new System.Drawing.Point(point.X - h, point.Y - h);
+            System.Drawing.Point result= new System.Drawing.Point(point.X - h, point.Y - h);
+            return result;
         }
         public static Point GetLeftPoint(System.Windows.Point point, int rectWith)
         {

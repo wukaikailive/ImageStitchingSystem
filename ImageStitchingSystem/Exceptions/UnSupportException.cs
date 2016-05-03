@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ImageStitchingSystem.Exceptions
 {
-    class UnSupportException : System.Exception
+    internal class UnSupportException : System.Exception
     {
        
     }

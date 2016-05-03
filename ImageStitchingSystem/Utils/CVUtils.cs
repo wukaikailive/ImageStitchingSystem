@@ -13,10 +13,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using ZedGraph;
 
 namespace ImageStitchingSystem.Utils
 {
-    public class CVUtils
+    public class CvUtils
     {
         /// <summary>
         /// 寻找特征点
@@ -88,16 +89,16 @@ namespace ImageStitchingSystem.Utils
                 using (UMat uModelImage = modelImage.ToUMat(AccessType.Read))
                 using (UMat uObservedImage = observedImage.ToUMat(AccessType.Read))
                 {
-                    SURF surfCPU = new SURF(hessianThresh);
+                    SURF surfCpu = new SURF(hessianThresh);
                     //extract features from the object image
                     UMat modelDescriptors = new UMat();
-                    surfCPU.DetectAndCompute(uModelImage, null, modelKeyPoints, modelDescriptors, false);
+                    surfCpu.DetectAndCompute(uModelImage, null, modelKeyPoints, modelDescriptors, false);
 
                     watch = Stopwatch.StartNew();
 
                     // extract features from the observed image
                     UMat observedDescriptors = new UMat();
-                    surfCPU.DetectAndCompute(uObservedImage, null, observedKeyPoints, observedDescriptors, false);
+                    surfCpu.DetectAndCompute(uObservedImage, null, observedKeyPoints, observedDescriptors, false);
                     BFMatcher matcher = new BFMatcher(DistanceType.L2);
                     matcher.Add(modelDescriptors);
 
@@ -279,28 +280,28 @@ namespace ImageStitchingSystem.Utils
             return img;
         }
 
-        public static Image<Bgr,byte> DrawTextWithBackground(Image<Bgr, byte> img,String text)
+        public static Image<Bgr, byte> DrawTextWithBackground(Image<Bgr, byte> img, string text)
         {
-            return img;
+            throw new NotImplementedException();
         }
 
-        public static void DrawPointAndCursor(Image<Bgr,byte> img1,Image<Bgr,byte> img2,FeaturePoint v,int number,MCvScalar color)
+        public static void DrawPointAndCursor(Image<Bgr, byte> img1, Image<Bgr, byte> img2, FeaturePoint v, int number, MCvScalar color)
         {
-            CvInvoke.PutText(img1, number + "", new System.Drawing.Point((int)v.LX, (int)v.LY), FontFace.HersheyComplex, 0.7, color);
-            CvInvoke.PutText(img2, number + "", new System.Drawing.Point((int)v.RX, (int)v.RY), FontFace.HersheyComplex, 0.7, color);
+            CvInvoke.PutText(img1, number + "", new System.Drawing.Point((int)v.Lx, (int)v.Ly), FontFace.HersheyComplex, 0.7, color);
+            CvInvoke.PutText(img2, number + "", new System.Drawing.Point((int)v.Rx, (int)v.Ry), FontFace.HersheyComplex, 0.7, color);
             img1.Draw(new Cross2DF(v.TrainPoint.Point, 15, 15), new Bgr(255, 255, 255), 1);
             img2.Draw(new Cross2DF(v.QueryPoint.Point, 15, 15), new Bgr(255, 255, 255), 1);
         }
 
-        public static void DrawPointAndCursor(Image<Bgr, byte> img1, Image<Bgr, byte> img2, FeaturePoint v, String text, MCvScalar color)
+        public static void DrawPointAndCursor(Image<Bgr, byte> img1, Image<Bgr, byte> img2, FeaturePoint v, string text, MCvScalar color)
         {
-            CvInvoke.PutText(img1, text + "", new System.Drawing.Point((int)v.LX, (int)v.LY), FontFace.HersheyComplex, 0.7, color);
-            CvInvoke.PutText(img2, text + "", new System.Drawing.Point((int)v.RX, (int)v.RY), FontFace.HersheyComplex, 0.7, color);
+            CvInvoke.PutText(img1, text + "", new System.Drawing.Point((int)v.Lx, (int)v.Ly), FontFace.HersheyComplex, 0.7, color);
+            CvInvoke.PutText(img2, text + "", new System.Drawing.Point((int)v.Rx, (int)v.Ry), FontFace.HersheyComplex, 0.7, color);
             img1.Draw(new Cross2DF(v.TrainPoint.Point, 15, 15), new Bgr(255, 255, 255), 1);
             img2.Draw(new Cross2DF(v.QueryPoint.Point, 15, 15), new Bgr(255, 255, 255), 1);
         }
 
-        public static void DrawPointAndCursor(Image<Bgr, byte> img,System.Drawing.Point p, String text, MCvScalar color)
+        public static void DrawPointAndCursor(Image<Bgr, byte> img, System.Drawing.Point p, string text, MCvScalar color)
         {
             CvInvoke.PutText(img, text + "", p, FontFace.HersheyComplex, 0.7, color);
             img.Draw(new Cross2DF(p, 15, 15), new Bgr(255, 255, 255), 1);
@@ -315,9 +316,44 @@ namespace ImageStitchingSystem.Utils
         {
             Random r = new Random(n);
             int R = r.Next(255);
-            int G = r.Next(255);
-            int B = r.Next(255);
-            return new MCvScalar(B,G,R);
+            int g = r.Next(255);
+            int b = r.Next(255);
+            return new MCvScalar(b, g, R);
         }
+
+        public static Mat GetPerspectiveTransform(PointF[] img1, PointF[] img2)
+        {
+            img1 = img1.Take(4).ToArray();
+            img2 = img2.Take(4).ToArray();
+            Mat result = null;
+            try
+            {
+                result = CvInvoke.GetPerspectiveTransform(img1, img2);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return result;
+        }
+
+        public IntPtr CreatePointListPointer(IList<PointF> points,int pointCount)
+        {
+            IntPtr result = CvInvoke.cvCreateMat(pointCount, 2, DepthType.Cv32F);
+
+            for (int i = 0; i < pointCount; i++)
+            {
+                double currentX = points[i].X;
+                double currentY = points[i].Y;
+                CvInvoke.cvSet2D(result, i, 0, new MCvScalar(currentX));
+                CvInvoke.cvSet2D(result, i, 1, new MCvScalar(currentY));
+            }
+
+            return result;
+        }
+
+
     }
 }

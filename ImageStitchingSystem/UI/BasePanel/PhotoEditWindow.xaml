@@ -58,7 +58,7 @@
                 <StackPanel>
                     <TextBlock Text="工具" ></TextBlock>
                     <WrapPanel>
-                        <Button Margin="4" Height="36" Width="36" Background="#212121" Name="buttonClip">
+                        <Button Margin="4" Height="36" Width="36" Background="#212121" Name="ButtonClip">
                             <Button.Content>
                                 <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <Image Source="/image/ic_clip.png" Width="24" Height="24"></Image>

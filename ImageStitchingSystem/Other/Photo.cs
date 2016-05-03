@@ -13,22 +13,22 @@ namespace ImageStitchingSystem.Other
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private int index;
+        private int _index;
 
         public int Index
         {
             get
             {
-                return index;
+                return _index;
             }
             set
             {
-                index = value;
+                _index = value;
                 Changed("Index");
             }
         }
 
-        private void Changed(String propertyName)
+        private void Changed(string propertyName)
         {
             if (this.PropertyChanged != null)
             {
@@ -36,28 +36,28 @@ namespace ImageStitchingSystem.Other
             }
         }
 
-        public String Path { get; set; }
+        public string Path { get; set; }
 
-        private Bitmap bitmap;
+        private Bitmap _bitmap;
         public Bitmap Bitmap
         {
             get
             {
-                if (Path == null && bitmap == null)
+                if (Path == null && _bitmap == null)
                 {
                     throw new ArgumentNullException("请检查路径");
                 }
-                if (bitmap == null)
+                if (_bitmap == null)
                 {
-                    bitmap = new Bitmap(Path);
+                    _bitmap = new Bitmap(Path);
                 }
-                return bitmap;
+                return _bitmap;
             }
 
             set { }
         }
 
-        private System.Windows.Media.ImageSource image;
+        private System.Windows.Media.ImageSource _image;
 
 
         public System.Windows.Media.ImageSource Image
@@ -68,28 +68,28 @@ namespace ImageStitchingSystem.Other
             }
             set
             {
-                image = value;
+                _image = value;
             }
         }
 
-        public String FileName { get { return TextUtils.getFileName(Path); } }
+        public string FileName { get { return TextUtils.GetFileName(Path); } }
 
         public Photo() { }
 
-        public Photo(String path)
+        public Photo(string path)
         {
             Path = path;
         }
 
-        public Photo(String path,int i)
+        public Photo(string path,int i)
         {
             Path = path;
-            index = i;
+            _index = i;
         }
 
         public Photo(Bitmap bitmap)
         {
-            this.bitmap = bitmap;
+            this._bitmap = bitmap;
         }
     }
 

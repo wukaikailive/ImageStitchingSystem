@@ -13,14 +13,13 @@ namespace ImageStitchingSystem.UI.Weight
     /// <summary>
     /// 
     /// </summary>
-
-    class CanvasWithImage : Canvas
+    internal class CanvasWithImage : Canvas
     {
-        BitmapImage _image;
+        private BitmapImage _image;
 
-        PointCollection _collection;
+        private PointCollection _collection;
 
-        double _zoomLevel=0;
+        private double _zoomLevel=0;
 
         public BitmapImage Image
         {
@@ -63,7 +62,7 @@ namespace ImageStitchingSystem.UI.Weight
             }
             else return;
 
-            if (_zoomLevel == 0)
+            if (_zoomLevel.Equals(0))
             {
                 _zoomLevel = this.Height / _image.PixelWidth;
             }
@@ -78,7 +77,7 @@ namespace ImageStitchingSystem.UI.Weight
                     double lx = v.X * _zoomLevel;
                     double ly = v.Y * _zoomLevel;
 
-                    UIHelper.Text(this, lx, ly, i + "", Color.FromRgb(255, 0, 0));
+                    UiHelper.Text(this, lx, ly, i + "", Color.FromRgb(255, 0, 0));
                 }
             }
             else return;

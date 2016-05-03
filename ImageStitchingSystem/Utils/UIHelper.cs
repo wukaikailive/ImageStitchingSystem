@@ -8,10 +8,11 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Size = System.Drawing.Size;
 
 namespace ImageStitchingSystem.Utils
 {
-    public class UIHelper
+    public class UiHelper
     {
         public static void Text(Canvas canvas, double x, double y, string text, Color fontColor)
         {
@@ -26,7 +27,7 @@ namespace ImageStitchingSystem.Utils
             canvas.Children.Add(textBlock);
         }
 
-        public static void ZoomImage(Image img, ScrollViewer view, String sel)
+        public static void ZoomImage(Image img, ScrollViewer view, string sel)
         {
             var width = img.Source.Width;
             var height = img.Source.Height;
@@ -56,11 +57,11 @@ namespace ImageStitchingSystem.Utils
             view.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, vp);
         }
 
-        public static double ParseZoomString(String sel)
+        public static double ParseZoomString(string sel)
         {
-            string pattern = "^(.*?)%$";
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
-            System.Text.RegularExpressions.Match match = regex.Match(sel);
+            const string pattern = "^(.*?)%$";
+            var regex = new System.Text.RegularExpressions.Regex(pattern);
+            var match = regex.Match(sel);
             double v = 0;
             try
             {
@@ -110,26 +111,48 @@ namespace ImageStitchingSystem.Utils
 
         public static void SetSmallImg(Image imgSmall, Image<Bgr, byte> img, System.Drawing.Point center, double width, int mult = 2)
         {
-            int R = (int)Math.Round(width) / mult;
-            Image<Bgr, byte> ld = new Image<Bgr, byte>(R, R);
-            img.ROI = new System.Drawing.Rectangle(ImageUtils.GetLeftPoint(center, R), new System.Drawing.Size(R, R));
+            int r = (int)Math.Round(width) / mult;
+            Image<Bgr, byte> ld = new Image<Bgr, byte>(r, r);
+            Size size=new Size(r,r);
+            System.Drawing.Point left = ImageUtils.GetLeftPoint(center, r);
+            if (left.X < 0)
+            {
+                size.Width=size.Width+ left.X;
+                left.X = 0;
+            }
+            if (left.Y < 0)
+            {
+                size.Height = size.Height + left.Y;
+                left.Y = 0;
+            }
+            if (left.X > img.Width)
+            {
+                size.Width = size.Width - left.X;
+                left.X = img.Width;
+            }
+            if (left.Y > img.Height)
+            {
+                size.Height = size.Height - left.Y;
+                left.Y = img.Height;
+            }
+            img.ROI = new System.Drawing.Rectangle(left, size);
             img.CopyTo(ld);
             img.ROI = System.Drawing.Rectangle.Empty;
 
-            ld = CVUtils.DrawCenterCross(ld);
+            ld = CvUtils.DrawCenterCross(ld);
 
             imgSmall.Source = BitmapUtils.ChangeBitmapToImageSource(ld.Bitmap);
         }
 
         public static void SetSmallImg(Image imgSmall, Image<Bgr, byte> img, System.Windows.Point center, double width, int mult = 2)
         {
-            int R = (int)Math.Round(width) / mult;
-            Image<Bgr, byte> ld = new Image<Bgr, byte>(R, R);
-            img.ROI = new System.Drawing.Rectangle(ImageUtils.GetLeftPoint(new System.Drawing.Point((int)center.X,(int)center.Y),R), new System.Drawing.Size(R, R));
+            int r = (int)Math.Round(width) / mult;
+            Image<Bgr, byte> ld = new Image<Bgr, byte>(r, r);
+            img.ROI = new System.Drawing.Rectangle(ImageUtils.GetLeftPoint(new System.Drawing.Point((int)center.X,(int)center.Y),r), new System.Drawing.Size(r, r));
             img.CopyTo(ld);
             img.ROI = System.Drawing.Rectangle.Empty;
 
-            ld = CVUtils.DrawCenterCross(ld);
+            ld = CvUtils.DrawCenterCross(ld);
 
             imgSmall.Source = BitmapUtils.ChangeBitmapToImageSource(ld.Bitmap);
         }
@@ -194,10 +217,10 @@ namespace ImageStitchingSystem.Utils
         {
             Random r = new Random(n);
             int R = r.Next(256);
-            int G = r.Next(256);
-            int B = (R + G > 400) ? 0 : 400 - R - G;
+            int g = r.Next(256);
+            int B = (R + g > 400) ? 0 : 400 - R - g;
             B = B > 255 ? 255 : B;
-            Brush b = new SolidColorBrush(Color.FromRgb((byte)R, (byte)G,(byte)B));
+            Brush b = new SolidColorBrush(Color.FromRgb((byte)R, (byte)g,(byte)B));
             return b;
         }
 

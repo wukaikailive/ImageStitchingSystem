@@ -20,7 +20,7 @@ namespace ImageStitchingSystem.UI
     /// </summary>
     public partial class ImageBox : Window
     {
-        private Bitmap image;
+        private Bitmap _image;
         public ImageBox()
         {
             InitializeComponent();
@@ -30,13 +30,13 @@ namespace ImageStitchingSystem.UI
         {
             get
             {
-                return image;
+                return _image;
             }
 
             set
             {
-                image = value;
-                imageShow.Source = BitmapUtils.ChangeBitmapToImageSource(Image);
+                _image = value;
+                ImageShow.Source = BitmapUtils.ChangeBitmapToImageSource(Image);
 
             }
         }

@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 using ImageStitchingSystem.Other;
+using ImageStitchingSystem.Utils;
 
 namespace ImageStitchingSystem.Models
 {
@@ -18,7 +19,7 @@ namespace ImageStitchingSystem.Models
                 decimal exposure = (decimal)value;
 
                 exposure = Decimal.Round(1 / exposure);
-                return String.Format("1/{0}", exposure.ToString());
+                return $"1/{exposure}";
             }
             catch (NullReferenceException)
             {
@@ -89,17 +90,17 @@ namespace ImageStitchingSystem.Models
         {
             if (value != null)
             {
-                return String.Format("F{0:##.0}", value);
+                return string.Format("F{0:##.0}", value);
             }
             else
             {
-                return String.Empty;
+                return string.Empty;
             }
         }
 
         public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
         {
-            if (!String.IsNullOrEmpty((string)value))
+            if (!string.IsNullOrEmpty((string)value))
             {
                 return Decimal.Parse(((string)value).Substring(1));
             }
@@ -119,11 +120,11 @@ namespace ImageStitchingSystem.Models
         {
             if (value != null)
             {
-                return String.Format("{0}mm", value);
+                return string.Format("{0}mm", value);
             }
             else
             {
-                return String.Empty;
+                return string.Empty;
             }
         }
 
@@ -142,17 +143,17 @@ namespace ImageStitchingSystem.Models
         {
             if ((values[0] == null) || (values[1] == null))
             {
-                return String.Empty;
+                return string.Empty;
             }
             else
             {
-                return String.Format("{0}x{1}", values[0], values[1]);
+                return string.Format("{0}x{1}", values[0], values[1]);
             }
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            if ((string) value == String.Empty)
+            if ((string) value == string.Empty)
             {
                 return new object[2];
             }
@@ -177,7 +178,7 @@ namespace ImageStitchingSystem.Models
             {
                 Photo photo = (Photo)value;
                 
-                return "#"+photo.Index+": "+TextUtils.getFileName(photo.Source);
+                return "#"+photo.Index+": "+TextUtils.GetFileName(photo.Source);
             }
             else
             {
@@ -202,7 +203,7 @@ namespace ImageStitchingSystem.Models
             }
             else
             {
-                return String.Empty;
+                return string.Empty;
             }
         }
 

@@ -38,14 +38,14 @@ namespace ImageStitchingSystem.UI
         private void OnPhotoClick(object sender, RoutedEventArgs e)
         {
             PhotoView pvWindow = new PhotoView();
-            pvWindow.SelectedPhoto = (Photo)photosListBox.SelectedItem;
+            pvWindow.SelectedPhoto = (Photo)PhotosListBox.SelectedItem;
             pvWindow.Show();
         }
 
-        private void editPhoto(object sender, RoutedEventArgs e)
+        private void EditPhoto(object sender, RoutedEventArgs e)
         {
             PhotoEditWindow pw = new PhotoEditWindow();
-            pw.SelectedPhoto = (Photo)photosListBox.SelectedItem;
+            pw.SelectedPhoto = (Photo)PhotosListBox.SelectedItem;
             pw.Show();
         }
 
@@ -58,19 +58,19 @@ namespace ImageStitchingSystem.UI
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 //PContext.imgs = ;
-                insertImgs(openFileDialog.FileNames);
+                InsertImgs(openFileDialog.FileNames);
             }
            // spinnerBalls.Visibility = Visibility.Collapsed;
         }
 
-        private void insertImgs(String[] imgs)
+        private void InsertImgs(string[] imgs)
         {
             for(int i = 0; i < imgs.Length; i++)
             {
                 this.Photos.Add(new Photo(imgs[i]));
             }
             Photos.UpdateIndex();
-            photosListBox.ItemsSource = this.Photos;
+            PhotosListBox.ItemsSource = this.Photos;
         }
 
         private void SetSource(System.Windows.Controls.Image image, string fileName)
@@ -116,14 +116,14 @@ namespace ImageStitchingSystem.UI
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             PhotoEditWindow pw = new PhotoEditWindow();
-            Debug.Assert(photosListBox.SelectedItem != null);
-            pw.SelectedPhoto = (Photo)photosListBox.SelectedItem;
+            Debug.Assert(PhotosListBox.SelectedItem != null);
+            pw.SelectedPhoto = (Photo)PhotosListBox.SelectedItem;
             pw.Show();
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            Photos.Remove((Photo)photosListBox.SelectedItem);
+            Photos.Remove((Photo)PhotosListBox.SelectedItem);
             Photos.UpdateIndex();
         }
     }

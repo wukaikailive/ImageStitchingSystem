@@ -20,23 +20,23 @@
         <DataTemplate x:Key="Index">
             <TextBlock Name="index" Text="{Binding Index}" ></TextBlock>
         </DataTemplate>
-        <DataTemplate x:Key="LX" >
-            <TextBlock Name="index" Text="{Binding LX, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
+        <DataTemplate x:Key="Lx" >
+            <TextBlock Name="index" Text="{Binding Lx, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
         </DataTemplate>
-        <DataTemplate x:Key="LY" >
-            <TextBlock Name="index" Text="{Binding LY, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
+        <DataTemplate x:Key="Ly" >
+            <TextBlock Name="index" Text="{Binding Ly, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
         </DataTemplate>
-        <DataTemplate x:Key="RX" >
-            <TextBlock Name="index" Text="{Binding RX, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
+        <DataTemplate x:Key="Rx" >
+            <TextBlock Name="index" Text="{Binding Rx, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
         </DataTemplate>
-        <DataTemplate x:Key="RY" >
-            <TextBlock Name="index" Text="{Binding RY, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
+        <DataTemplate x:Key="Ry" >
+            <TextBlock Name="index" Text="{Binding Ry, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
         </DataTemplate>
         <DataTemplate x:Key="Distance">
             <TextBlock Name="index" Text="{Binding Distance, Converter={StaticResource PixelPrecisionConverter}}" ></TextBlock>
         </DataTemplate>
 
-        <c:ArrayList x:Key="zoom">
+        <c:ArrayList x:Key="Zoom">
             <cx:String>25%</cx:String>
             <cx:String>50%</cx:String>
             <cx:String>75%</cx:String>
@@ -48,11 +48,11 @@
             <cx:String>自动适应</cx:String>
         </c:ArrayList>
 
-        <c:ArrayList x:Key="featureAlg">
+        <c:ArrayList x:Key="FeatureAlg">
             <cx:String>SURF</cx:String>
             <cx:String>Orb</cx:String>
         </c:ArrayList>
-        <cx:String x:Key="SURF">SURF</cx:String>
+        <cx:String x:Key="Surf">SURF</cx:String>
 
         <local:ExposureModeConverter x:Key="ExposureModeConverter"/>
         <local:PhotoFileNameConverter x:Key="PhotoFileNameConverter"/>
@@ -76,7 +76,7 @@
     <Grid Background="#eeeeee">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="50"></ColumnDefinition>
+            <ColumnDefinition Width="60"></ColumnDefinition>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -96,17 +96,23 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <DockPanel Grid.Column="0" Margin="4 4 5 4">
                 <WrapPanel DockPanel.Dock="Top">
-                    <Button x:Name="buttonFindFeatures" Width="32" Height="32" ToolTip="查找特征点" VerticalAlignment="Top" Click="buttonFindFeatures_Click">
+                    <Button x:Name="ButtonFindFeatures" Width="32" Height="32" ToolTip="查找特征点" VerticalAlignment="Top" Click="buttonFindFeatures_Click">
                         <Button.Content>
-                            <Image Source="/Resource/Images/ic_match.png" ></Image>
+                            <Image Source="/Resource/Images/ic_begin.png" ></Image>
                         </Button.Content>
                     </Button>
-                    <Button  x:Name="buttonPreview" Margin="8 0 0 0" Click="buttonPreview_Click" Width="32" Height="32" ToolTip="预览" VerticalAlignment="Top">
+                    <Button Margin="8 0 0 0" x:Name="ButtonRe" Width="32" Height="32" ToolTip="查找特征点" VerticalAlignment="Top" Click="buttonRe_Click" >
+                        <Button.Content>
+                            <Image Margin="2" Source="/Resource/Images/ic_re.png" ></Image>
+                        </Button.Content>
+                    </Button>
+                    <Button  x:Name="ButtonPreview" Margin="8 0 0 0" Click="buttonPreview_Click" Width="32" Height="32" ToolTip="预览" VerticalAlignment="Top">
                         <Button.Content>
                             <Image Source="/Resource/Images/ic_preview.png" ></Image>
                         </Button.Content>
@@ -120,10 +126,10 @@
             <DockPanel Grid.Column="1" Margin="4 4 5 4">
                 <WrapPanel DockPanel.Dock="Top">
                     <StackPanel>
-                        <ComboBox x:Name="algsComboBox" HorizontalAlignment="Stretch" ToolTip="特征点算法" Width="100" ItemsSource="{Binding Mode=OneWay, Source={StaticResource featureAlg}}" SelectedItem="{Binding Mode=OneWay, Source={StaticResource SURF}}" SelectionChanged="algsComboBox_SelectionChanged"/>
+                        <ComboBox x:Name="AlgsComboBox" HorizontalAlignment="Stretch" ToolTip="特征点算法" Width="100" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FeatureAlg}}" SelectedItem="{Binding Mode=OneWay, Source={StaticResource Surf}}" SelectionChanged="algsComboBox_SelectionChanged"/>
 
                         <StackPanel Orientation="Horizontal" Margin="0 10 0 0" >
-                            <TextBox x:Name="textBoxThreshold" Text="{Binding Mode=TwoWay,Converter={StaticResource DoubleToStringConverter},Source=  {StaticResource FeaturePointFinderThreshold},Path=.,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="40" ToolTip="阈值"/>
+                            <TextBox x:Name="TextBoxThreshold" Text="{Binding Mode=TwoWay,Converter={StaticResource DoubleToStringConverter},Source=  {StaticResource FeaturePointFinderThreshold},Path=.,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="40" ToolTip="阈值"/>
 
                             <TextBlock Text="阈值" VerticalAlignment="Center" Margin="4 0 0 0"></TextBlock>
 
@@ -137,7 +143,7 @@
             <DockPanel Grid.Column="2" Margin="4 4 5 4">
                 <WrapPanel DockPanel.Dock="Top">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox x:Name="checkBoxIsClosePoint"></CheckBox>
+                        <CheckBox x:Name="CheckBoxIsClosePoint"></CheckBox>
                         <TextBlock Margin="4 0 0 0" Text="隐藏其他特征点"></TextBlock>
                     </StackPanel>
                 </WrapPanel>
@@ -149,24 +155,24 @@
             <DockPanel Grid.Column="3" Margin="4 4 5 4">
                 <StackPanel DockPanel.Dock="Top">
                     <WrapPanel >
-                        <Button x:Name="buttonAdd" Width="32" Height="32" ToolTip="新增特征点" VerticalAlignment="Top" Click="buttonAdd_Click">
+                        <Button x:Name="ButtonAdd" Width="32" Height="32" ToolTip="新增特征点" VerticalAlignment="Top" Click="buttonAdd_Click">
                             <Button.Content>
                                 <Image Source="/Resource/Images/ic_add_blue.png"></Image>
                             </Button.Content>
                         </Button>
-                        <Button x:Name="buttonDelete" Margin="8 0 0 0"  Width="32" Height="32" ToolTip="删除当前特征点" VerticalAlignment="Top" Click="deleteButton_Click">
+                        <Button x:Name="ButtonDelete" Margin="8 0 0 0"  Width="32" Height="32" ToolTip="删除当前特征点" VerticalAlignment="Top" Click="deleteButton_Click">
                             <Button.Content>
                                 <Image Source="/Resource/Images/ic_delete_red.png" ></Image>
                             </Button.Content>
                         </Button>
-                        <Button x:Name="buttonDeleteAll" Margin="8 0 0 0"  Width="32" Height="32" ToolTip="删除全部特征点" VerticalAlignment="Top" Click="buttonDeleteAll_Click">
+                        <Button x:Name="ButtonDeleteAll" Margin="8 0 0 0"  Width="32" Height="32" ToolTip="删除全部特征点" VerticalAlignment="Top" Click="buttonDeleteAll_Click">
                             <Button.Content>
                                 <Image Source="/Resource/Images/ic_delete_all.png" ></Image>
                             </Button.Content>
                         </Button>
                     </WrapPanel>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0 8 0 0">
-                        <CheckBox Content="自动估算" IsChecked="True" Name="autoEstimateCheckBox"></CheckBox>
+                        <CheckBox Content="自动估算" IsChecked="True" Name="AutoEstimateCheckBox"></CheckBox>
                     </StackPanel>
                 </StackPanel>
                 <TextBlock Text="特征点操作" DockPanel.Dock="Bottom" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
@@ -177,7 +183,7 @@
             <DockPanel Grid.Column="4" Margin="4 4 5 4">
                 <StackPanel DockPanel.Dock="Top">
                     <WrapPanel >
-                        <Button Width="80" Height="24" Content="过滤特征点" ToolTip="unSuppoort" VerticalAlignment="Top">
+                        <Button x:Name="ButtonFilter" Width="80" Height="24" Content="过滤特征点" ToolTip="unSuppoort" VerticalAlignment="Top" Click="buttonFilter_Click">
 
                         </Button>
                     </WrapPanel>
@@ -187,16 +193,32 @@
 
             <GridSplitter Grid.Column="4" IsEnabled="False" Width="1" Margin="0 4 0 4" Background="#bdbdbd"></GridSplitter>
 
+            <DockPanel Grid.Column="5" Margin="4 4 5 4">
+                <StackPanel DockPanel.Dock="Top">
+                    <WrapPanel >
+                        <Button x:Name="ButtonStitch" Width="32" Height="32" ToolTip="缝合" VerticalAlignment="Top" Click="Button_Click" >
+                            <Button.Content>
+                                <Image Source="/Resource/Images/ic_merge.png"></Image>
+                            </Button.Content>
+                        </Button>
+                    </WrapPanel>
+                </StackPanel>
+                <TextBlock Text="缝合" DockPanel.Dock="Bottom" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
+            </DockPanel>
+
+            <GridSplitter Grid.Column="5" IsEnabled="False" Width="1" Margin="0 4 0 4" Background="#bdbdbd"></GridSplitter>
+
+
         </Grid>
 
        
         <DockPanel Grid.Column="0" Grid.Row="1">
 
-            <ComboBox DockPanel.Dock="Right" x:Name="comboBoxLImg" ItemsSource="{Binding Mode=OneWay, Source={StaticResource zoom}}" SelectedItem="自动适应" SelectionChanged="comboBoxLImg_SelectionChanged">
+            <ComboBox DockPanel.Dock="Right" x:Name="ComboBoxLImg" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Zoom}}" SelectedItem="自动适应" SelectionChanged="comboBoxLImg_SelectionChanged">
 
             </ComboBox>
             <ComboBox DockPanel.Dock="Left" Grid.Column="0" Grid.Row="1"
-                  x:Name="comboBoxL"  d:LayoutOverrides="Height" SelectedIndex="0"
+                  x:Name="ComboBoxL"  d:LayoutOverrides="Height" SelectedIndex="0"
                   ItemsSource="{Binding Mode=OneWay, Source={StaticResource Photos}}" SelectionChanged="comboBoxL_SelectionChanged">
 
             </ComboBox>
@@ -204,11 +226,11 @@
 
 
         <DockPanel Grid.Column="2" Grid.Row="1">
-            <ComboBox DockPanel.Dock="Right" x:Name="comboBoxRImg" ItemsSource="{Binding Mode=OneWay, Source={StaticResource zoom}}" SelectedItem="自动适应" SelectionChanged="comboBoxRImg_SelectionChanged">
+            <ComboBox DockPanel.Dock="Right" x:Name="ComboBoxRImg" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Zoom}}" SelectedItem="自动适应" SelectionChanged="comboBoxRImg_SelectionChanged">
 
             </ComboBox>
             <ComboBox DockPanel.Dock="Left"
-                  x:Name="comboBoxR" d:LayoutOverrides="Height" SelectedIndex="1"
+                  x:Name="ComboBoxR" d:LayoutOverrides="Height" SelectedIndex="1"
                  ItemsSource="{Binding Mode=OneWay, Source={StaticResource Photos}}" SelectionChanged="comboBoxR_SelectionChanged"
                   />
 
@@ -217,24 +239,24 @@
 
 
         <DockPanel  Grid.Column="0" Grid.Row="2" >
-            <ScrollViewer x:Name="scrollViewerL" DockPanel.Dock="Top"
+            <ScrollViewer x:Name="ScrollViewerL" DockPanel.Dock="Top"
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                        VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" Background="#BDBDBD" CanContentScroll="False">
-                <weight:MyImage Cursor="Cross" x:Name="imgL" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonDown="imgL_MouseLeftButtonDown"></weight:MyImage>
+                <weight:MyImage Cursor="Cross" x:Name="ImgL" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonDown="imgL_MouseLeftButtonDown"></weight:MyImage>
             </ScrollViewer>
 
         </DockPanel>
 
         <DockPanel Grid.Column="1" Grid.Row="2" Background="#eeeeee">
 
-            <weight:ImageWithCenterCross DockPanel.Dock="Top" x:Name="imgLD" HorizontalAlignment="Left" Width="50" Height="50"></weight:ImageWithCenterCross>
-            <weight:ImageWithCenterCross DockPanel.Dock="Bottom" x:Name="imgRD" HorizontalAlignment="Right" Width="50" Height="50"></weight:ImageWithCenterCross>
+            <weight:ImageWithCenterCross DockPanel.Dock="Top" x:Name="ImgLd" HorizontalAlignment="Left" Width="60" Height="60"></weight:ImageWithCenterCross>
+            <weight:ImageWithCenterCross DockPanel.Dock="Bottom" x:Name="ImgRd" HorizontalAlignment="Right" Width="60" Height="60"></weight:ImageWithCenterCross>
         </DockPanel>
 
-        <ScrollViewer x:Name="scrollViewerR" Grid.Column="2" Grid.Row="2" 
+        <ScrollViewer x:Name="ScrollViewerR" Grid.Column="2" Grid.Row="2" 
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                       VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" Background="#BDBDBD">
-            <weight:MyImage Cursor="Cross" x:Name="imgR" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonDown="imgR_MouseLeftButtonDown"></weight:MyImage>
+            <weight:MyImage Cursor="Cross" x:Name="ImgR" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonDown="imgR_MouseLeftButtonDown"></weight:MyImage>
         </ScrollViewer>
 
         <Grid Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3">
@@ -252,14 +274,14 @@
 
             <GroupBox Grid.Column="1" Grid.Row="2">
               
-                    <ListView x:Name="listViewPoints" ItemsSource="{Binding featurePointCollection}" SelectedIndex="0" SelectionChanged="listViewPoints_SelectionChanged" >
+                    <ListView x:Name="ListViewPoints" ItemsSource="{Binding featurePointCollection}" SelectedIndex="0" SelectionChanged="listViewPoints_SelectionChanged" KeyDown="listViewPoints_KeyDown" >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="#" Width="50" CellTemplate="{StaticResource Index}"/>
-                                <GridViewColumn Header="左x" Width="70" CellTemplate="{StaticResource LX}"/>
-                                <GridViewColumn Header="左y" Width="70" CellTemplate="{StaticResource LY}"/>
-                                <GridViewColumn Header="右x" Width="70" CellTemplate="{StaticResource RX}"/>
-                                <GridViewColumn Header="右y" Width="70" CellTemplate="{StaticResource RY}"/>
+                                <GridViewColumn Header="左x" Width="70" CellTemplate="{StaticResource Lx}"/>
+                                <GridViewColumn Header="左y" Width="70" CellTemplate="{StaticResource Ly}"/>
+                                <GridViewColumn Header="右x" Width="70" CellTemplate="{StaticResource Rx}"/>
+                                <GridViewColumn Header="右y" Width="70" CellTemplate="{StaticResource Ry}"/>
                                 <GridViewColumn Header="距离" Width="70" CellTemplate="{StaticResource Distance}"/>
                             </GridView>
                         </ListView.View>
@@ -267,14 +289,6 @@
                 
             </GroupBox>
 
-            <Grid Grid.Column="2" Grid.Row="2">
-                <StackPanel Orientation="Vertical">
-
-                    <StackPanel Margin="0 10 0 0">
-                        <Button Width="80" Height="40" x:Name="buttonNext" Click="buttonNext_Click">下一步</Button>
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
         </Grid>
 
     </Grid>

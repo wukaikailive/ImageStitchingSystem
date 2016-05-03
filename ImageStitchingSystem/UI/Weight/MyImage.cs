@@ -15,11 +15,12 @@ namespace ImageStitchingSystem.UI.Weight
     {
 
         #region 自定义属性
-        List<Point> _points;
 
-        Point _addPoint;
+        private List<Point> _points;
 
-        int _selectedIndex = -1;
+        private Point _addPoint;
+
+        private int _selectedIndex = -1;
 
         public int SelectedIndex
         {
@@ -127,21 +128,21 @@ namespace ImageStitchingSystem.UI.Weight
                     }
                     else
                     {
-                        brush = UIHelper.GetBrush(i);
+                        brush = UiHelper.GetBrush(i);
                     }
-                    text = UIHelper.GetEnTextObject(i + "", 13, brush);
+                    text = UiHelper.GetEnTextObject(i + "", 13, brush);
 
                     Point p = new Point(v.X * zoom, v.Y * zoom);
                     dc.DrawText(text, p);
-                    UIHelper.DrawCross(dc, p, 15, Brushes.White);
+                    UiHelper.DrawCross(dc, p, 15, Brushes.White);
                 }
 
                 if (_addPoint != null && _addPoint.X>0 && _addPoint.Y>0)
                 {
                     Point p = new Point(_addPoint.X * zoom, _addPoint.Y * zoom);
-                    text = UIHelper.GetCnTextObject("新建", 13, Brushes.Red);
+                    text = UiHelper.GetCnTextObject("新建", 13, Brushes.Red);
                     dc.DrawText(text, p);
-                    UIHelper.DrawCross(dc, p, 15, Brushes.White);
+                    UiHelper.DrawCross(dc, p, 15, Brushes.White);
                 }
             }
 
