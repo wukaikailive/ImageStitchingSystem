@@ -470,10 +470,8 @@ namespace ImageStitchingSystem.UI
             System.Drawing.PointF[] pointsr = PointColletion.Select(o => new System.Drawing.PointF((float)o.Rx, (float)o.Ry)).ToArray();
 
 
-            Matrix<double> H = new Matrix<double>(3, 3);
-            //Mat H = new Mat(3, 3, DepthType.Cv32F, 1);
-            Mat mask = new Mat();
-            CvInvoke.FindHomography(pointsl, pointsr, H, HomographyMethod.Ransac);
+            Matrix<double> h = new Matrix<double>(3, 3);
+            CvInvoke.FindHomography(pointsl, pointsr, h, HomographyMethod.Ransac);
 
 
             Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
@@ -499,31 +497,26 @@ namespace ImageStitchingSystem.UI
             //Mat result = new Mat(r.Size,DepthType.Cv32F, 3);
             double[,] data = { { 1.0, 0, l.Cols }, { 0, 1.0, 0 }, { 0, 0, 1.0 } };
             Matrix<double> sh = new Matrix<double>(data);
+            MessageBox.Show(CvUtils.MatrixToString((h)));
 
             try
             {
                 //CvInvoke.PerspectiveTransform(l.Mat, r.Mat, H);
-                //CvInvoke.ProjectPoints()
+                //CvInvoke.ProjectPoints0()
 
                 //result=l.WarpPerspective(sh*H,size.Width,size.Height, Inter.Linear, Warp.InverseMap, BorderType.Default, new Bgr());
-                CvInvoke.WarpPerspective(l, result, H, size);
+                CvInvoke.WarpPerspective(l, result, h, size);
                 //result.ROI = new System.Drawing.Rectangle(l.Cols, 0, r.Cols, r.Rows);
                 //r.CopyTo(result);
                 //result.ROI = Rectangle.Empty;
-
+                
             }
             catch (Exception ex)
             {
                 // ignored
             }
 
-            //CvInvoke.Line(r,new System.Drawing.Point((int)sceneCorners[0,0]+l.Cols,(int)sceneCorners[0,1]), new System.Drawing.Point((int)sceneCorners[1, 0] + l.Cols, (int)sceneCorners[1, 1]),new MCvScalar(0,255,0),4);
-            //CvInvoke.Line(r, new System.Drawing.Point((int)sceneCorners[1, 0] + l.Cols, (int)sceneCorners[1, 1]), new System.Drawing.Point((int)sceneCorners[2, 0] + l.Cols, (int)sceneCorners[2, 1]), new MCvScalar(0, 255, 0), 4);
-            //CvInvoke.Line(r, new System.Drawing.Point((int)sceneCorners[2, 0] + l.Cols, (int)sceneCorners[2, 1]), new System.Drawing.Point((int)sceneCorners[3, 0] + l.Cols, (int)sceneCorners[3, 1]), new MCvScalar(0, 255, 0), 4);
-            //CvInvoke.Line(r, new System.Drawing.Point((int)sceneCorners[3, 0] + l.Cols, (int)sceneCorners[3, 1]), new System.Drawing.Point((int)sceneCorners[0, 0] + l.Cols, (int)sceneCorners[0, 1]), new MCvScalar(0, 255, 0), 4);
-
-            //PhotoEditWindow window = new PhotoEditWindow {Bitmap = result.Bitmap};
-            //window.Show();
+            
             
             Image<Bgr, byte> last = new Image<Bgr, byte>(size);
             try
@@ -532,36 +525,17 @@ namespace ImageStitchingSystem.UI
             }
             catch (Exception ex)
             {
-
+                // ignored
             }
             last.ROI = new Rectangle(0, 0, r.Cols, r.Rows);
             r.CopyTo(last);
             last.ROI = Rectangle.Empty;
             
-            //last += result;
-            //last += r.Resize(size.Width, size.Height, Inter.Linear);
             ImageBox box = new ImageBox { Image = result.Bitmap };
             box.Show();
             ImageBox box3 = new ImageBox { Image = last.Bitmap };
             box3.Show();
-            //Mat result = new Mat();
-            //Mat result1 = new Mat();
-            //try
-            //{
-            //    CvInvoke.WarpPerspective(l, result, H, new System.Drawing.Size(l.Width * 2, l.Height * 2));
-            //    CvInvoke.WarpPerspective(r, result1, H, new System.Drawing.Size(r.Width * 2, r.Height * 2));
-            //}
-            //catch (Exception ex)
-            //{
-            //    // ignored
-            //}
-            ////result.Save("l.jpg");
-            ////result1.Save("r.jpg");
-            //long time;
-            //Mat rrr = CvUtils.Draw(l.Mat, r.Mat, out time);
-
-            //ImageBox box = new ImageBox { Image = rrr.Bitmap };
-            //box.Show();
+            
 
         }
 
@@ -630,5 +604,10 @@ namespace ImageStitchingSystem.UI
             //Console.WriteLine(@"内点数为：" + inlinerCount);
         }
 
+        private void ButtonAccommodate_OnClick(object sender, RoutedEventArgs e)
+        {
+            _zoomStringR = _zoomStringL = "自动适应";
+            BindPoints();
+        }
     }
 }

@@ -211,6 +211,7 @@
     <Resource Include="Resource\Images\ic_save_green.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resource\Images\ic_accommodate.png" />
     <Resource Include="Resource\Images\ic_re.png" />
     <Resource Include="Resource\Images\ic_begin.png" />
     <Resource Include="Resource\Images\ic_merge.png" />

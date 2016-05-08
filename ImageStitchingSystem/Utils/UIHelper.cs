@@ -187,10 +187,10 @@ namespace ImageStitchingSystem.Utils
 
         public static void DrawCross(DrawingContext dc, Point p, int l,Brush brush)
         {
-            Point top = new Point(p.X, p.Y - l / 2);
-            Point bottom = new Point(p.X, p.Y + l / 2);
-            Point left = new Point(p.X - l / 2, p.Y);
-            Point right = new Point(p.X + l / 2, p.Y);
+            Point top = new Point(p.X, p.Y - (l >> 1));
+            Point bottom = new Point(p.X, p.Y + (l >> 1));
+            Point left = new Point(p.X - (l >> 1), p.Y);
+            Point right = new Point(p.X + (l >> 1), p.Y);
             var pen = new Pen(brush, 1);
 
             dc.DrawLine(pen, top, bottom);

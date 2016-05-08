@@ -9,7 +9,7 @@
              xmlns:model="clr-namespace:ImageStitchingSystem.Models"
              xmlns:weight="clr-namespace:ImageStitchingSystem.UI.Weight"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="600">
+             d:DesignHeight="500" d:DesignWidth="800">
 
     <UserControl.Resources>
 
@@ -46,6 +46,13 @@
             <cx:String>175%</cx:String>
             <cx:String>200%</cx:String>
             <cx:String>自动适应</cx:String>
+        </c:ArrayList>
+
+        <c:ArrayList x:Key="SticheOrientation">
+            <cx:String>左->右</cx:String>
+            <cx:String>右->左</cx:String>
+            <cx:String>上->下</cx:String>
+            <cx:String>下->上</cx:String>
         </c:ArrayList>
 
         <c:ArrayList x:Key="FeatureAlg">
@@ -107,7 +114,7 @@
                             <Image Source="/Resource/Images/ic_begin.png" ></Image>
                         </Button.Content>
                     </Button>
-                    <Button Margin="8 0 0 0" x:Name="ButtonRe" Width="32" Height="32" ToolTip="查找特征点" VerticalAlignment="Top" Click="buttonRe_Click" >
+                    <Button Margin="8 0 0 0" x:Name="ButtonRe" Width="32" Height="32" ToolTip="重新查找特征点" VerticalAlignment="Top" Click="buttonRe_Click" >
                         <Button.Content>
                             <Image Margin="2" Source="/Resource/Images/ic_re.png" ></Image>
                         </Button.Content>
@@ -117,16 +124,23 @@
                             <Image Source="/Resource/Images/ic_preview.png" ></Image>
                         </Button.Content>
                     </Button>
-
                 </WrapPanel>
-                <TextBlock Text="操作" DockPanel.Dock="Bottom" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
+                <WrapPanel DockPanel.Dock="Top">
+
+                    <Button Margin="0 4 0 0" Click="ButtonAccommodate_OnClick" x:Name="ButtonAccommodate" Width="32" Height="32" ToolTip="适应画布" VerticalAlignment="Top">
+                        <Button.Content>
+                            <Image Margin="2" Source="/Resource/Images/ic_accommodate.png" ></Image>
+                        </Button.Content>
+                    </Button>
+                </WrapPanel>
+                <TextBlock Text="操作" DockPanel.Dock="Bottom" Margin="0 8 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
             </DockPanel>
 
             <GridSplitter IsEnabled="False" Width="1" Margin="0 4 0 4" Background="#bdbdbd"></GridSplitter>
             <DockPanel Grid.Column="1" Margin="4 4 5 4">
                 <WrapPanel DockPanel.Dock="Top">
                     <StackPanel>
-                        <ComboBox x:Name="AlgsComboBox" HorizontalAlignment="Stretch" ToolTip="特征点算法" Width="100" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FeatureAlg}}" SelectedItem="{Binding Mode=OneWay, Source={StaticResource Surf}}" SelectionChanged="algsComboBox_SelectionChanged"/>
+                        <ComboBox x:Name="AlgsComboBox" HorizontalAlignment="Stretch" ToolTip="特征点算法" Width="100" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FeatureAlg}}" SelectedIndex="0" SelectionChanged="algsComboBox_SelectionChanged"/>
 
                         <StackPanel Orientation="Horizontal" Margin="0 10 0 0" >
                             <TextBox x:Name="TextBoxThreshold" Text="{Binding Mode=TwoWay,Converter={StaticResource DoubleToStringConverter},Source=  {StaticResource FeaturePointFinderThreshold},Path=.,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="40" ToolTip="阈值"/>
@@ -202,6 +216,11 @@
                             </Button.Content>
                         </Button>
                     </WrapPanel>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0 8 0 0">
+                        <ComboBox ItemsSource="{StaticResource SticheOrientation}" SelectedIndex="0">
+                           
+                        </ComboBox>
+                    </StackPanel>
                 </StackPanel>
                 <TextBlock Text="缝合" DockPanel.Dock="Bottom" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
             </DockPanel>
