@@ -354,14 +354,14 @@ namespace ImageStitchingSystem.Utils
             return result;
         }
 
-        public static void CopyTo(Image<Bgr, byte> img1, Image<Bgr, byte> img2, Func<Bgr, bool> pre)
+        public static void CopyTo(Image<Bgr, byte> img1, Image<Bgr, byte> img2, Func<Bgr, bool> predicate)
         {
             for (int i = 0; i < img1.Rows; i++)
             {
                 for (int j = 0; j < img1.Cols; j++)
                 {
                     Bgr a = img1[i, j];
-                    if (pre.Invoke(a))
+                    if (predicate.Invoke(a))
                     {
                         img2[i, j] = a;
                     }

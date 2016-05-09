@@ -217,7 +217,7 @@
                         </Button>
                     </WrapPanel>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0 8 0 0">
-                        <ComboBox ItemsSource="{StaticResource SticheOrientation}" SelectedIndex="0">
+                        <ComboBox x:Name="ComboBoxOrientation" ItemsSource="{StaticResource SticheOrientation}" SelectedIndex="0">
                            
                         </ComboBox>
                     </StackPanel>

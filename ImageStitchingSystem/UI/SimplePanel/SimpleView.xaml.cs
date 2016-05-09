@@ -471,71 +471,71 @@ namespace ImageStitchingSystem.UI
 
 
             Matrix<double> h = new Matrix<double>(3, 3);
+            //求单应矩阵
             CvInvoke.FindHomography(pointsl, pointsr, h, HomographyMethod.Ransac);
 
 
             Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
             Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
 
-            //Matrix<float> objCorners = new Matrix<float>(4, 2)
-            //{
-            //    [0, 0] = 0,
-            //    [0, 1] = 0,
-            //    [1, 0] = l.Cols,
-            //    [1, 1] = 0,
-            //    [2, 0] = l.Cols,
-            //    [2, 1] = l.Rows,
-            //    [3, 0] = 0,
-            //    [3, 1] = l.Rows
-            //};
-            //Matrix<float> sceneCorners=new Matrix<float>(4,2);
-            int rows = Math.Max(l.Rows, r.Rows);
-
-            System.Drawing.Size size = new System.Drawing.Size(l.Cols + r.Cols, rows);
-
-            Image<Bgr, byte> result = new Image<Bgr, byte>(size);
-            //Mat result = new Mat(r.Size,DepthType.Cv32F, 3);
-            double[,] data = { { 1.0, 0, l.Cols }, { 0, 1.0, 0 }, { 0, 0, 1.0 } };
-            Matrix<double> sh = new Matrix<double>(data);
-            MessageBox.Show(CvUtils.MatrixToString((h)));
-
-            try
+            int rows = 0;
+            int cols = 0;
+            int initX = 0;
+            int initY = 0;
+            //变换矩阵
+            double[,] tData = { { 1.0, 0, 0 }, { 0, 1.0, 0 }, { 0, 0, 1.0 } };
+            switch (ComboBoxOrientation.SelectedItem as string)
             {
-                //CvInvoke.PerspectiveTransform(l.Mat, r.Mat, H);
-                //CvInvoke.ProjectPoints0()
+                case "左->右":
+                    rows = Math.Max(l.Rows, r.Rows);
+                    cols = l.Cols + r.Cols;
+                    tData[0, 2] = l.Cols;
+                    initX = l.Cols;
+                    break;
+                case "右->左":
+                    rows = Math.Max(l.Rows, r.Rows);
+                    cols = l.Cols + r.Cols;
+                    break;
+                case "上->下":
+                    rows = l.Rows + r.Rows;
+                    cols = Math.Max(l.Cols, r.Cols);
+                    tData[1, 2] = l.Rows;
+                    initY = l.Rows;
+                    break;
+                case "下->上":
+                    rows = l.Rows + r.Rows;
+                    cols = Math.Max(l.Cols, r.Cols);
 
-                //result=l.WarpPerspective(sh*H,size.Width,size.Height, Inter.Linear, Warp.InverseMap, BorderType.Default, new Bgr());
-                CvInvoke.WarpPerspective(l, result, h, size);
-                //result.ROI = new System.Drawing.Rectangle(l.Cols, 0, r.Cols, r.Rows);
-                //r.CopyTo(result);
-                //result.ROI = Rectangle.Empty;
-                
-            }
-            catch (Exception ex)
-            {
-                // ignored
+                    break;
             }
 
-            
-            
+
+            System.Drawing.Size size = new System.Drawing.Size(cols, rows);
+
+            Image<Bgr, byte> resultL = new Image<Bgr, byte>(size);
+
+            Matrix<double> sh = new Matrix<double>(tData);
+            MessageBox.Show(CvUtils.MatrixToString(sh * h));
             Image<Bgr, byte> last = new Image<Bgr, byte>(size);
+
             try
             {
-                CvUtils.CopyTo(result,last,a=> a.Blue != 0D && a.Green != 0D && a.Red != 0D);
+                CvInvoke.WarpPerspective(l, resultL, sh * h, size);
+                CvUtils.CopyTo(resultL, last, a => Math.Abs(a.Blue) > 0 && Math.Abs(a.Green) > 0 && Math.Abs(a.Red) > 0);
             }
             catch (Exception ex)
             {
                 // ignored
             }
-            last.ROI = new Rectangle(0, 0, r.Cols, r.Rows);
+            last.ROI = new Rectangle(initX, initY, r.Cols, r.Rows);
             r.CopyTo(last);
             last.ROI = Rectangle.Empty;
-            
-            ImageBox box = new ImageBox { Image = result.Bitmap };
+
+            ImageBox box = new ImageBox { Image = resultL.Bitmap };
             box.Show();
             ImageBox box3 = new ImageBox { Image = last.Bitmap };
             box3.Show();
-            
+
 
         }
 

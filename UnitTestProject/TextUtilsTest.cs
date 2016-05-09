@@ -7,12 +7,6 @@ namespace UnitTestProject
     public class TextUtilsTest
     {
         [TestMethod]
-        public void TestMethod1()
-        {
-
-        }
-
-        [TestMethod]
         public void TestGetFileName()
         {
             string test1 = "123\\123.txt";
