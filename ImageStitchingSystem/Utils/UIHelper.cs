@@ -109,7 +109,7 @@ namespace ImageStitchingSystem.Utils
 
         }
 
-        public static void SetSmallImg(Image imgSmall, Image<Bgr, byte> img, System.Drawing.Point center, double width, int mult = 2)
+        public static void SetSmallImg(Image imgSmall, Image<Bgr, byte> img, System.Drawing.Point center, double width, int mult = 2,double add=0)
         {
             int r = (int)Math.Round(width) / mult;
             Image<Bgr, byte> ld = new Image<Bgr, byte>(r, r);
@@ -138,13 +138,25 @@ namespace ImageStitchingSystem.Utils
             img.ROI = new System.Drawing.Rectangle(left, size);
             img.CopyTo(ld);
             img.ROI = System.Drawing.Rectangle.Empty;
-
+            //Image<Hsv, byte> lld = new Image<Hsv, byte>(ld.Bitmap);
+            //for (int i = 0; i < lld.Rows; i++)
+            //{
+            //    for (int j = 0; j < lld.Cols; j++)
+            //    {
+            //        Hsv hsv = lld[i, j];
+            //        hsv.Value += add;
+            //        if (hsv.Value < 0) hsv.Value = 0;
+            //        else if (hsv.Value > 255) hsv.Value = 255;
+            //        lld[i, j] = hsv;
+            //    }
+            //}
+            //ld=new Image<Bgr, byte>(lld.Bitmap);
             ld = CvUtils.DrawCenterCross(ld);
-
+            
             imgSmall.Source = BitmapUtils.ChangeBitmapToImageSource(ld.Bitmap);
         }
 
-        public static void SetSmallImg(Image imgSmall, Image<Bgr, byte> img, System.Windows.Point center, double width, int mult = 2)
+        public static void SetSmallImg(Image imgSmall, Image<Bgr, byte> img, System.Windows.Point center, double width, int mult = 2,double add=0)
         {
             int r = (int)Math.Round(width) / mult;
             Image<Bgr, byte> ld = new Image<Bgr, byte>(r, r);
@@ -174,7 +186,21 @@ namespace ImageStitchingSystem.Utils
             img.CopyTo(ld);
             img.ROI = System.Drawing.Rectangle.Empty;
 
+            //Image<Hsv, byte> lld = new Image<Hsv, byte>(ld.Bitmap);
+            //for (int i = 0; i < lld.Rows; i++)
+            //{
+            //    for (int j = 0; j < lld.Cols; j++)
+            //    {
+            //        Hsv hsv = lld[i, j];
+            //        hsv.Value += add;
+            //        if (hsv.Value < 0) hsv.Value = 0;
+            //        else if (hsv.Value > 255) hsv.Value = 255;
+            //        lld[i, j] = hsv;
+            //    }
+            //}
+            //ld = new Image<Bgr, byte>(lld.Bitmap);
             ld = CvUtils.DrawCenterCross(ld);
+
 
             imgSmall.Source = BitmapUtils.ChangeBitmapToImageSource(ld.Bitmap);
         }

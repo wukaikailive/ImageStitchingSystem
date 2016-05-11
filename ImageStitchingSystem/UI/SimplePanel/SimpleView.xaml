@@ -107,7 +107,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <DockPanel Grid.Column="0" Margin="4 4 5 4">
+            <DockPanel Grid.Column="0" Margin="4 4 5 4" x:Name="DockPanelOp">
                 <WrapPanel DockPanel.Dock="Top">
                     <Button x:Name="ButtonFindFeatures" Width="32" Height="32" ToolTip="查找特征点" VerticalAlignment="Top" Click="buttonFindFeatures_Click">
                         <Button.Content>
@@ -152,7 +152,7 @@
                 </WrapPanel>
                 <TextBlock Text="属性" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
             </DockPanel>
-
+            
             <GridSplitter Grid.Column="1" IsEnabled="False" Width="1" Margin="0 4 0 4" Background="#bdbdbd"></GridSplitter>
             <DockPanel Grid.Column="2" Margin="4 4 5 4">
                 <WrapPanel DockPanel.Dock="Top">

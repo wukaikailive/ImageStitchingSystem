@@ -27,6 +27,8 @@ using System.Globalization;
 using System.IO;
 using ZedGraph;
 using Emgu.CV.CvEnum;
+using MMath=ImageStitchingSystem.Utils.MMath;
+
 using ImageStitchingSystem.UI.Weight;
 using Image = System.Windows.Controls.Image;
 using Point = System.Windows.Point;
@@ -62,8 +64,18 @@ namespace ImageStitchingSystem.UI
         {
             InitializeComponent();
             PointColletion = (FeaturePointCollection)(Application.Current.Resources["FeaturePointCollection"] as ObjectDataProvider).Data;
+            InitializeCommand();
         }
 
+        //private RoutedCommand _findFeaturePointCommand = new RoutedCommand("findFeaturePoint",typeof(SimpleView));
+
+        //初始化命令事件
+        private void InitializeCommand()
+        {
+            //this.ButtonFindFeatures.Command = this._findFeaturePointCommand;
+            //this._findFeaturePointCommand.InputGestures.Add(new KeyGesture(Key.F5));
+            //this.ButtonFindFeatures.CommandTarget
+        }
 
 
         /// <summary>
@@ -107,7 +119,7 @@ namespace ImageStitchingSystem.UI
 
             if (_leftPoint.X > 0 && _leftPoint.Y > 0)
             {
-                UiHelper.SetSmallImg(ImgLd, l, _leftPoint, ImgLd.Width);
+                UiHelper.SetSmallImg(ImgLd, l, _leftPoint, ImgLd.Width, 2, 50);
                 // CVUtils.DrawPointAndCursor(l, leftPoint, "new", new MCvScalar(0, 0, 255));
                 ImgL.AddPoint = new Point(_leftPoint.X, _leftPoint.Y);
             }
@@ -116,7 +128,7 @@ namespace ImageStitchingSystem.UI
                 if (_selectedPoint != null && index != -1)
                 {
                     System.Drawing.Point pl = new System.Drawing.Point((int)point.Lx, (int)point.Ly);
-                    UiHelper.SetSmallImg(ImgLd, l, pl, ImgLd.Width);
+                    UiHelper.SetSmallImg(ImgLd, l, pl, ImgLd.Width, 2, 50);
                     ComboBoxLImg.SelectedItem = _zoomStringL;
                     UiHelper.MoveToPoint(ScrollViewerL, pl);
                 }
@@ -126,7 +138,7 @@ namespace ImageStitchingSystem.UI
 
             if (_rightPoint.X > 0 && _rightPoint.Y > 0)
             {
-                UiHelper.SetSmallImg(ImgRd, r, _rightPoint, ImgRd.Width);
+                UiHelper.SetSmallImg(ImgRd, r, _rightPoint, ImgRd.Width, 2, 50);
                 //CVUtils.DrawPointAndCursor(r, rightPoint, "new", new MCvScalar(0, 0, 255));
                 ImgR.AddPoint = new Point(_rightPoint.X, _rightPoint.Y);
             }
@@ -135,7 +147,7 @@ namespace ImageStitchingSystem.UI
                 if (_selectedPoint != null && index != -1)
                 {
                     System.Drawing.Point pr = new System.Drawing.Point((int)point.Rx, (int)point.Ry);
-                    UiHelper.SetSmallImg(ImgRd, r, pr, ImgRd.Width);
+                    UiHelper.SetSmallImg(ImgRd, r, pr, ImgRd.Width, 2, 50);
                     ComboBoxRImg.SelectedItem = _zoomStringR;
                     UiHelper.MoveToPoint(ScrollViewerR, pr);
                 }
@@ -461,7 +473,6 @@ namespace ImageStitchingSystem.UI
             // base.OnKeyUp(e);
         }
 
-
         #endregion
         //缝合
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -482,6 +493,8 @@ namespace ImageStitchingSystem.UI
             int cols = 0;
             int initX = 0;
             int initY = 0;
+            int initSpanX = 1;
+            int initSpanY = 1;
             //变换矩阵
             double[,] tData = { { 1.0, 0, 0 }, { 0, 1.0, 0 }, { 0, 0, 1.0 } };
             switch (ComboBoxOrientation.SelectedItem as string)
@@ -491,20 +504,27 @@ namespace ImageStitchingSystem.UI
                     cols = l.Cols + r.Cols;
                     tData[0, 2] = l.Cols;
                     initX = l.Cols;
+                    initSpanX = l.Width/20;
+
                     break;
                 case "右->左":
                     rows = Math.Max(l.Rows, r.Rows);
                     cols = l.Cols + r.Cols;
+                    initSpanX = l.Width / 20;
+
                     break;
                 case "上->下":
                     rows = l.Rows + r.Rows;
                     cols = Math.Max(l.Cols, r.Cols);
                     tData[1, 2] = l.Rows;
                     initY = l.Rows;
+                    initSpanY = l.Rows/20;
+                    
                     break;
                 case "下->上":
                     rows = l.Rows + r.Rows;
                     cols = Math.Max(l.Cols, r.Cols);
+                    initSpanY = l.Rows/20;
 
                     break;
             }
@@ -515,7 +535,7 @@ namespace ImageStitchingSystem.UI
             Image<Bgr, byte> resultL = new Image<Bgr, byte>(size);
 
             Matrix<double> sh = new Matrix<double>(tData);
-            MessageBox.Show(CvUtils.MatrixToString(sh * h));
+            //MessageBox.Show(CvUtils.MatrixToString(sh * h));
             Image<Bgr, byte> last = new Image<Bgr, byte>(size);
 
             try
@@ -527,15 +547,154 @@ namespace ImageStitchingSystem.UI
             {
                 // ignored
             }
+
             last.ROI = new Rectangle(initX, initY, r.Cols, r.Rows);
             r.CopyTo(last);
             last.ROI = Rectangle.Empty;
 
+            ////寻找缝合线
+            double[] Cimg1 = new double[20];
+            double[] Cimg2 = new double[20];
+
+            Image<Gray, byte> ll = new Image<Gray, byte>(l.Bitmap).ThresholdBinary(new Gray(100),new Gray(255));
+            CvInvoke.MedianBlur(ll,ll,3);
+            Image<Gray, byte> rr = new Image<Gray, byte>(r.Bitmap).ThresholdBinary(new Gray(100), new Gray(255));
+            CvInvoke.MedianBlur(rr, rr, 3);
+
+
+            for (int i = 0; i <= l.Width- initSpanX; i+=initSpanX)
+            {
+                int blackCount = 0;
+
+                for (int j = 0; j < l.Height; j+=initSpanY)
+                {
+                    if (ll[j, i].Intensity == 255)
+                    {
+                        blackCount++;
+                    }
+                }
+                Cimg1[i / initSpanX] = blackCount;
+
+            }
+            for (int i = 0; i <= r.Width - initSpanX; i += initSpanX)
+            {
+                int blackCount = 0;
+
+                for (int j = 0; j <r.Height; j += initSpanY)
+                {
+                    if (rr[j, i].Intensity == 255)
+                    {
+                        blackCount++;
+                    }
+                }
+                Cimg2[i / initSpanX] = blackCount;
+
+            }
+            int minIndex = 0;
+            double min = double.MaxValue;
+
+            for (int i = 0; i < 10;i++)
+            {
+                double[] c1ten = Cimg1.Skip(i).Take(10).ToArray();
+                Console.WriteLine("c1ten:" + string.Join(",",c1ten));
+                double[] c2ten=new double[10];
+                for (int j = 0; j < 10; j++)
+                {
+                    c2ten = Cimg2.Skip(j).Take(10).ToArray();
+                    Console.WriteLine("c2ten:"+ string.Join(",", c2ten));
+                    double[] cten=c1ten.Zip(c2ten, (a, b) => Math.Abs(a - b)).ToArray();
+                    Console.WriteLine("c ten:" + string.Join(",", cten));
+                    double va = MMath.Variance(cten);
+                    Console.WriteLine("va   :" + va);
+                    if (va < min)
+                    {
+                        min = va;
+                        minIndex = j;
+                    }
+                    Console.WriteLine("now j :" + minIndex);
+                }
+               
+            }
+            int aa = 1;
+            Image<Bgr, byte> lll = l.Copy(new Rectangle(0, 0,r.Width-minIndex*initSpanX, l.Height));
+            Image<Bgr, byte> rrr = r.Copy(new Rectangle(minIndex*initSpanX, 0,r.Width - minIndex * initSpanX, r.Height));
+
+            //List<System.Drawing.Point> vSrcPtsl = new List<System.Drawing.Point>();
+            //List<System.Drawing.Point> vSrcPtsr = new List<System.Drawing.Point>();
+            //vSrcPtsl.Add(new System.Drawing.Point(0, 0));
+            //vSrcPtsl.Add(new System.Drawing.Point(0, l.Rows));
+            //vSrcPtsl.Add(new System.Drawing.Point(l.Cols, l.Rows));
+            //vSrcPtsl.Add(new System.Drawing.Point(l.Cols, 0));
+
+            //vSrcPtsr.Add(new System.Drawing.Point(0, 0));
+            //vSrcPtsr.Add(new System.Drawing.Point(0, r.Rows));
+            //vSrcPtsr.Add(new System.Drawing.Point(r.Cols, r.Rows));
+            //vSrcPtsr.Add(new System.Drawing.Point(r.Cols, 0));
+
+            ////计算图像2在图像1中对应坐标信息
+            //List<System.Drawing.Point> vWarpPtsr = new List<System.Drawing.Point>();
+            //for (int i = 0; i < vSrcPtsr.Count; i++)
+            //{
+            //    Matrix<double> srcMat = new Matrix<double>(3, 1);
+            //    srcMat[0, 0] = vSrcPtsr[i].X;
+            //    srcMat[1, 0] = vSrcPtsr[i].Y;
+            //    srcMat[2, 0] = 1.0;
+
+            //    Matrix<double> warpMat = h * srcMat;
+            //    System.Drawing.Point warpPt = new System.Drawing.Point
+            //    {
+            //        X = (int)Math.Round(warpMat[0, 0] / warpMat[2, 0]),
+            //        Y = (int)Math.Round(warpMat[1, 0] / warpMat[2, 0]),
+            //    };
+
+            //    vWarpPtsr.Add(warpPt);
+            //}
+
+            //var vPtsImg1 = pointsl.Select(System.Drawing.Point.Round).ToList();
+            //var vPtsImg2 = pointsr.Select(System.Drawing.Point.Round).ToList();
+
+            ////计算图像1和转换后的图像2的交点
+            //if (!CvUtils.PolygonClip(vSrcPtsl, vWarpPtsr, vPtsImg1))
+            //    return;
+
+            //foreach (System.Drawing.Point t in vPtsImg1)
+            //{
+            //    Matrix<double> srcMat = new Matrix<double>(3, 1)
+            //    {
+            //        [0, 0] = t.X,
+            //        [1, 0] = t.Y,
+            //        [2, 0] = 1.0
+            //    };
+            //    Matrix<double> warpMat;
+            //    using (Matrix<double> _h = new Matrix<double>(3, 3))
+            //    {
+            //        CvInvoke.Invert(h, _h, DecompMethod.LU);
+            //        warpMat = _h*srcMat;
+            //    }
+            //    System.Drawing.Point warpPt = new System.Drawing.Point
+            //    {
+            //        X = (int)Math.Round(warpMat[0, 0] / warpMat[2, 0]),
+            //        Y = (int)Math.Round(warpMat[1, 0] / warpMat[2, 0])
+            //    };
+            //    vPtsImg2.Add(warpPt);
+            //}
+            //last.DrawPolyline(vPtsImg1.ToArray(), false, new Bgr(255, 0, 0));
+            //last.DrawPolyline(vPtsImg2.ToArray(), false, new Bgr(0, 255, 0));
+            //l.DrawPolyline(vPtsImg1.ToArray(), false, new Bgr(255, 0, 0));
+            //ImageBox box0 = new ImageBox { Image = l.Bitmap };
+            //box0.Show();
             ImageBox box = new ImageBox { Image = resultL.Bitmap };
             box.Show();
             ImageBox box3 = new ImageBox { Image = last.Bitmap };
             box3.Show();
-
+            ImageBox box4 = new ImageBox { Image = ll.Bitmap };
+            box4.Show();
+            ImageBox box5 = new ImageBox { Image = rr.Bitmap };
+            box5.Show();
+            ImageBox box6 = new ImageBox { Image = lll.Bitmap };
+            box6.Show();
+            ImageBox box7 = new ImageBox { Image = rrr.Bitmap };
+            box7.Show();
 
         }
 

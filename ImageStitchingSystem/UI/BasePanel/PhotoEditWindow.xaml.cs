@@ -41,7 +41,10 @@ namespace ImageStitchingSystem.UI
         public PhotoEditWindow()
         {
             InitializeComponent();
+     
         }
+
+       
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {

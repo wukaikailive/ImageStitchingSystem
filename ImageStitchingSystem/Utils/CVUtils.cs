@@ -369,6 +369,21 @@ namespace ImageStitchingSystem.Utils
             }
         }
 
+        public static void CopyTo<TColor, TDepth>(Image<TColor,TDepth> img1, Image<TColor, TDepth> img2,Func<TColor, bool> predicate,Func<TColor, TColor,TColor> fun) where TColor : struct ,IColor where TDepth:new()
+        {
+            for (int i = 0; i < img1.Rows; i++)
+            {
+                for (int j = 0; j < img1.Cols; j++)
+                {
+                    TColor a = img1[i, j];
+                    if (predicate.Invoke(a))
+                    {
+                        img2[i,j]=fun.Invoke(a, img2[i, j]);
+                    }
+                }
+            }
+        }
+
         public static bool PolygonClip(List<Point> poly1, List<Point> poly2, List<Point> interPoly)
         {
             if (poly1.Count < 3 || poly2.Count < 3)
