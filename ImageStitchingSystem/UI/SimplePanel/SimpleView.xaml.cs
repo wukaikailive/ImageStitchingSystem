@@ -83,84 +83,93 @@ namespace ImageStitchingSystem.UI
         /// </summary>
         private void BindPoints()
         {
-            Binding bind = new Binding { Source = PointColletion };
-            //todo the below ex is not used
-            //PointColletion.OrderBy(o => o.Lx).ThenBy(o => o.Ly);
-            ListViewPoints.SetBinding(ItemsControl.ItemsSourceProperty, bind);
-
-            Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
-            Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
-            int i = -1;
-            Random romdom = new Random();
-
-            var point = _selectedPoint;
-            var index = _selectedPointIndex;
-
-            UiHelper.ZoomImage(ImgL, ScrollViewerL, _zoomStringL);
-            UiHelper.ZoomImage(ImgR, ScrollViewerR, _zoomStringR);
-
-
-
-            //if(checkBoxIsClosePoint.IsChecked.Value==false)
-            //{
-            //    foreach (var v in pointColletion)
-            //    {
-            //        i++;
-            //        var mcv = new MCvScalar(romdom.Next(255), romdom.Next(255), 0);
-            //        CVUtils.DrawPointAndCursor(l, r, v, i, mcv);
-            //    }
-            //}
-
-            //if (selectedPoint != null && selectedPointIndex != -1)
-            //{
-            //    var mcv = new MCvScalar(0, 0, 255);
-            //    CVUtils.DrawPointAndCursor(l, r, selectedPoint, selectedPointIndex, mcv);
-            //}
-
-            if (_leftPoint.X > 0 && _leftPoint.Y > 0)
+            try
             {
-                UiHelper.SetSmallImg(ImgLd, l, _leftPoint, ImgLd.Width, 2, 50);
-                // CVUtils.DrawPointAndCursor(l, leftPoint, "new", new MCvScalar(0, 0, 255));
-                ImgL.AddPoint = new Point(_leftPoint.X, _leftPoint.Y);
-            }
-            else
-            {
-                if (_selectedPoint != null && index != -1)
+                Binding bind = new Binding { Source = PointColletion };
+                //todo the below ex is not used
+                //PointColletion.OrderBy(o => o.Lx).ThenBy(o => o.Ly);
+                ListViewPoints.SetBinding(ItemsControl.ItemsSourceProperty, bind);
+
+                Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
+                Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
+                int i = -1;
+                Random romdom = new Random();
+
+                var point = _selectedPoint;
+                var index = _selectedPointIndex;
+
+                UiHelper.ZoomImage(ImgL, ScrollViewerL, _zoomStringL);
+                UiHelper.ZoomImage(ImgR, ScrollViewerR, _zoomStringR);
+
+
+
+                //if(checkBoxIsClosePoint.IsChecked.Value==false)
+                //{
+                //    foreach (var v in pointColletion)
+                //    {
+                //        i++;
+                //        var mcv = new MCvScalar(romdom.Next(255), romdom.Next(255), 0);
+                //        CVUtils.DrawPointAndCursor(l, r, v, i, mcv);
+                //    }
+                //}
+
+                //if (selectedPoint != null && selectedPointIndex != -1)
+                //{
+                //    var mcv = new MCvScalar(0, 0, 255);
+                //    CVUtils.DrawPointAndCursor(l, r, selectedPoint, selectedPointIndex, mcv);
+                //}
+
+                if (_leftPoint.X > 0 && _leftPoint.Y > 0)
                 {
-                    System.Drawing.Point pl = new System.Drawing.Point((int)point.Lx, (int)point.Ly);
-                    UiHelper.SetSmallImg(ImgLd, l, pl, ImgLd.Width, 2, 50);
-                    ComboBoxLImg.SelectedItem = _zoomStringL;
-                    UiHelper.MoveToPoint(ScrollViewerL, pl);
+                    UiHelper.SetSmallImg(ImgLd, l, _leftPoint, ImgLd.Width, 2, 50);
+                    // CVUtils.DrawPointAndCursor(l, leftPoint, "new", new MCvScalar(0, 0, 255));
+                    ImgL.AddPoint = new Point(_leftPoint.X, _leftPoint.Y);
+                }
+                else
+                {
+                    if (_selectedPoint != null && index != -1)
+                    {
+                        System.Drawing.Point pl = new System.Drawing.Point((int)point.Lx, (int)point.Ly);
+                        UiHelper.SetSmallImg(ImgLd, l, pl, ImgLd.Width, 2, 50);
+                        ComboBoxLImg.SelectedItem = _zoomStringL;
+                        UiHelper.MoveToPoint(ScrollViewerL, pl);
+                    }
+
                 }
 
-            }
 
-
-            if (_rightPoint.X > 0 && _rightPoint.Y > 0)
-            {
-                UiHelper.SetSmallImg(ImgRd, r, _rightPoint, ImgRd.Width, 2, 50);
-                //CVUtils.DrawPointAndCursor(r, rightPoint, "new", new MCvScalar(0, 0, 255));
-                ImgR.AddPoint = new Point(_rightPoint.X, _rightPoint.Y);
-            }
-            else
-            {
-                if (_selectedPoint != null && index != -1)
+                if (_rightPoint.X > 0 && _rightPoint.Y > 0)
                 {
-                    System.Drawing.Point pr = new System.Drawing.Point((int)point.Rx, (int)point.Ry);
-                    UiHelper.SetSmallImg(ImgRd, r, pr, ImgRd.Width, 2, 50);
-                    ComboBoxRImg.SelectedItem = _zoomStringR;
-                    UiHelper.MoveToPoint(ScrollViewerR, pr);
+                    UiHelper.SetSmallImg(ImgRd, r, _rightPoint, ImgRd.Width, 2, 50);
+                    //CVUtils.DrawPointAndCursor(r, rightPoint, "new", new MCvScalar(0, 0, 255));
+                    ImgR.AddPoint = new Point(_rightPoint.X, _rightPoint.Y);
                 }
+                else
+                {
+                    if (_selectedPoint != null && index != -1)
+                    {
+                        System.Drawing.Point pr = new System.Drawing.Point((int)point.Rx, (int)point.Ry);
+                        UiHelper.SetSmallImg(ImgRd, r, pr, ImgRd.Width, 2, 50);
+                        ComboBoxRImg.SelectedItem = _zoomStringR;
+                        UiHelper.MoveToPoint(ScrollViewerR, pr);
+                    }
+                }
+
+
+                ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
+                ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
+
+                ImgL.Points = PointColletion.Select(o => new Point(o.Lx, o.Ly)).ToList();
+                ImgR.Points = PointColletion.Select(o => new Point(o.Rx, o.Ry)).ToList();
+                ImgL.AddPoint = _leftPoint;
+                ImgR.AddPoint = _rightPoint;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + e.StackTrace);
+                MessageBox.Show("程序运行错误,请尝试提高阈值：" + e.Message);
             }
 
-
-            ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
-            ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
-
-            ImgL.Points = PointColletion.Select(o => new Point(o.Lx, o.Ly)).ToList();
-            ImgR.Points = PointColletion.Select(o => new Point(o.Rx, o.Ry)).ToList();
-            ImgL.AddPoint = _leftPoint;
-            ImgR.AddPoint = _rightPoint;
         }
 
         #region 事件
@@ -534,9 +543,9 @@ namespace ImageStitchingSystem.UI
             try
             {
                 System.Drawing.PointF[] pointsl =
-                    PointColletion.Select(o => new System.Drawing.PointF((float) o.Lx, (float) o.Ly)).ToArray();
+                    PointColletion.Select(o => new System.Drawing.PointF((float)o.Lx, (float)o.Ly)).ToArray();
                 System.Drawing.PointF[] pointsr =
-                    PointColletion.Select(o => new System.Drawing.PointF((float) o.Rx, (float) o.Ry)).ToArray();
+                    PointColletion.Select(o => new System.Drawing.PointF((float)o.Rx, (float)o.Ry)).ToArray();
 
                 if (pointsl.Length < 4)
                 {
@@ -555,7 +564,7 @@ namespace ImageStitchingSystem.UI
                 int processWidthOrHeight = 0; //重叠区域的宽度或高度
 
                 //变换矩阵
-                double[,] tData = {{1.0, 0, 0}, {0, 1.0, 0}, {0, 0, 1.0}};
+                double[,] tData = { { 1.0, 0, 0 }, { 0, 1.0, 0 }, { 0, 0, 1.0 } };
 
                 bool horizontal = true;
 
@@ -618,7 +627,7 @@ namespace ImageStitchingSystem.UI
 
                 Image<Bgr, byte> last = new Image<Bgr, byte>(size);
 
-                CvInvoke.WarpPerspective(r, result, sh*h, size);
+                CvInvoke.WarpPerspective(r, result, sh * h, size);
 
                 last = result.Clone();
 
@@ -659,13 +668,13 @@ namespace ImageStitchingSystem.UI
                             }
                             else
                             {
-                                alpha = (processWidthOrHeight - (j - start))*1.0/processWidthOrHeight;
+                                alpha = (processWidthOrHeight - (j - start)) * 1.0 / processWidthOrHeight;
                             }
                             Bgr b = l[i, j];
                             Bgr c = result[i, j];
-                            double blue = b.Blue*alpha + c.Blue*(1 - alpha);
-                            double green = b.Green*alpha + c.Green*(1 - alpha);
-                            double red = b.Red*alpha + c.Red*(1 - alpha);
+                            double blue = b.Blue * alpha + c.Blue * (1 - alpha);
+                            double green = b.Green * alpha + c.Green * (1 - alpha);
+                            double red = b.Red * alpha + c.Red * (1 - alpha);
                             last[i, j] = new Bgr(blue, green, red);
                         }
                     }
@@ -683,13 +692,13 @@ namespace ImageStitchingSystem.UI
                             }
                             else
                             {
-                                alpha = (processWidthOrHeight - (j - start))*1.0/processWidthOrHeight;
+                                alpha = (processWidthOrHeight - (j - start)) * 1.0 / processWidthOrHeight;
                             }
                             Bgr b = l[j, i];
                             Bgr c = result[j, i];
-                            double blue = b.Blue*alpha + c.Blue*(1 - alpha);
-                            double green = b.Green*alpha + c.Green*(1 - alpha);
-                            double red = b.Red*alpha + c.Red*(1 - alpha);
+                            double blue = b.Blue * alpha + c.Blue * (1 - alpha);
+                            double green = b.Green * alpha + c.Green * (1 - alpha);
+                            double red = b.Red * alpha + c.Red * (1 - alpha);
                             last[j, i] = new Bgr(blue, green, red);
                         }
                     }
@@ -722,8 +731,8 @@ namespace ImageStitchingSystem.UI
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message+ex.StackTrace);
-                MessageBox.Show("操作错误"+ex.Message);
+                Console.WriteLine(ex.Message + ex.StackTrace);
+                MessageBox.Show("操作错误" + ex.Message);
             }
 
         }

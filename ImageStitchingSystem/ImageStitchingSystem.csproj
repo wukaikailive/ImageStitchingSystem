@@ -77,6 +77,9 @@
     <Compile Include="UI\BasePanel\PhotoEditWindow.xaml.cs">
       <DependentUpon>PhotoEditWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Help\HelpView.xaml.cs">
+      <DependentUpon>HelpView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ImageBox.xaml.cs">
       <DependentUpon>ImageBox.xaml</DependentUpon>
     </Compile>
@@ -109,6 +112,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\BasePanel\Base.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Help\HelpView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

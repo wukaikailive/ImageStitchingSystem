@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="ImageStitchingSystem.UI.HelpView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ImageStitchingSystem.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid Background="#eeeeee">
+        <StackPanel>
+            <TextBlock >1、打开图片</TextBlock>
+            <TextBlock Text="在基本面板中点击+按钮，选择图片"></TextBlock>
+            <TextBlock >2、寻找特征点</TextBlock>
+            <TextBlock>在特征点寻找优化面板中选择要拼接的图片，每次限两幅图像。选好图像后单击左上的特征点寻找按钮。</TextBlock>
+            <TextBlock >3、优化特征点</TextBlock>
+            <TextBlock>可以对查找出来的特征点进行新增、删除</TextBlock>
+            <TextBlock >4、新增特征点</TextBlock>
+            <TextBlock>鼠标分别单击左右图像，即可得到一对点，再单击"特征点操作"的新增按钮即可增加。</TextBlock>
+            <TextBlock>5、图片缝合</TextBlock>
+            <TextBlock>需要用户帮助给出图片拼接方向，然后单击缝合按钮即可。如果用户输入文件名，则拼接的图像回保存到文件，否则图片将会在新窗口显示。</TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

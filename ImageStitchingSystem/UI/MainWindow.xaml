@@ -37,7 +37,7 @@
                 <ui:SimpleView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:SimpleView>
             </TabItem>
             <TabItem Header="帮助">
-                <TextBlock Text="There is nothiong to show yet!"></TextBlock>
+                <ui:HelpView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:HelpView>
             </TabItem>
         </TabControl>
 

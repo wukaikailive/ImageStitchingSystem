@@ -89,3 +89,5 @@ F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.exe
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.pdb
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.csprojResolveAssemblyReference.cache
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\Help\HelpView.g.cs
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\Help\HelpView.baml
