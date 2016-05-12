@@ -215,10 +215,14 @@
                                 <Image Source="/Resource/Images/ic_merge.png"></Image>
                             </Button.Content>
                         </Button>
+                        <StackPanel Margin="4 0 0 0">
+                            <TextBlock Text="保存的文件名"></TextBlock>
+                            <TextBox x:Name="TextBoxFileSaveName" Width="100"></TextBox>
+                        </StackPanel>
                     </WrapPanel>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0 8 0 0">
                         <ComboBox x:Name="ComboBoxOrientation" ItemsSource="{StaticResource SticheOrientation}" SelectedIndex="0">
-                           
+                            
                         </ComboBox>
                     </StackPanel>
                 </StackPanel>

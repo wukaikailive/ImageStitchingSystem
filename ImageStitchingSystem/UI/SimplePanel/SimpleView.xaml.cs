@@ -27,7 +27,7 @@ using System.Globalization;
 using System.IO;
 using ZedGraph;
 using Emgu.CV.CvEnum;
-using MMath=ImageStitchingSystem.Utils.MMath;
+using MMath = ImageStitchingSystem.Utils.MMath;
 
 using ImageStitchingSystem.UI.Weight;
 using Image = System.Windows.Controls.Image;
@@ -474,227 +474,257 @@ namespace ImageStitchingSystem.UI
         }
 
         #endregion
+
+        System.Drawing.Point leftTop = new System.Drawing.Point();
+        System.Drawing.Point leftBottom = new System.Drawing.Point();
+        System.Drawing.Point rightTop = new System.Drawing.Point();
+        System.Drawing.Point rightBottom = new System.Drawing.Point();
+
+
+        //计算变换图像四个角的坐标
+        //计算图2的四个角经矩阵H变换后的坐标
+        private void CalcFourCorner(Matrix<double> H, Image<Bgr, byte> img2)
+        {
+            //计算图2的四个角经矩阵H变换后的坐标
+            double[,] v2 = new double[3, 1] { { 0 }, { 0 }, { 1 } };//左上角
+            double[,] v1 = new double[3, 1];//变换后的坐标值
+            Matrix<double> V2 = new Matrix<double>(3, 1) { Data = v2 };
+            Matrix<double> V1 = new Matrix<double>(3, 1) { Data = v1 };
+            CvInvoke.Gemm(H, V2, 1, null, 1, V1);
+            leftTop.X = (int)Math.Round(v1[0, 0] / v1[2, 0]);
+            leftTop.Y = (int)Math.Round(v1[1, 0] / v1[2, 0]);
+            //cvCircle(xformed,leftTop,7,CV_RGB(255,0,0),2);
+
+            //将v2中数据设为左下角坐标
+            v2[0, 0] = 0;
+            v2[1, 0] = img2.Height;
+            V2 = new Matrix<double>(3, 1) { Data = v2 };
+            V1 = new Matrix<double>(3, 1) { Data = v1 };
+            CvInvoke.Gemm(H, V2, 1, null, 1, V1);
+            leftBottom.X = (int)Math.Round(v1[0, 0] / v1[2, 0]);
+            leftBottom.Y = (int)Math.Round(v1[1, 0] / v1[2, 0]);
+            //cvCircle(xformed,leftBottom,7,CV_RGB(255,0,0),2);
+
+            //将v2中数据设为右上角坐标
+            v2[0, 0] = img2.Width;
+            v2[1, 0] = 0;
+            V2 = new Matrix<double>(3, 1) { Data = v2 };
+            V1 = new Matrix<double>(3, 1) { Data = v1 };
+            CvInvoke.Gemm(H, V2, 1, null, 1, V1);
+            rightTop.X = (int)Math.Round(v1[0, 0] / v1[2, 0]);
+            rightTop.Y = (int)Math.Round(v1[1, 0] / v1[2, 0]);
+            //cvCircle(xformed,rightTop,7,CV_RGB(255,0,0),2);
+
+            //将v2中数据设为右下角坐标
+            v2[0, 0] = img2.Width;
+            v2[1, 0] = img2.Height;
+            V2 = new Matrix<double>(3, 1) { Data = v2 };
+            V1 = new Matrix<double>(3, 1) { Data = v1 };
+            CvInvoke.Gemm(H, V2, 1, null, 1, V1);
+            rightBottom.X = (int)Math.Round(v1[0, 0] / v1[2, 0]);
+            rightBottom.Y = (int)Math.Round(v1[1, 0] / v1[2, 0]);
+            //cvCircle(xformed,rightBottom,7,CV_RGB(255,0,0),2);
+
+        }
+
+
         //缝合
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            System.Drawing.PointF[] pointsl = PointColletion.Select(o => new System.Drawing.PointF((float)o.Lx, (float)o.Ly)).ToArray();
-            System.Drawing.PointF[] pointsr = PointColletion.Select(o => new System.Drawing.PointF((float)o.Rx, (float)o.Ry)).ToArray();
-
-
-            Matrix<double> h = new Matrix<double>(3, 3);
-            //求单应矩阵
-            CvInvoke.FindHomography(pointsl, pointsr, h, HomographyMethod.Ransac);
-
-
-            Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
-            Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
-
-            int rows = 0;
-            int cols = 0;
-            int initX = 0;
-            int initY = 0;
-            int initSpanX = 1;
-            int initSpanY = 1;
-            //变换矩阵
-            double[,] tData = { { 1.0, 0, 0 }, { 0, 1.0, 0 }, { 0, 0, 1.0 } };
-            switch (ComboBoxOrientation.SelectedItem as string)
-            {
-                case "左->右":
-                    rows = Math.Max(l.Rows, r.Rows);
-                    cols = l.Cols + r.Cols;
-                    tData[0, 2] = l.Cols;
-                    initX = l.Cols;
-                    initSpanX = l.Width/20;
-
-                    break;
-                case "右->左":
-                    rows = Math.Max(l.Rows, r.Rows);
-                    cols = l.Cols + r.Cols;
-                    initSpanX = l.Width / 20;
-
-                    break;
-                case "上->下":
-                    rows = l.Rows + r.Rows;
-                    cols = Math.Max(l.Cols, r.Cols);
-                    tData[1, 2] = l.Rows;
-                    initY = l.Rows;
-                    initSpanY = l.Rows/20;
-                    
-                    break;
-                case "下->上":
-                    rows = l.Rows + r.Rows;
-                    cols = Math.Max(l.Cols, r.Cols);
-                    initSpanY = l.Rows/20;
-
-                    break;
-            }
-
-
-            System.Drawing.Size size = new System.Drawing.Size(cols, rows);
-
-            Image<Bgr, byte> resultL = new Image<Bgr, byte>(size);
-
-            Matrix<double> sh = new Matrix<double>(tData);
-            //MessageBox.Show(CvUtils.MatrixToString(sh * h));
-            Image<Bgr, byte> last = new Image<Bgr, byte>(size);
-
             try
             {
-                CvInvoke.WarpPerspective(l, resultL, sh * h, size);
-                CvUtils.CopyTo(resultL, last, a => Math.Abs(a.Blue) > 0 && Math.Abs(a.Green) > 0 && Math.Abs(a.Red) > 0);
+                System.Drawing.PointF[] pointsl =
+                    PointColletion.Select(o => new System.Drawing.PointF((float) o.Lx, (float) o.Ly)).ToArray();
+                System.Drawing.PointF[] pointsr =
+                    PointColletion.Select(o => new System.Drawing.PointF((float) o.Rx, (float) o.Ry)).ToArray();
+
+                if (pointsl.Length < 4)
+                {
+                    MessageBox.Show("特征点小于4对，不能匹配");
+                    return;
+                }
+
+                Matrix<double> h = new Matrix<double>(3, 3);
+
+                Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
+                Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
+
+                int rows = 0;
+                int cols = 0;
+                int start = 0;
+                int processWidthOrHeight = 0; //重叠区域的宽度或高度
+
+                //变换矩阵
+                double[,] tData = {{1.0, 0, 0}, {0, 1.0, 0}, {0, 0, 1.0}};
+
+                bool horizontal = true;
+
+                switch (ComboBoxOrientation.SelectedItem as string)
+                {
+                    case "左->右":
+                        rows = Math.Max(l.Rows, r.Rows);
+                        cols = l.Cols + r.Cols;
+                        //求单应矩阵
+                        CvInvoke.FindHomography(pointsr, pointsl, h, HomographyMethod.Ransac);
+                        CalcFourCorner(h, r);
+
+                        start = Math.Min(leftTop.X, leftBottom.X); //开始位置，即重叠区域的左边界
+                        processWidthOrHeight = l.Width - start;
+                        break;
+                    case "右->左":
+                        var t = l; //交换图片
+                        l = r;
+                        r = t;
+                        rows = Math.Max(l.Rows, r.Rows);
+                        cols = l.Cols + r.Cols;
+                        CvInvoke.FindHomography(pointsl, pointsr, h, HomographyMethod.Ransac);
+                        CalcFourCorner(h, r);
+
+                        start = Math.Min(leftTop.X, leftBottom.X); //开始位置，即重叠区域的左边界
+                        processWidthOrHeight = l.Width - start;
+                        break;
+                    case "上->下":
+                        horizontal = false;
+                        rows = l.Rows + r.Rows;
+                        cols = Math.Max(l.Cols, r.Cols);
+
+                        CvInvoke.FindHomography(pointsr, pointsl, h, HomographyMethod.Ransac);
+                        CalcFourCorner(h, r);
+
+                        start = Math.Min(leftTop.Y, leftBottom.Y); //开始位置，即重叠区域的上边界
+                        processWidthOrHeight = l.Height - start;
+                        break;
+                    case "下->上":
+                        horizontal = false;
+                        var t1 = l;
+                        l = r;
+                        r = t1;
+                        rows = l.Rows + r.Rows;
+                        cols = Math.Max(l.Cols, r.Cols);
+                        CvInvoke.FindHomography(pointsl, pointsr, h, HomographyMethod.Ransac);
+                        CalcFourCorner(h, r);
+
+                        start = Math.Min(leftTop.Y, leftBottom.Y); //开始位置，即重叠区域的上边界
+                        processWidthOrHeight = l.Height - start;
+                        break;
+                }
+
+                //MessageBox.Show(CvUtils.MatrixToString(h));
+
+                Matrix<double> sh = new Matrix<double>(tData);
+
+                System.Drawing.Size size = new System.Drawing.Size(cols, rows);
+                Image<Bgr, byte> result = new Image<Bgr, byte>(size);
+
+                Image<Bgr, byte> last = new Image<Bgr, byte>(size);
+
+                CvInvoke.WarpPerspective(r, result, sh*h, size);
+
+                last = result.Clone();
+
+                if (horizontal)
+                {
+                    l.ROI = new Rectangle(new System.Drawing.Point(0, 0),
+                        new System.Drawing.Size(Math.Min(leftTop.X, leftBottom.X), l.Height));
+                    last.ROI = new Rectangle(new System.Drawing.Point(0, 0),
+                        new System.Drawing.Size(Math.Min(leftTop.X, leftBottom.X), l.Height));
+
+                }
+                else
+                {
+                    l.ROI = new Rectangle(new System.Drawing.Point(0, 0),
+                        new System.Drawing.Size(l.Width, Math.Min(leftTop.Y, leftBottom.Y)));
+                    last.ROI = new Rectangle(new System.Drawing.Point(0, 0),
+                        new System.Drawing.Size(l.Width, Math.Min(leftTop.Y, leftBottom.Y)));
+                }
+
+                l.CopyTo(last); //先用左图片填充重叠区域左边或上边
+
+                l.ROI = Rectangle.Empty;
+                last.ROI = Rectangle.Empty;
+                //ImageBox box0 = new ImageBox {Image = last.Bitmap};
+                //box0.Show();
+
+                double alpha = 1; //左图中像素的权重
+
+                if (horizontal)
+                {
+                    for (int i = 0; i < last.Height; i++)
+                    {
+                        for (int j = start; j < l.Width; j++)
+                        {
+                            if (last[i, j].Red < 50 && last[i, j].Green < 50 && last[i, j].Blue < 50)
+                            {
+                                alpha = 1;
+                            }
+                            else
+                            {
+                                alpha = (processWidthOrHeight - (j - start))*1.0/processWidthOrHeight;
+                            }
+                            Bgr b = l[i, j];
+                            Bgr c = result[i, j];
+                            double blue = b.Blue*alpha + c.Blue*(1 - alpha);
+                            double green = b.Green*alpha + c.Green*(1 - alpha);
+                            double red = b.Red*alpha + c.Red*(1 - alpha);
+                            last[i, j] = new Bgr(blue, green, red);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < last.Width; i++)
+                    {
+                        for (int j = start; j < l.Height; j++)
+                        {
+                            //如果是黑色像素 则全由左图填充
+                            if (last[j, i].Red < 50 && last[j, i].Green < 50 && last[j, i].Blue < 50)
+                            {
+                                alpha = 1;
+                            }
+                            else
+                            {
+                                alpha = (processWidthOrHeight - (j - start))*1.0/processWidthOrHeight;
+                            }
+                            Bgr b = l[j, i];
+                            Bgr c = result[j, i];
+                            double blue = b.Blue*alpha + c.Blue*(1 - alpha);
+                            double green = b.Green*alpha + c.Green*(1 - alpha);
+                            double red = b.Red*alpha + c.Red*(1 - alpha);
+                            last[j, i] = new Bgr(blue, green, red);
+                        }
+                    }
+                }
+
+                //裁剪
+
+                if (horizontal)
+                {
+                    int w = Math.Max(rightTop.X, rightBottom.X);
+                    last.ROI = new Rectangle(new System.Drawing.Point(0, 0), new System.Drawing.Size(w, last.Height));
+                }
+                else
+                {
+                    int hi = Math.Max(leftBottom.Y, rightBottom.Y);
+                    last.ROI = new Rectangle(new System.Drawing.Point(0, 0), new System.Drawing.Size(last.Width, hi));
+                }
+
+
+                if (!TextBoxFileSaveName.Text.Trim().Equals(""))
+                {
+                    last.Save(TextBoxFileSaveName.Text.Trim() + ".jpg");
+                }
+                else
+                {
+                    ImageBox box3 = new ImageBox { Image = last.Bitmap };
+                    box3.Show();
+                }
+
             }
             catch (Exception ex)
             {
-                // ignored
+                Console.WriteLine(ex.Message+ex.StackTrace);
+                MessageBox.Show("操作错误"+ex.Message);
             }
-
-            last.ROI = new Rectangle(initX, initY, r.Cols, r.Rows);
-            r.CopyTo(last);
-            last.ROI = Rectangle.Empty;
-
-            ////寻找缝合线
-            double[] Cimg1 = new double[20];
-            double[] Cimg2 = new double[20];
-
-            Image<Gray, byte> ll = new Image<Gray, byte>(l.Bitmap).ThresholdBinary(new Gray(100),new Gray(255));
-            CvInvoke.MedianBlur(ll,ll,3);
-            Image<Gray, byte> rr = new Image<Gray, byte>(r.Bitmap).ThresholdBinary(new Gray(100), new Gray(255));
-            CvInvoke.MedianBlur(rr, rr, 3);
-
-
-            for (int i = 0; i <= l.Width- initSpanX; i+=initSpanX)
-            {
-                int blackCount = 0;
-
-                for (int j = 0; j < l.Height; j+=initSpanY)
-                {
-                    if (ll[j, i].Intensity == 255)
-                    {
-                        blackCount++;
-                    }
-                }
-                Cimg1[i / initSpanX] = blackCount;
-
-            }
-            for (int i = 0; i <= r.Width - initSpanX; i += initSpanX)
-            {
-                int blackCount = 0;
-
-                for (int j = 0; j <r.Height; j += initSpanY)
-                {
-                    if (rr[j, i].Intensity == 255)
-                    {
-                        blackCount++;
-                    }
-                }
-                Cimg2[i / initSpanX] = blackCount;
-
-            }
-            int minIndex = 0;
-            double min = double.MaxValue;
-
-            for (int i = 0; i < 10;i++)
-            {
-                double[] c1ten = Cimg1.Skip(i).Take(10).ToArray();
-                Console.WriteLine("c1ten:" + string.Join(",",c1ten));
-                double[] c2ten=new double[10];
-                for (int j = 0; j < 10; j++)
-                {
-                    c2ten = Cimg2.Skip(j).Take(10).ToArray();
-                    Console.WriteLine("c2ten:"+ string.Join(",", c2ten));
-                    double[] cten=c1ten.Zip(c2ten, (a, b) => Math.Abs(a - b)).ToArray();
-                    Console.WriteLine("c ten:" + string.Join(",", cten));
-                    double va = MMath.Variance(cten);
-                    Console.WriteLine("va   :" + va);
-                    if (va < min)
-                    {
-                        min = va;
-                        minIndex = j;
-                    }
-                    Console.WriteLine("now j :" + minIndex);
-                }
-               
-            }
-            int aa = 1;
-            Image<Bgr, byte> lll = l.Copy(new Rectangle(0, 0,r.Width-minIndex*initSpanX, l.Height));
-            Image<Bgr, byte> rrr = r.Copy(new Rectangle(minIndex*initSpanX, 0,r.Width - minIndex * initSpanX, r.Height));
-
-            //List<System.Drawing.Point> vSrcPtsl = new List<System.Drawing.Point>();
-            //List<System.Drawing.Point> vSrcPtsr = new List<System.Drawing.Point>();
-            //vSrcPtsl.Add(new System.Drawing.Point(0, 0));
-            //vSrcPtsl.Add(new System.Drawing.Point(0, l.Rows));
-            //vSrcPtsl.Add(new System.Drawing.Point(l.Cols, l.Rows));
-            //vSrcPtsl.Add(new System.Drawing.Point(l.Cols, 0));
-
-            //vSrcPtsr.Add(new System.Drawing.Point(0, 0));
-            //vSrcPtsr.Add(new System.Drawing.Point(0, r.Rows));
-            //vSrcPtsr.Add(new System.Drawing.Point(r.Cols, r.Rows));
-            //vSrcPtsr.Add(new System.Drawing.Point(r.Cols, 0));
-
-            ////计算图像2在图像1中对应坐标信息
-            //List<System.Drawing.Point> vWarpPtsr = new List<System.Drawing.Point>();
-            //for (int i = 0; i < vSrcPtsr.Count; i++)
-            //{
-            //    Matrix<double> srcMat = new Matrix<double>(3, 1);
-            //    srcMat[0, 0] = vSrcPtsr[i].X;
-            //    srcMat[1, 0] = vSrcPtsr[i].Y;
-            //    srcMat[2, 0] = 1.0;
-
-            //    Matrix<double> warpMat = h * srcMat;
-            //    System.Drawing.Point warpPt = new System.Drawing.Point
-            //    {
-            //        X = (int)Math.Round(warpMat[0, 0] / warpMat[2, 0]),
-            //        Y = (int)Math.Round(warpMat[1, 0] / warpMat[2, 0]),
-            //    };
-
-            //    vWarpPtsr.Add(warpPt);
-            //}
-
-            //var vPtsImg1 = pointsl.Select(System.Drawing.Point.Round).ToList();
-            //var vPtsImg2 = pointsr.Select(System.Drawing.Point.Round).ToList();
-
-            ////计算图像1和转换后的图像2的交点
-            //if (!CvUtils.PolygonClip(vSrcPtsl, vWarpPtsr, vPtsImg1))
-            //    return;
-
-            //foreach (System.Drawing.Point t in vPtsImg1)
-            //{
-            //    Matrix<double> srcMat = new Matrix<double>(3, 1)
-            //    {
-            //        [0, 0] = t.X,
-            //        [1, 0] = t.Y,
-            //        [2, 0] = 1.0
-            //    };
-            //    Matrix<double> warpMat;
-            //    using (Matrix<double> _h = new Matrix<double>(3, 3))
-            //    {
-            //        CvInvoke.Invert(h, _h, DecompMethod.LU);
-            //        warpMat = _h*srcMat;
-            //    }
-            //    System.Drawing.Point warpPt = new System.Drawing.Point
-            //    {
-            //        X = (int)Math.Round(warpMat[0, 0] / warpMat[2, 0]),
-            //        Y = (int)Math.Round(warpMat[1, 0] / warpMat[2, 0])
-            //    };
-            //    vPtsImg2.Add(warpPt);
-            //}
-            //last.DrawPolyline(vPtsImg1.ToArray(), false, new Bgr(255, 0, 0));
-            //last.DrawPolyline(vPtsImg2.ToArray(), false, new Bgr(0, 255, 0));
-            //l.DrawPolyline(vPtsImg1.ToArray(), false, new Bgr(255, 0, 0));
-            //ImageBox box0 = new ImageBox { Image = l.Bitmap };
-            //box0.Show();
-            ImageBox box = new ImageBox { Image = resultL.Bitmap };
-            box.Show();
-            ImageBox box3 = new ImageBox { Image = last.Bitmap };
-            box3.Show();
-            ImageBox box4 = new ImageBox { Image = ll.Bitmap };
-            box4.Show();
-            ImageBox box5 = new ImageBox { Image = rr.Bitmap };
-            box5.Show();
-            ImageBox box6 = new ImageBox { Image = lll.Bitmap };
-            box6.Show();
-            ImageBox box7 = new ImageBox { Image = rrr.Bitmap };
-            box7.Show();
 
         }
 

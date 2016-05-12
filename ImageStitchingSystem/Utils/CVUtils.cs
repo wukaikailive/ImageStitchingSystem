@@ -17,7 +17,7 @@ using ZedGraph;
 
 namespace ImageStitchingSystem.Utils
 {
-    public class CvUtils
+    public static class CvUtils
     {
         /// <summary>
         /// 寻找特征点
@@ -339,7 +339,7 @@ namespace ImageStitchingSystem.Utils
             return result;
         }
 
-        public IntPtr CreatePointListPointer(IList<PointF> points, int pointCount)
+        public static IntPtr CreatePointListPointer(IList<PointF> points, int pointCount)
         {
             IntPtr result = CvInvoke.cvCreateMat(pointCount, 2, DepthType.Cv32F);
 
@@ -565,6 +565,42 @@ namespace ImageStitchingSystem.Utils
                 sBuilder.Append("\n");
             }
             return sBuilder.ToString();
+        }
+
+        public static Image<Bgr, byte> CopyAndBlend(Image<Bgr, byte> img1, Image<Bgr, byte> img2) 
+        {
+            Image<Bgr, byte> result =new Image<Bgr, byte>(img1.Size);
+            for (int i = 0; i < img2.Rows; i++)
+            {
+                for (int j = 0; j < img2.Cols; j++)
+                {
+                    Bgr a = img1[i, j];
+                    Bgr b = img2[i, j];
+                    if (a.IsBlack() && b.IsBlack()==false)
+                    {
+                        result[i, j] = b;
+                    }
+                    else if (a.IsBlack() == false && b.IsBlack())
+                    {
+                        result[i, j] = a;
+                    }
+                    else if (a.IsBlack() == false && b.IsBlack() == false)
+                    {
+                       result[i,j] = new Bgr(a.Red*0.5+b.Red*0.5, a.Green * 0.5 + b.Green * 0.5, a.Blue * 0.5 + b.Blue * 0.5);
+                    }
+                }
+            }
+            return result;
+        }
+
+        private static bool IsBlack<TColor>(this TColor tc) where TColor : struct,IColor
+        {
+            var m = tc.MCvScalar;
+            if (m.V0 == 0 && m.V1 == 0 && m.V2 == 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

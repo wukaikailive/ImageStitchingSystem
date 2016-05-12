@@ -41,6 +41,12 @@ namespace ImageStitchingSystem.Utils
             }
             return r;
         }
+        public static void Swap<T>(T t1, T t2)
+        {
+            var t = t1;
+            t1 = t2;
+            t2 = t;
+        }
     }
 
 
