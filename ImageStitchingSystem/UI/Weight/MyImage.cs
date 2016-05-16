@@ -22,6 +22,9 @@ namespace ImageStitchingSystem.UI.Weight
 
         private int _selectedIndex = -1;
 
+        private bool _isShowOtherPoint=true;
+
+
         public int SelectedIndex
         {
             get
@@ -60,6 +63,19 @@ namespace ImageStitchingSystem.UI.Weight
             }
         }
 
+        public bool IsShowOtherPoint
+        {
+            get
+            {
+                return _isShowOtherPoint;
+            }
+
+            set
+            {
+                _isShowOtherPoint = value;
+            }
+        }
+
         public static readonly DependencyProperty PointsProperty =
             DependencyProperty.Register(
             "Points", typeof(List<Point>), typeof(MyImage), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnPointsChanged))
@@ -74,6 +90,17 @@ namespace ImageStitchingSystem.UI.Weight
            DependencyProperty.Register(
            "AddPoint", typeof(Point), typeof(MyImage), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnAddPointIndexChanged))
            );
+
+        public static readonly DependencyProperty IsShowOtherPointProperty =
+           DependencyProperty.Register(
+           "IsShowOtherPoint", typeof(bool), typeof(MyImage), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnIsShowOtherPointChanged))
+           );
+
+        private static void OnIsShowOtherPointChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            
+        }
+
 
         private static void OnAddPointIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -119,23 +146,44 @@ namespace ImageStitchingSystem.UI.Weight
                 Brush brush = Brushes.Blue;
                 FormattedText text;
 
-                foreach (var v in _points)
+                if (_isShowOtherPoint)
                 {
-                    i++;
-                    if (_selectedIndex != -1 && _selectedIndex == i)
+                    foreach (var v in _points)
                     {
-                        brush = Brushes.Red;
-                    }
-                    else
-                    {
-                        brush = UiHelper.GetBrush(i);
-                    }
-                    text = UiHelper.GetEnTextObject(i + "", 13, brush);
+                        i++;
+                        if (_selectedIndex != -1 && _selectedIndex == i)
+                        {
+                            brush = Brushes.Red;
+                        }
+                        else
+                        {
+                            brush = UiHelper.GetBrush(i);
+                        }
+                        text = UiHelper.GetEnTextObject(i + "", 13, brush);
 
-                    Point p = new Point(v.X * zoom, v.Y * zoom);
-                    dc.DrawText(text, p);
-                    UiHelper.DrawCross(dc, p, 15, Brushes.White);
+                        Point p = new Point(v.X*zoom, v.Y*zoom);
+                        dc.DrawText(text, p);
+                        UiHelper.DrawCross(dc, p, 12, Brushes.White);
+                    }
                 }
+                else
+                {
+                    foreach (var v in _points)
+                    {
+                        i++;
+                        if (_selectedIndex != -1 && _selectedIndex == i)
+                        {
+                            brush = Brushes.Red;
+                            text = UiHelper.GetEnTextObject(i + "", 13, brush);
+
+                            Point p = new Point(v.X * zoom, v.Y * zoom);
+                            dc.DrawText(text, p);
+                            UiHelper.DrawCross(dc, p, 12, Brushes.White);
+                        }
+                    }
+                }
+
+                
 
                 if (_addPoint != null && _addPoint.X>0 && _addPoint.Y>0)
                 {

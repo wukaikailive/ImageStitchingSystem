@@ -57,6 +57,8 @@ namespace ImageStitchingSystem.UI
         private Point _leftPoint = new Point();
         private Point _rightPoint = new Point();
 
+        private bool isShowOtherPoint = true;
+
         #endregion
 
 
@@ -101,7 +103,8 @@ namespace ImageStitchingSystem.UI
                 UiHelper.ZoomImage(ImgL, ScrollViewerL, _zoomStringL);
                 UiHelper.ZoomImage(ImgR, ScrollViewerR, _zoomStringR);
 
-
+                ImgL.IsShowOtherPoint = isShowOtherPoint;
+                ImgR.IsShowOtherPoint = isShowOtherPoint;
 
                 //if(checkBoxIsClosePoint.IsChecked.Value==false)
                 //{
@@ -806,6 +809,18 @@ namespace ImageStitchingSystem.UI
         {
             _zoomStringR = _zoomStringL = "自动适应";
             BindPoints();
+        }
+
+        private void CheckBoxIsClosePoint_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox cb=sender as CheckBox;
+            if (cb?.IsChecked != null) isShowOtherPoint = !cb.IsChecked.Value;
+            BindPoints();
+        }
+
+        private void CheckBoxIsClosePoint_Unchecked(object sender, RoutedEventArgs e)
+        {
+            this.CheckBoxIsClosePoint_Checked(sender, e);
         }
     }
 }

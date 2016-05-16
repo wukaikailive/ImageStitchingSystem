@@ -157,7 +157,7 @@
             <DockPanel Grid.Column="2" Margin="4 4 5 4">
                 <WrapPanel DockPanel.Dock="Top">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox x:Name="CheckBoxIsClosePoint"></CheckBox>
+                        <CheckBox x:Name="CheckBoxIsClosePoint" Checked="CheckBoxIsClosePoint_Checked" Unchecked="CheckBoxIsClosePoint_Unchecked"></CheckBox>
                         <TextBlock Margin="4 0 0 0" Text="隐藏其他特征点"></TextBlock>
                     </StackPanel>
                 </WrapPanel>
