@@ -282,6 +282,8 @@ namespace ImageStitchingSystem.UI
                 }
 
                 _matchers = matchList.ToArray();
+                //Stopwatch stopwatch = new Stopwatch();
+                //stopwatch.Start();
 
                 for (int i = 0; i < _matchers.Length; i++)
                 {
@@ -292,21 +294,19 @@ namespace ImageStitchingSystem.UI
 
                     FeaturePoint p = new FeaturePoint(i, ll, rr, _matchers[i].Distance);
 
-                    try
+                    if (p.Lx > 0 && p.Lx < l.Width && p.Ly > 0 && p.Ly < l.Height && p.Rx > 0 && p.Rx < r.Width &&
+                        p.Ry > 0 && p.Ry < r.Height)
                     {
-                        if (l[(int)p.Lx, (int)p.Ly].IsBlack() || r[(int)p.Rx, (int)p.Ry].IsBlack() || l[(int)p.Lx, (int)p.Ly].IsWhite() || r[(int)p.Rx, (int)p.Ry].IsWhite())
+                        Bgr la = l[(int)p.Ly, (int)p.Lx];
+                        Bgr ra = r[(int)p.Ry, (int)p.Rx];
+                        if (la.IsBlack() || ra.IsBlack() || la.IsWhite() || ra.IsWhite())
                             continue;
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message + " " + ex.StackTrace);
-                        // MessageBox.Show(ex.Message + " " + ex.StackTrace);
-                    }
-
 
                     PointColletion.Add(p);
 
                 }
+               // stopwatch.Stop();
             }
 
             BindPoints();
