@@ -54,6 +54,15 @@
             <cx:String>上->下</cx:String>
             <cx:String>下->上</cx:String>
         </c:ArrayList>
+        <c:ArrayList x:Key="Projection">
+            <cx:String>默认</cx:String>
+            <cx:String>平面->柱面</cx:String>
+            <cx:String>柱面->平面</cx:String>
+            <cx:String>平面->球面</cx:String>
+            <cx:String>球面->平面</cx:String>
+            <cx:String>鱼眼</cx:String>
+            <cx:String>鱼眼修正</cx:String>
+        </c:ArrayList>
 
         <c:ArrayList x:Key="FeatureAlg">
             <cx:String>SURF</cx:String>
@@ -132,6 +141,7 @@
                             <Image Margin="2" Source="/Resource/Images/ic_accommodate.png" ></Image>
                         </Button.Content>
                     </Button>
+                    
                 </WrapPanel>
                 <TextBlock Text="操作" DockPanel.Dock="Bottom" Margin="0 8 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
             </DockPanel>
@@ -237,18 +247,23 @@
        
         <DockPanel Grid.Column="0" Grid.Row="1">
 
+            <ComboBox x:Name="ComboBoxProjectionL" ItemsSource="{StaticResource Projection}" SelectedIndex="0" SelectionChanged="ComboBoxProjectionL_SelectionChanged"></ComboBox>
+
             <ComboBox DockPanel.Dock="Right" x:Name="ComboBoxLImg" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Zoom}}" SelectedItem="自动适应" SelectionChanged="comboBoxLImg_SelectionChanged">
 
             </ComboBox>
+
             <ComboBox DockPanel.Dock="Left" Grid.Column="0" Grid.Row="1"
                   x:Name="ComboBoxL"  d:LayoutOverrides="Height" SelectedIndex="0"
                   ItemsSource="{Binding Mode=OneWay, Source={StaticResource Photos}}" SelectionChanged="comboBoxL_SelectionChanged">
 
             </ComboBox>
+            
         </DockPanel>
 
 
         <DockPanel Grid.Column="2" Grid.Row="1">
+            <ComboBox x:Name="ComboBoxProjectionR" ItemsSource="{StaticResource Projection}" SelectedIndex="0" SelectionChanged="ComboBoxProjectionR_SelectionChanged"></ComboBox>
             <ComboBox DockPanel.Dock="Right" x:Name="ComboBoxRImg" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Zoom}}" SelectedItem="自动适应" SelectionChanged="comboBoxRImg_SelectionChanged">
 
             </ComboBox>
@@ -282,7 +297,7 @@
             <weight:MyImage Cursor="Cross" x:Name="ImgR" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonDown="imgR_MouseLeftButtonDown"></weight:MyImage>
         </ScrollViewer>
 
-        <Grid Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3">
+        <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150"/>

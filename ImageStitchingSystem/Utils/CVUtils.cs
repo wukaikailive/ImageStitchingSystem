@@ -369,7 +369,7 @@ namespace ImageStitchingSystem.Utils
             }
         }
 
-        public static void CopyTo<TColor, TDepth>(Image<TColor,TDepth> img1, Image<TColor, TDepth> img2,Func<TColor, bool> predicate,Func<TColor, TColor,TColor> fun) where TColor : struct ,IColor where TDepth:new()
+        public static void CopyTo<TColor, TDepth>(Image<TColor, TDepth> img1, Image<TColor, TDepth> img2, Func<TColor, bool> predicate, Func<TColor, TColor, TColor> fun) where TColor : struct, IColor where TDepth : new()
         {
             for (int i = 0; i < img1.Rows; i++)
             {
@@ -378,7 +378,7 @@ namespace ImageStitchingSystem.Utils
                     TColor a = img1[i, j];
                     if (predicate.Invoke(a))
                     {
-                        img2[i,j]=fun.Invoke(a, img2[i, j]);
+                        img2[i, j] = fun.Invoke(a, img2[i, j]);
                     }
                 }
             }
@@ -523,7 +523,7 @@ namespace ImageStitchingSystem.Utils
         public static void ClockwiseSortPoints(List<Point> vPoints)
         {
             //计算重心
-            Point center=new Point();
+            Point center = new Point();
             double x = 0, y = 0;
             for (int i = 0; i < vPoints.Count; i++)
             {
@@ -548,15 +548,15 @@ namespace ImageStitchingSystem.Utils
             }
         }
 
-        public static string MatrixToString<T>(Matrix<T> data,string perfix="[",string suffix="]") where T : new() 
+        public static string MatrixToString<T>(Matrix<T> data, string perfix = "[", string suffix = "]") where T : new()
         {
-            StringBuilder sBuilder=new StringBuilder();
-            for (int i = 0; i < data.Rows;i++)
+            StringBuilder sBuilder = new StringBuilder();
+            for (int i = 0; i < data.Rows; i++)
             {
                 sBuilder.Append(perfix);
                 for (int j = 0; j < data.Cols; j++)
                 {
-                    T t= data[i, j];
+                    T t = data[i, j];
                     sBuilder.Append(perfix);
                     sBuilder.Append(t);
                     sBuilder.Append(suffix);
@@ -567,16 +567,16 @@ namespace ImageStitchingSystem.Utils
             return sBuilder.ToString();
         }
 
-        public static Image<Bgr, byte> CopyAndBlend(Image<Bgr, byte> img1, Image<Bgr, byte> img2) 
+        public static Image<Bgr, byte> CopyAndBlend(Image<Bgr, byte> img1, Image<Bgr, byte> img2)
         {
-            Image<Bgr, byte> result =new Image<Bgr, byte>(img1.Size);
+            Image<Bgr, byte> result = new Image<Bgr, byte>(img1.Size);
             for (int i = 0; i < img2.Rows; i++)
             {
                 for (int j = 0; j < img2.Cols; j++)
                 {
                     Bgr a = img1[i, j];
                     Bgr b = img2[i, j];
-                    if (a.IsBlack() && b.IsBlack()==false)
+                    if (a.IsBlack() && b.IsBlack() == false)
                     {
                         result[i, j] = b;
                     }
@@ -586,21 +586,248 @@ namespace ImageStitchingSystem.Utils
                     }
                     else if (a.IsBlack() == false && b.IsBlack() == false)
                     {
-                       result[i,j] = new Bgr(a.Red*0.5+b.Red*0.5, a.Green * 0.5 + b.Green * 0.5, a.Blue * 0.5 + b.Blue * 0.5);
+                        result[i, j] = new Bgr(a.Red * 0.5 + b.Red * 0.5, a.Green * 0.5 + b.Green * 0.5, a.Blue * 0.5 + b.Blue * 0.5);
                     }
                 }
             }
             return result;
         }
 
-        private static bool IsBlack<TColor>(this TColor tc) where TColor : struct,IColor
+        public static bool IsBlack(this Bgr m)
         {
-            var m = tc.MCvScalar;
-            if (m.V0 == 0 && m.V1 == 0 && m.V2 == 0)
+            if (m.Blue < 15 && m.Green < 15 && m.Red < 15)
             {
                 return true;
             }
             return false;
+        }
+        public static bool IsWhite(this Bgr m)
+        {
+            if (m.Blue > 240 && m.Green > 240 && m.Red > 240)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static Image<Bgr, byte> Plane2CyLinder(this Image<Bgr, byte> src, int z)
+        {
+            if (src == null || z > 10000) throw new ArgumentException();
+            int nWidth = (int)(2 * z * Math.Atan(src.Cols / 2.0 / z));
+            int nHeight = src.Rows;
+            int nHalfWidthDst = nWidth / 2;
+            int nHalfHeightDst = nHeight / 2;
+            int nHalfWidthSrc = src.Cols / 2;
+            int nHalfHeightSrc = src.Rows / 2;
+            Image<Bgr, byte> dst = new Image<Bgr, byte>(nWidth, nHeight);
+            for (int v = 0; v < nHalfHeightDst; ++v)
+            {
+                for (int u = 0; u < nHalfWidthDst; ++u)
+                {
+                    int x = (int)(z * Math.Tan(u * 1.0 / z));
+                    int y = (int)(v * Math.Sqrt(x * x + z * z) / z);
+                    Set4By1(src, dst, new Point(x, y), new Point(u, v), nHalfWidthSrc, nHalfHeightSrc, nHalfWidthDst, nHalfHeightDst);
+                }
+            }
+            return dst;
+        }
+
+        public static Image<Bgr, byte> CyLinder2Plane(this Image<Bgr, byte> src, int z)
+        {
+            if (src == null || z > 10000) throw new ArgumentException();
+            int nWidth = (int)(2 * z * Math.Tan(src.Cols / 2.0 / z));
+            int nHeight = src.Rows;
+            int nHalfWidthDst = nWidth / 2;
+            int nHalfHeightDst = nHeight / 2;
+            int nHalfWidthSrc = src.Cols / 2;
+            int nHalfHeightSrc = src.Rows / 2;
+            Image<Bgr, byte> dst = new Image<Bgr, byte>(nWidth, nHeight);
+            for (int y = 0; y < nHalfHeightDst; ++y)
+            {
+                for (int x = 0; x < nHalfWidthDst; ++x)
+                {
+                    int u = (int) (z * Math.Atan(x * 1.0 / z));
+                    int v = (int) (y * z / Math.Sqrt(x * x + z * z));
+
+                    Set4By1(src, dst, new Point(u, v), new Point(x, y),
+                        nHalfWidthSrc, nHalfHeightSrc,
+                        nHalfWidthDst, nHalfHeightDst);
+                }
+            }
+            return dst;
+        }
+
+        public static Image<Bgr, byte> Plane2Sphere(this Image<Bgr, byte> src, int z)
+        {
+            if (src == null || z > 10000) throw new ArgumentException();
+            int nWidth = (int) (2 * z * Math.Atan(src.Cols / 2.0 / z));
+            int nHeight = (int) (2 * z * Math.Atan(src.Rows / 2.0 / z));
+            int nHalfWidthDst = nWidth / 2;
+            int nHalfHeightDst = nHeight / 2;
+            int nHalfWidthSrc = src.Cols / 2;
+            int nHalfHeightSrc = src.Rows / 2;
+            Image<Bgr, byte> dst = new Image<Bgr, byte>(nWidth, nHeight);
+            for (int v = 0; v < nHalfHeightDst; ++v)
+            {
+                for (int u = 0; u < nHalfWidthDst; ++u)
+                {
+                    int x = (int) (z * Math.Tan(u * 1.0 / z));
+                    int y = (int) (z * Math.Tan(v * 1.0 / z) / Math.Cos(u * 1.0 / z));
+
+                    Set4By1(src, dst, new Point(x, y), new Point(u, v),
+                        nHalfWidthSrc, nHalfHeightSrc,
+                        nHalfWidthDst, nHalfHeightDst);
+
+                }
+            }
+            return dst;
+        }
+
+        public static Image<Bgr, byte> Sphere2Plane(this Image<Bgr, byte> src, int z)
+        {
+            if (src == null || z > 10000) throw new ArgumentException();
+            int nWidth = (int)(2 * z * Math.Tan(src.Cols / 2.0 / z));
+            int nHeight = (int)(2 * z * Math.Tan(src.Rows / 2.0 / z) / Math.Cos(src.Cols / 2.0 / z));
+            int nHalfWidthDst = nWidth / 2;
+            int nHalfHeightDst = nHeight / 2;
+            int nHalfWidthSrc = src.Cols / 2;
+            int nHalfHeightSrc = src.Rows / 2;
+            Image<Bgr, byte> dst = new Image<Bgr, byte>(nWidth, nHeight);
+
+            for (int y = 0; y < nHalfHeightDst; ++y)
+            {
+                for (int x = 0; x < nHalfWidthDst; ++x)
+                {
+                    int u = (int)(z * Math.Atan(x * 1.0 / z));
+                    int v = (int)(z * Math.Atan(y * 1.0 / Math.Sqrt(x * x + z * z)));
+
+                    Set4By1(src, dst, new Point(u, v), new Point(x, y),
+                        nHalfWidthSrc, nHalfHeightSrc,
+                        nHalfWidthDst, nHalfHeightDst);
+
+                }
+            }
+            return dst;
+        }
+
+        public static Image<Bgr, byte> FishEye(this Image<Bgr, byte> src, int z)
+        {
+            if (src == null) throw new ArgumentException();
+            int ru = (int) (Math.Sqrt(src.Cols * src.Cols + src.Rows * src.Rows) / 2);
+            int nWidth = (int) (2 * z * Math.Atan(ru * 1.0 / z) * src.Cols / 2.0 / ru);
+            int nHeight = (int) (2 * z * Math.Atan(ru * 1.0 / z) * src.Rows / 2.0 / ru);
+
+            if (nHeight > 10000 || nWidth > 10000)
+            {
+                throw new ArgumentException();
+            }
+
+
+            int nHalfWidthDst = nWidth / 2;
+            int nHalfHeightDst = nHeight / 2;
+            int nHalfWidthSrc = src.Cols / 2;
+            int nHalfHeightSrc = src.Rows / 2;
+
+            Image<Bgr, byte> dst = new Image<Bgr, byte>(nWidth, nHeight);
+
+
+            for (int y = 0; y < nHalfHeightDst; ++y)
+            {
+                for (int x = 0; x < nHalfWidthDst; ++x)
+                {
+                    double rd = Math.Sqrt(x * x + y * y);
+                    double temp = z * Math.Tan(rd / z) / rd;
+                    int u = (int) (x * temp);
+                    int v = (int) (y * temp);
+
+                    Set4By1(src, dst, new Point(u, v),new Point(x, y),
+                        nHalfWidthSrc, nHalfHeightSrc,
+                        nHalfWidthDst, nHalfHeightDst);
+
+                }
+            }
+            return dst;
+        }
+
+        public static Image<Bgr, byte> FishEyeRectify(this Image<Bgr, byte> src, int z)
+        {
+            if (src == null) throw new ArgumentException();
+            int rd = (int)(Math.Sqrt(src.Cols * src.Cols + src.Rows * src.Rows) / 2);
+            int nWidth = (int)(2 * z * Math.Tan(rd * 1.0 / z) * src.Cols / 2.0 / rd);
+            int nHeight = (int)(2 * z * Math.Tan(rd * 1.0 / z) * src.Rows / 2.0 / rd);
+
+            if (nHeight > 10000 || nWidth > 10000)
+            {
+                throw new ArgumentException();
+            }
+
+
+            int nHalfWidthDst = nWidth / 2;
+            int nHalfHeightDst = nHeight / 2;
+            int nHalfWidthSrc = src.Cols / 2;
+            int nHalfHeightSrc = src.Rows / 2;
+
+            Image<Bgr, byte> dst = new Image<Bgr, byte>(nWidth, nHeight);
+
+
+            for (int v = 0; v < nHalfHeightDst; ++v)
+            {
+                for (int u = 0; u < nHalfWidthDst; ++u)
+                {
+                    double ru = Math.Sqrt(u * u + v * v);
+                    double temp = z * Math.Atan(ru / z) / ru;
+                    int x = (int) (u * temp);
+                    int y = (int) (v * temp);
+                    /*		double num = z * atan(double(rd*1.0/z));
+                            uint x = u * rd / num;
+                            uint y = v * rd / num;*/
+
+                    Set4By1(src, dst, new Point(x, y), new Point(u, v),
+                        nHalfWidthSrc, nHalfHeightSrc,
+                        nHalfWidthDst, nHalfHeightDst);
+
+                }
+            }
+            return dst;
+        }
+
+        public static void Set4By1(this Image<Bgr, byte> src, Image<Bgr, byte> dst, Point srcPt, Point dstPt, int nHalfWidthSrc, int nHalfHeightSrc, int nHalfWidthDst, int nHalfHeightDst)
+        {
+            int u = srcPt.X;
+            int v = srcPt.Y;
+            int x = dstPt.X;
+            int y = dstPt.Y;
+
+            Point[] srcPoint = {new Point(u+nHalfWidthSrc,v+nHalfHeightSrc),
+                    new Point(u+nHalfWidthSrc,nHalfHeightSrc-v),
+                    new Point(nHalfWidthSrc-u,nHalfHeightSrc-v),
+                    new Point(nHalfWidthSrc-u,nHalfHeightSrc+v)};
+
+            Point[] dstPoint = {new Point(x+nHalfWidthDst,y+nHalfHeightDst),
+                    new Point(x+nHalfWidthDst,nHalfHeightDst-y),
+                    new Point(nHalfWidthDst-x,nHalfHeightDst-y),
+                    new Point(nHalfWidthDst-x,nHalfHeightDst+y)};
+
+            for (int i = 0; i < 4; ++i)
+            {
+                if (srcPoint[i].X < src.Cols && srcPoint[i].Y < src.Rows &&
+                    srcPoint[i].X >= 0 && srcPoint[i].Y >= 0 /*&&
+			        dstPoint[i].x<dst.cols && dstPoint[i].y<dst.rows &&
+			        dstPoint[i].x>=0 && dstPoint[i].y>=0*/)
+                {
+                    dst[dstPoint[i]] = src[srcPoint[i]];
+                }
+            }
+
+        }
+
+        private static void AdjustWidth(Mat src)
+        {
+            if (src.Cols * src.NumberOfChannels % 4 != 0)
+            {
+                int right = (src.Cols + 3) / 4 * 4 - src.Cols;
+                throw new NotImplementedException();
+            }
         }
     }
 }

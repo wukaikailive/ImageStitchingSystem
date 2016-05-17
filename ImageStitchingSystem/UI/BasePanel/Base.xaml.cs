@@ -15,7 +15,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Emgu.CV;
+using Emgu.CV.Structure;
 using ImageStitchingSystem.Models;
+using ImageStitchingSystem.Utils;
 
 namespace ImageStitchingSystem.UI
 {
@@ -126,5 +129,7 @@ namespace ImageStitchingSystem.UI
             Photos.Remove((Photo)PhotosListBox.SelectedItem);
             Photos.UpdateIndex();
         }
+
+       
     }
 }

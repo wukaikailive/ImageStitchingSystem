@@ -7,14 +7,16 @@
       xmlns:er="clr-namespace:ImageStitchingSystem.Models" 
       xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
       xmlns:my="clr-namespace:ImageStitchingSystem.UI"
-              
+      xmlns:c="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:cx="clr-namespace:System;assembly=mscorlib"
     mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="850"
       >
 
     <!-- Styles and Templates -->
     <UserControl.Resources>
-        
+
+
         <!--<ObjectDataProvider x:Key="Photos" ObjectType="{x:Type er:PhotoCollection}" />-->
         
         <!-- Photo Template -->
@@ -167,6 +169,9 @@
                   LargeChange="20" />
             </StackPanel>
             <DockPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
+
+                
+                
                 <Button x:Name="BtnEdit" Click="btnEdit_Click" Height="24" Width="24">
                     <Button.Content>
                         <Image Source="/Resource/Images/ic_edit_green.png" Stretch="Fill"></Image>

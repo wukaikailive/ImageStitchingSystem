@@ -16,3 +16,6 @@ C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\Imag
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Release\ImageStitchingSystem.csproj.GenerateResource.Cache
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Release\ImageStitchingSystem.exe
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Release\ImageStitchingSystem.pdb
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\ImageStitchingSystem.exe.config
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Release\ImageStitchingSystem.exe
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Release\ImageStitchingSystem.pdb

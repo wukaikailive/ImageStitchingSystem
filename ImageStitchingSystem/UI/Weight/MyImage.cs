@@ -183,7 +183,6 @@ namespace ImageStitchingSystem.UI.Weight
                     }
                 }
 
-                
 
                 if (_addPoint != null && _addPoint.X>0 && _addPoint.Y>0)
                 {
@@ -193,11 +192,6 @@ namespace ImageStitchingSystem.UI.Weight
                     UiHelper.DrawCross(dc, p, 15, Brushes.White);
                 }
             }
-
-            //if (Source != null)
-            //{
-            //    dc.DrawImage(Source, new Rect(0, 0, 200, 200));
-            //}
 
         }
 

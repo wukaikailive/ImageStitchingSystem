@@ -57,7 +57,13 @@ namespace ImageStitchingSystem.UI
         private Point _leftPoint = new Point();
         private Point _rightPoint = new Point();
 
-        private bool isShowOtherPoint = true;
+        private bool _isShowOtherPoint = true;
+
+        private bool isLChange = false;
+        private bool isRChange = false;
+
+        private string lSaveName = Guid.NewGuid() + ".jpg";
+        private string rSaveName = Guid.NewGuid() + ".jpg";
 
         #endregion
 
@@ -92,8 +98,8 @@ namespace ImageStitchingSystem.UI
                 //PointColletion.OrderBy(o => o.Lx).ThenBy(o => o.Ly);
                 ListViewPoints.SetBinding(ItemsControl.ItemsSourceProperty, bind);
 
-                Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
-                Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
+                Image<Bgr, byte> l = new Image<Bgr, byte>(isLChange ? (ComboBoxL.SelectedItem as Photo).Source : lSaveName);
+                Image<Bgr, byte> r = new Image<Bgr, byte>(isRChange ? (ComboBoxR.SelectedItem as Photo).Source : rSaveName);
                 int i = -1;
                 Random romdom = new Random();
 
@@ -103,24 +109,8 @@ namespace ImageStitchingSystem.UI
                 UiHelper.ZoomImage(ImgL, ScrollViewerL, _zoomStringL);
                 UiHelper.ZoomImage(ImgR, ScrollViewerR, _zoomStringR);
 
-                ImgL.IsShowOtherPoint = isShowOtherPoint;
-                ImgR.IsShowOtherPoint = isShowOtherPoint;
-
-                //if(checkBoxIsClosePoint.IsChecked.Value==false)
-                //{
-                //    foreach (var v in pointColletion)
-                //    {
-                //        i++;
-                //        var mcv = new MCvScalar(romdom.Next(255), romdom.Next(255), 0);
-                //        CVUtils.DrawPointAndCursor(l, r, v, i, mcv);
-                //    }
-                //}
-
-                //if (selectedPoint != null && selectedPointIndex != -1)
-                //{
-                //    var mcv = new MCvScalar(0, 0, 255);
-                //    CVUtils.DrawPointAndCursor(l, r, selectedPoint, selectedPointIndex, mcv);
-                //}
+                ImgL.IsShowOtherPoint = _isShowOtherPoint;
+                ImgR.IsShowOtherPoint = _isShowOtherPoint;
 
                 if (_leftPoint.X > 0 && _leftPoint.Y > 0)
                 {
@@ -140,7 +130,6 @@ namespace ImageStitchingSystem.UI
 
                 }
 
-
                 if (_rightPoint.X > 0 && _rightPoint.Y > 0)
                 {
                     UiHelper.SetSmallImg(ImgRd, r, _rightPoint, ImgRd.Width, 2, 50);
@@ -157,7 +146,6 @@ namespace ImageStitchingSystem.UI
                         UiHelper.MoveToPoint(ScrollViewerR, pr);
                     }
                 }
-
 
                 ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
                 ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
@@ -217,6 +205,7 @@ namespace ImageStitchingSystem.UI
             Photo item = ComboBoxL.SelectedItem as Photo;
             if (item != null)
                 ImgL.Source = item.Image;
+            isLChange = true;
         }
 
         private void comboBoxR_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -224,6 +213,7 @@ namespace ImageStitchingSystem.UI
             Photo item = ComboBoxR.SelectedItem as Photo;
             if (item != null)
                 ImgR.Source = item.Image;
+            isRChange = true;
         }
 
         private void algsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -253,8 +243,9 @@ namespace ImageStitchingSystem.UI
                     break;
             }
             // stitcher.SetFeaturesFinder(finder);
-            Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
-            Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
+
+            Image<Bgr, byte> l = new Image<Bgr, byte>(isLChange ? (ComboBoxL.SelectedItem as Photo).Source : lSaveName);
+            Image<Bgr, byte> r = new Image<Bgr, byte>(isRChange ? (ComboBoxR.SelectedItem as Photo).Source : rSaveName);
 
             Mat homography;
             VectorOfKeyPoint modelKeyPoints;
@@ -301,6 +292,18 @@ namespace ImageStitchingSystem.UI
 
                     FeaturePoint p = new FeaturePoint(i, ll, rr, _matchers[i].Distance);
 
+                    try
+                    {
+                        if (l[(int)p.Lx, (int)p.Ly].IsBlack() || r[(int)p.Rx, (int)p.Ry].IsBlack() || l[(int)p.Lx, (int)p.Ly].IsWhite() || r[(int)p.Rx, (int)p.Ry].IsWhite())
+                            continue;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message + " " + ex.StackTrace);
+                        // MessageBox.Show(ex.Message + " " + ex.StackTrace);
+                    }
+
+
                     PointColletion.Add(p);
 
                 }
@@ -336,8 +339,8 @@ namespace ImageStitchingSystem.UI
         {
             try
             {
-                using (Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source))
-                using (Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source))
+                using (Image<Bgr, byte> l = new Image<Bgr, byte>(isLChange ? (ComboBoxL.SelectedItem as Photo).Source : lSaveName))
+                using (Image<Bgr, byte> r = new Image<Bgr, byte>(isRChange ? (ComboBoxR.SelectedItem as Photo).Source : rSaveName))
                 {
                     Image<Bgr, byte> result = CvUtils.Draw(l, r, PointColletion.ToList());
                     ImageBox box = new ImageBox();
@@ -487,10 +490,10 @@ namespace ImageStitchingSystem.UI
 
         #endregion
 
-        System.Drawing.Point leftTop = new System.Drawing.Point();
-        System.Drawing.Point leftBottom = new System.Drawing.Point();
-        System.Drawing.Point rightTop = new System.Drawing.Point();
-        System.Drawing.Point rightBottom = new System.Drawing.Point();
+        System.Drawing.Point _leftTop;
+        System.Drawing.Point _leftBottom;
+        System.Drawing.Point _rightTop;
+        System.Drawing.Point _rightBottom;
 
 
         //计算变换图像四个角的坐标
@@ -503,8 +506,8 @@ namespace ImageStitchingSystem.UI
             Matrix<double> V2 = new Matrix<double>(3, 1) { Data = v2 };
             Matrix<double> V1 = new Matrix<double>(3, 1) { Data = v1 };
             CvInvoke.Gemm(H, V2, 1, null, 1, V1);
-            leftTop.X = (int)Math.Round(v1[0, 0] / v1[2, 0]);
-            leftTop.Y = (int)Math.Round(v1[1, 0] / v1[2, 0]);
+            _leftTop.X = (int)Math.Round(v1[0, 0] / v1[2, 0]);
+            _leftTop.Y = (int)Math.Round(v1[1, 0] / v1[2, 0]);
             //cvCircle(xformed,leftTop,7,CV_RGB(255,0,0),2);
 
             //将v2中数据设为左下角坐标
@@ -513,8 +516,8 @@ namespace ImageStitchingSystem.UI
             V2 = new Matrix<double>(3, 1) { Data = v2 };
             V1 = new Matrix<double>(3, 1) { Data = v1 };
             CvInvoke.Gemm(H, V2, 1, null, 1, V1);
-            leftBottom.X = (int)Math.Round(v1[0, 0] / v1[2, 0]);
-            leftBottom.Y = (int)Math.Round(v1[1, 0] / v1[2, 0]);
+            _leftBottom.X = (int)Math.Round(v1[0, 0] / v1[2, 0]);
+            _leftBottom.Y = (int)Math.Round(v1[1, 0] / v1[2, 0]);
             //cvCircle(xformed,leftBottom,7,CV_RGB(255,0,0),2);
 
             //将v2中数据设为右上角坐标
@@ -523,8 +526,8 @@ namespace ImageStitchingSystem.UI
             V2 = new Matrix<double>(3, 1) { Data = v2 };
             V1 = new Matrix<double>(3, 1) { Data = v1 };
             CvInvoke.Gemm(H, V2, 1, null, 1, V1);
-            rightTop.X = (int)Math.Round(v1[0, 0] / v1[2, 0]);
-            rightTop.Y = (int)Math.Round(v1[1, 0] / v1[2, 0]);
+            _rightTop.X = (int)Math.Round(v1[0, 0] / v1[2, 0]);
+            _rightTop.Y = (int)Math.Round(v1[1, 0] / v1[2, 0]);
             //cvCircle(xformed,rightTop,7,CV_RGB(255,0,0),2);
 
             //将v2中数据设为右下角坐标
@@ -533,8 +536,8 @@ namespace ImageStitchingSystem.UI
             V2 = new Matrix<double>(3, 1) { Data = v2 };
             V1 = new Matrix<double>(3, 1) { Data = v1 };
             CvInvoke.Gemm(H, V2, 1, null, 1, V1);
-            rightBottom.X = (int)Math.Round(v1[0, 0] / v1[2, 0]);
-            rightBottom.Y = (int)Math.Round(v1[1, 0] / v1[2, 0]);
+            _rightBottom.X = (int)Math.Round(v1[0, 0] / v1[2, 0]);
+            _rightBottom.Y = (int)Math.Round(v1[1, 0] / v1[2, 0]);
             //cvCircle(xformed,rightBottom,7,CV_RGB(255,0,0),2);
 
         }
@@ -558,8 +561,8 @@ namespace ImageStitchingSystem.UI
 
                 Matrix<double> h = new Matrix<double>(3, 3);
 
-                Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
-                Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
+                Image<Bgr, byte> l = new Image<Bgr, byte>(isLChange ? (ComboBoxL.SelectedItem as Photo).Source : lSaveName);
+                Image<Bgr, byte> r = new Image<Bgr, byte>(isRChange ? (ComboBoxR.SelectedItem as Photo).Source : rSaveName);
 
                 int rows = 0;
                 int cols = 0;
@@ -580,7 +583,7 @@ namespace ImageStitchingSystem.UI
                         CvInvoke.FindHomography(pointsr, pointsl, h, HomographyMethod.Ransac);
                         CalcFourCorner(h, r);
 
-                        start = Math.Min(leftTop.X, leftBottom.X); //开始位置，即重叠区域的左边界
+                        start = Math.Min(_leftTop.X, _leftBottom.X); //开始位置，即重叠区域的左边界
                         processWidthOrHeight = l.Width - start;
                         break;
                     case "右->左":
@@ -592,7 +595,7 @@ namespace ImageStitchingSystem.UI
                         CvInvoke.FindHomography(pointsl, pointsr, h, HomographyMethod.Ransac);
                         CalcFourCorner(h, r);
 
-                        start = Math.Min(leftTop.X, leftBottom.X); //开始位置，即重叠区域的左边界
+                        start = Math.Min(_leftTop.X, _leftBottom.X); //开始位置，即重叠区域的左边界
                         processWidthOrHeight = l.Width - start;
                         break;
                     case "上->下":
@@ -603,7 +606,7 @@ namespace ImageStitchingSystem.UI
                         CvInvoke.FindHomography(pointsr, pointsl, h, HomographyMethod.Ransac);
                         CalcFourCorner(h, r);
 
-                        start = Math.Min(leftTop.Y, leftBottom.Y); //开始位置，即重叠区域的上边界
+                        start = Math.Min(_leftTop.Y, _leftBottom.Y); //开始位置，即重叠区域的上边界
                         processWidthOrHeight = l.Height - start;
                         break;
                     case "下->上":
@@ -616,7 +619,7 @@ namespace ImageStitchingSystem.UI
                         CvInvoke.FindHomography(pointsl, pointsr, h, HomographyMethod.Ransac);
                         CalcFourCorner(h, r);
 
-                        start = Math.Min(leftTop.Y, leftBottom.Y); //开始位置，即重叠区域的上边界
+                        start = Math.Min(_leftTop.Y, _leftBottom.Y); //开始位置，即重叠区域的上边界
                         processWidthOrHeight = l.Height - start;
                         break;
                 }
@@ -626,6 +629,7 @@ namespace ImageStitchingSystem.UI
                 Matrix<double> sh = new Matrix<double>(tData);
 
                 System.Drawing.Size size = new System.Drawing.Size(cols, rows);
+
                 Image<Bgr, byte> result = new Image<Bgr, byte>(size);
 
                 Image<Bgr, byte> last = new Image<Bgr, byte>(size);
@@ -637,17 +641,17 @@ namespace ImageStitchingSystem.UI
                 if (horizontal)
                 {
                     l.ROI = new Rectangle(new System.Drawing.Point(0, 0),
-                        new System.Drawing.Size(Math.Min(leftTop.X, leftBottom.X), l.Height));
+                        new System.Drawing.Size(Math.Min(_leftTop.X, _leftBottom.X), l.Height));
                     last.ROI = new Rectangle(new System.Drawing.Point(0, 0),
-                        new System.Drawing.Size(Math.Min(leftTop.X, leftBottom.X), l.Height));
+                        new System.Drawing.Size(Math.Min(_leftTop.X, _leftBottom.X), l.Height));
 
                 }
                 else
                 {
                     l.ROI = new Rectangle(new System.Drawing.Point(0, 0),
-                        new System.Drawing.Size(l.Width, Math.Min(leftTop.Y, leftBottom.Y)));
+                        new System.Drawing.Size(l.Width, Math.Min(_leftTop.Y, _leftBottom.Y)));
                     last.ROI = new Rectangle(new System.Drawing.Point(0, 0),
-                        new System.Drawing.Size(l.Width, Math.Min(leftTop.Y, leftBottom.Y)));
+                        new System.Drawing.Size(l.Width, Math.Min(_leftTop.Y, _leftBottom.Y)));
                 }
 
                 l.CopyTo(last); //先用左图片填充重叠区域左边或上边
@@ -708,18 +712,27 @@ namespace ImageStitchingSystem.UI
                 }
 
                 //裁剪
-
-                if (horizontal)
+                try
                 {
-                    int w = Math.Max(rightTop.X, rightBottom.X);
-                    last.ROI = new Rectangle(new System.Drawing.Point(0, 0), new System.Drawing.Size(w, last.Height));
-                }
-                else
-                {
-                    int hi = Math.Max(leftBottom.Y, rightBottom.Y);
-                    last.ROI = new Rectangle(new System.Drawing.Point(0, 0), new System.Drawing.Size(last.Width, hi));
-                }
+                    if (horizontal)
+                    {
+                        int w = Math.Max(_rightTop.X, _rightBottom.X);
+                        last.ROI = new Rectangle(new System.Drawing.Point(0, 0), new System.Drawing.Size(w, last.Height));
+                    }
+                    else
+                    {
+                        int hi = Math.Max(_leftBottom.Y, _rightBottom.Y);
+                        last.ROI = new Rectangle(new System.Drawing.Point(0, 0), new System.Drawing.Size(last.Width, hi));
+                    }
 
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                    MessageBox.Show("裁剪时遇到一点问题..." + ex.Message);
+                }
+                ImageBox box = new ImageBox { Image = result.Bitmap };
+                box.Show();
 
                 if (!TextBoxFileSaveName.Text.Trim().Equals(""))
                 {
@@ -735,7 +748,7 @@ namespace ImageStitchingSystem.UI
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message + ex.StackTrace);
-                MessageBox.Show("操作错误" + ex.Message);
+                MessageBox.Show("操作错误:" + ex.Message);
             }
 
         }
@@ -813,14 +826,117 @@ namespace ImageStitchingSystem.UI
 
         private void CheckBoxIsClosePoint_Checked(object sender, RoutedEventArgs e)
         {
-            CheckBox cb=sender as CheckBox;
-            if (cb?.IsChecked != null) isShowOtherPoint = !cb.IsChecked.Value;
+            CheckBox cb = sender as CheckBox;
+            if (cb?.IsChecked != null) _isShowOtherPoint = !cb.IsChecked.Value;
             BindPoints();
         }
 
         private void CheckBoxIsClosePoint_Unchecked(object sender, RoutedEventArgs e)
         {
             this.CheckBoxIsClosePoint_Checked(sender, e);
+        }
+
+        private void ComboBoxProjectionL_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboBoxL == null) return;
+            Image<Bgr, byte> l = new Image<Bgr, byte>((ComboBoxL.SelectedItem as Photo).Source);
+
+            string str = (sender as ComboBox).SelectedItem as string;
+            switch (str)
+            {
+                case "默认":
+                    ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
+                    isLChange = true;
+                    break;
+                case "平面->柱面":
+                    l = l.Plane2CyLinder(l.Width);
+                    ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
+                    l.Save(lSaveName);
+                    isLChange = false;
+                    break;
+                case "柱面->平面":
+                    l = l.CyLinder2Plane(l.Width);
+                    ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
+                    l.Save(lSaveName);
+                    isLChange = false;
+                    break;
+                case "平面->球面":
+                    l = l.Plane2Sphere(l.Width);
+                    ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
+                    l.Save(lSaveName);
+                    isLChange = false;
+                    break;
+                case "球面->平面":
+                    l = l.Sphere2Plane(l.Width);
+                    ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
+                    l.Save(lSaveName);
+                    isLChange = false;
+                    break;
+                case "鱼眼":
+                    l = l.FishEye(l.Width);
+                    ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
+                    l.Save(lSaveName);
+                    isLChange = false;
+                    break;
+                case "鱼眼修正":
+                    l = l.FishEyeRectify(l.Width);
+                    ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
+                    l.Save(lSaveName);
+                    isLChange = false;
+                    break;
+
+            }
+        }
+
+        private void ComboBoxProjectionR_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboBoxR == null) return;
+            Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
+            string str = (sender as ComboBox).SelectedItem as string;
+            switch (str)
+            {
+                case "默认":
+                    ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
+                    isRChange = true;
+                    break;
+                case "平面->柱面":
+                    r = r.Plane2CyLinder(r.Width);
+                    ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
+                    r.Save(rSaveName);
+                    isRChange = false;
+                    break;
+                case "柱面->平面":
+                    r = r.CyLinder2Plane(r.Width);
+                    ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
+                    r.Save(rSaveName);
+                    isRChange = false;
+                    break;
+                case "平面->球面":
+                    r = r.Plane2Sphere(r.Width);
+                    ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
+                    r.Save(rSaveName);
+                    isRChange = false;
+                    break;
+                case "球面->平面":
+                    r = r.Sphere2Plane(r.Width);
+                    ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
+                    r.Save(rSaveName);
+                    isRChange = false;
+                    break;
+                case "鱼眼":
+                    r = r.FishEye(r.Width);
+                    ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
+                    r.Save(rSaveName);
+                    isRChange = false;
+                    break;
+                case "鱼眼修正":
+                    r = r.FishEyeRectify(r.Width);
+                    ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
+                    r.Save(rSaveName);
+                    isRChange = false;
+                    break;
+            }
+
         }
     }
 }
