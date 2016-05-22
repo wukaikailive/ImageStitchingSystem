@@ -51,12 +51,13 @@ C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\Imag
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.exe
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.pdb
 C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.csprojResolveAssemblyReference.cache
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.exe.config
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.exe
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.exe.config
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\ImageStitchingSystem.pdb
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\photoview.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\Resource\UserControl1.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\Base.g.cs
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\Help\HelpView.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\ImageBox.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\MainWindow.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\PhotoEditWindow.g.cs
@@ -74,6 +75,7 @@ F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\App.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\Resource\UserControl1.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\Base.baml
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\Help\HelpView.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\ImageBox.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\MainWindow.baml
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\BasePanel\PhotoEditWindow.baml
@@ -89,5 +91,3 @@ F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.exe
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.pdb
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.csprojResolveAssemblyReference.cache
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\Help\HelpView.g.cs
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\Help\HelpView.baml

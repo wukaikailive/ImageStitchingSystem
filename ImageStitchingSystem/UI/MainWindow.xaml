@@ -30,10 +30,10 @@
 
         </Menu>-->
         <TabControl Background="#eeeeee" x:Name="TabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TabItem Header="文件" Background="#eeeeee" Height="21" VerticalAlignment="Top">
+            <TabItem Header="图像管理" Background="#eeeeee" Height="21" VerticalAlignment="Top">
                 <ui:Base HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:Base>
             </TabItem>
-            <TabItem Header="特征点寻找优化">
+            <TabItem Header="图像拼接">
                 <ui:SimpleView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:SimpleView>
             </TabItem>
             <TabItem Header="帮助">

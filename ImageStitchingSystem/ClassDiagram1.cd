@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ImageStitchingSystem.Utils.CvUtils">
+    <Position X="1.75" Y="0.5" Width="2.75" />
+    <NestedTypes>
+      <Enum Name="ImageStitchingSystem.Utils.CvUtils.Orientation" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Utils\CVUtils.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AgggAQABAAAAAhCAAAAAOoggCAAAAQCACAAAQIIAJAA=</HashCode>
+      <FileName>Utils\CVUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageStitchingSystem.Models.Photo">
+    <Position X="4.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAkACAAAEBAAgAAAAgAAAQBAAAAEAAAAEAAA=</HashCode>
+      <FileName>Models\data.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ImageStitchingSystem.Models.PhotoCollection">
+    <Position X="7" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EAQAABAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Models\data.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ImageStitchingSystem.Utils.BitmapUtils">
+    <Position X="12.25" Y="2.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\BitmapUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageStitchingSystem.Utils.ImageUtils">
+    <Position X="4.75" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAQAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\ImageUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageStitchingSystem.Utils.TextUtils">
+    <Position X="12.25" Y="4.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\TextUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageStitchingSystem.Utils.UiHelper">
+    <Position X="7" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAACAAAAEAAAAAAABAIAAAAAAAAAAAGAAAAgCJAAAAA=</HashCode>
+      <FileName>Utils\UIHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageStitchingSystem.Models.FeaturePoint" BaseTypeListCollapsed="true">
+    <Position X="9.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAABACAACAAABAAwAAAAgAAAYABAAAEAIAAAAAA=</HashCode>
+      <FileName>Models\FeaturePoint.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ImageStitchingSystem.Models.FeaturePointCollection">
+    <Position X="12.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAAAAAQA=</HashCode>
+      <FileName>Models\FeaturePoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

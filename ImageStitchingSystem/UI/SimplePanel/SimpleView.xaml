@@ -9,7 +9,7 @@
              xmlns:model="clr-namespace:ImageStitchingSystem.Models"
              xmlns:weight="clr-namespace:ImageStitchingSystem.UI.Weight"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="800">
+             d:DesignHeight="500" d:DesignWidth="850">
 
     <UserControl.Resources>
 
@@ -62,6 +62,20 @@
             <cx:String>球面->平面</cx:String>
             <cx:String>鱼眼</cx:String>
             <cx:String>鱼眼修正</cx:String>
+        </c:ArrayList>
+        <c:ArrayList x:Key="StitcheArithmetic">
+            <cx:String>Ransac</cx:String>
+            <cx:String>LMEDS</cx:String>
+            <cx:String>Default</cx:String>
+        </c:ArrayList>
+        <c:ArrayList x:Key="BorderType">
+            <cx:String>Constant</cx:String>
+            <cx:String>Replicate</cx:String>
+            <cx:String>Reflect</cx:String>
+            <cx:String>Wrap</cx:String>
+            <cx:String>Default</cx:String>
+            <cx:String>Reflect101</cx:String>
+            <cx:String>Transparent</cx:String>
         </c:ArrayList>
 
         <c:ArrayList x:Key="FeatureAlg">
@@ -141,7 +155,7 @@
                             <Image Margin="2" Source="/Resource/Images/ic_accommodate.png" ></Image>
                         </Button.Content>
                     </Button>
-                    
+
                 </WrapPanel>
                 <TextBlock Text="操作" DockPanel.Dock="Bottom" Margin="0 8 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
             </DockPanel>
@@ -162,7 +176,7 @@
                 </WrapPanel>
                 <TextBlock Text="属性" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
             </DockPanel>
-            
+
             <GridSplitter Grid.Column="1" IsEnabled="False" Width="1" Margin="0 4 0 4" Background="#bdbdbd"></GridSplitter>
             <DockPanel Grid.Column="2" Margin="4 4 5 4">
                 <WrapPanel DockPanel.Dock="Top">
@@ -196,7 +210,7 @@
                         </Button>
                     </WrapPanel>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0 8 0 0">
-                        <CheckBox Content="自动估算" IsChecked="True" Name="AutoEstimateCheckBox"></CheckBox>
+                        <CheckBox Content="自动估算" IsChecked="True" Name="AutoEstimateCheckBox" Visibility="Collapsed"></CheckBox>
                     </StackPanel>
                 </StackPanel>
                 <TextBlock Text="特征点操作" DockPanel.Dock="Bottom" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
@@ -204,7 +218,7 @@
 
             <GridSplitter Grid.Column="3" IsEnabled="False" Width="1" Margin="0 4 0 4" Background="#bdbdbd"></GridSplitter>
 
-            <DockPanel Grid.Column="4" Margin="4 4 5 4">
+            <DockPanel Visibility="Collapsed" Grid.Column="4" Margin="4 4 5 4">
                 <StackPanel DockPanel.Dock="Top">
                     <WrapPanel >
                         <Button x:Name="ButtonFilter" Width="80" Height="24" Content="过滤特征点" ToolTip="unSuppoort" VerticalAlignment="Top" Click="buttonFilter_Click">
@@ -218,24 +232,37 @@
             <GridSplitter Grid.Column="4" IsEnabled="False" Width="1" Margin="0 4 0 4" Background="#bdbdbd"></GridSplitter>
 
             <DockPanel Grid.Column="5" Margin="4 4 5 4">
-                <StackPanel DockPanel.Dock="Top">
-                    <WrapPanel >
-                        <Button x:Name="ButtonStitch" Width="32" Height="32" ToolTip="缝合" VerticalAlignment="Top" Click="Button_Click" >
-                            <Button.Content>
-                                <Image Source="/Resource/Images/ic_merge.png"></Image>
-                            </Button.Content>
-                        </Button>
-                        <StackPanel Margin="4 0 0 0">
-                            <TextBlock Text="保存的文件名"></TextBlock>
-                            <TextBox x:Name="TextBoxFileSaveName" Width="100"></TextBox>
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                    <StackPanel >
+                        <WrapPanel >
+                            <Button x:Name="ButtonStitch" Width="32" Height="32" ToolTip="缝合" VerticalAlignment="Top" Click="Button_Click" >
+                                <Button.Content>
+                                    <Image Source="/Resource/Images/ic_merge.png"></Image>
+                                </Button.Content>
+                            </Button>
+                            <StackPanel Margin="4 0 0 0">
+                                <TextBlock Text="保存的文件名"></TextBlock>
+                                <TextBox x:Name="TextBoxFileSaveName" Width="100"></TextBox>
+                            </StackPanel>
+                        </WrapPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 8 0 0">
+                            <ComboBox x:Name="ComboBoxOrientation" ItemsSource="{StaticResource SticheOrientation}" SelectedIndex="0">
+                            </ComboBox>
+                            <ComboBox x:Name="ComboBoxStitcheArithmetic" ItemsSource="{StaticResource StitcheArithmetic}" SelectedIndex="0">
+                            </ComboBox>
                         </StackPanel>
-                    </WrapPanel>
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0 8 0 0">
-                        <ComboBox x:Name="ComboBoxOrientation" ItemsSource="{StaticResource SticheOrientation}" SelectedIndex="0">
-                            
+                    </StackPanel>
+
+                    <StackPanel>
+                        <CheckBox x:Name="CheckBoxIsShowWarpResult" Content="查看warp结果" VerticalAlignment="Center"></CheckBox>
+                        <CheckBox IsChecked="True" x:Name="CheckBoxWeightedAverage" Content="重叠区域加权平均" VerticalAlignment="Center"></CheckBox>
+                        <CheckBox IsChecked="True" x:Name="CheckBoxAutoResize" Content="自动裁剪" VerticalAlignment="Center"></CheckBox>
+                        <ComboBox x:Name="ComboBoxBorderType" ItemsSource="{StaticResource BorderType}" SelectedIndex="4">
                         </ComboBox>
                     </StackPanel>
+                    
                 </StackPanel>
+
                 <TextBlock Text="缝合" DockPanel.Dock="Bottom" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
             </DockPanel>
 
@@ -244,7 +271,7 @@
 
         </Grid>
 
-       
+
         <DockPanel Grid.Column="0" Grid.Row="1">
 
             <ComboBox x:Name="ComboBoxProjectionL" ItemsSource="{StaticResource Projection}" SelectedIndex="0" SelectionChanged="ComboBoxProjectionL_SelectionChanged"></ComboBox>
@@ -258,7 +285,7 @@
                   ItemsSource="{Binding Mode=OneWay, Source={StaticResource Photos}}" SelectionChanged="comboBoxL_SelectionChanged">
 
             </ComboBox>
-            
+
         </DockPanel>
 
 
@@ -311,20 +338,20 @@
 
 
             <GroupBox Grid.Column="1" Grid.Row="2">
-              
-                    <ListView x:Name="ListViewPoints" ItemsSource="{Binding featurePointCollection}" SelectedIndex="0" SelectionChanged="listViewPoints_SelectionChanged" KeyDown="listViewPoints_KeyDown" >
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="#" Width="50" CellTemplate="{StaticResource Index}"/>
-                                <GridViewColumn Header="左x" Width="70" CellTemplate="{StaticResource Lx}"/>
-                                <GridViewColumn Header="左y" Width="70" CellTemplate="{StaticResource Ly}"/>
-                                <GridViewColumn Header="右x" Width="70" CellTemplate="{StaticResource Rx}"/>
-                                <GridViewColumn Header="右y" Width="70" CellTemplate="{StaticResource Ry}"/>
-                                <GridViewColumn Header="距离" Width="70" CellTemplate="{StaticResource Distance}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                
+
+                <ListView x:Name="ListViewPoints" ItemsSource="{Binding featurePointCollection}" SelectedIndex="0" SelectionChanged="listViewPoints_SelectionChanged" KeyDown="listViewPoints_KeyDown" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="#" Width="50" CellTemplate="{StaticResource Index}"/>
+                            <GridViewColumn Header="左x" Width="70" CellTemplate="{StaticResource Lx}"/>
+                            <GridViewColumn Header="左y" Width="70" CellTemplate="{StaticResource Ly}"/>
+                            <GridViewColumn Header="右x" Width="70" CellTemplate="{StaticResource Rx}"/>
+                            <GridViewColumn Header="右y" Width="70" CellTemplate="{StaticResource Ry}"/>
+                            <GridViewColumn Header="距离" Width="70" CellTemplate="{StaticResource Distance}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
             </GroupBox>
 
         </Grid>

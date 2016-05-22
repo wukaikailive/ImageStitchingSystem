@@ -33,6 +33,7 @@ using ImageStitchingSystem.UI.Weight;
 using Image = System.Windows.Controls.Image;
 using Point = System.Windows.Point;
 using Rectangle = System.Drawing.Rectangle;
+using static System.Math;
 
 namespace ImageStitchingSystem.UI
 {
@@ -231,15 +232,12 @@ namespace ImageStitchingSystem.UI
         {
             string s = AlgsComboBox.SelectedItem as string;
             Debug.Assert(s != null);
-            Stitcher stitcher = new Stitcher(false);
-            FeaturesFinder finder = null;
             switch (s)
             {
                 case "SURF":
 
                     break;
                 case "Orb":
-                    finder = new OrbFeaturesFinder(new System.Drawing.Size(3, 1));
                     break;
             }
             // stitcher.SetFeaturesFinder(finder);
@@ -294,19 +292,15 @@ namespace ImageStitchingSystem.UI
 
                     FeaturePoint p = new FeaturePoint(i, ll, rr, _matchers[i].Distance);
 
-                    if (p.Lx > 0 && p.Lx < l.Width && p.Ly > 0 && p.Ly < l.Height && p.Rx > 0 && p.Rx < r.Width &&
-                        p.Ry > 0 && p.Ry < r.Height)
-                    {
-                        Bgr la = l[(int)p.Ly, (int)p.Lx];
-                        Bgr ra = r[(int)p.Ry, (int)p.Rx];
-                        if (la.IsBlack() || ra.IsBlack() || la.IsWhite() || ra.IsWhite())
-                            continue;
-                    }
+                    Bgr la = l[(int)p.Ly, (int)p.Lx];
+                    Bgr ra = r[(int)p.Ry, (int)p.Rx];
+                    if (la.IsBlack() || ra.IsBlack() || la.IsWhite() || ra.IsWhite())
+                        continue;
 
                     PointColletion.Add(p);
 
                 }
-               // stopwatch.Stop();
+                // stopwatch.Stop();
             }
 
             BindPoints();
@@ -561,8 +555,8 @@ namespace ImageStitchingSystem.UI
 
                 Matrix<double> h = new Matrix<double>(3, 3);
 
-                Image<Bgr, byte> l = new Image<Bgr, byte>(isLChange ? (ComboBoxL.SelectedItem as Photo).Source : lSaveName);
-                Image<Bgr, byte> r = new Image<Bgr, byte>(isRChange ? (ComboBoxR.SelectedItem as Photo).Source : rSaveName);
+                Image<Bgr, byte> l = new Image<Bgr, byte>(isLChange ? (ComboBoxL.SelectedItem as Photo)?.Source : lSaveName);
+                Image<Bgr, byte> r = new Image<Bgr, byte>(isRChange ? (ComboBoxR.SelectedItem as Photo)?.Source : rSaveName);
 
                 int rows = 0;
                 int cols = 0;
@@ -573,6 +567,20 @@ namespace ImageStitchingSystem.UI
                 double[,] tData = { { 1.0, 0, 0 }, { 0, 1.0, 0 }, { 0, 0, 1.0 } };
 
                 bool horizontal = true;
+                HomographyMethod method = (HomographyMethod) Enum.Parse(typeof(HomographyMethod),
+                    ComboBoxStitcheArithmetic.SelectedItem as string);
+                //switch (ComboBoxStitcheArithmetic.SelectedItem as string)
+                //{
+                //    case "Ransac":
+                //        method = HomographyMethod.Ransac;
+                //        break;
+                //    case "LMEDS":
+                //        method = HomographyMethod.LMEDS;
+                //        break;
+                //    case "Default":
+                //        method = HomographyMethod.Default;
+                //        break;
+                //}
 
                 switch (ComboBoxOrientation.SelectedItem as string)
                 {
@@ -580,7 +588,7 @@ namespace ImageStitchingSystem.UI
                         rows = Math.Max(l.Rows, r.Rows);
                         cols = l.Cols + r.Cols;
                         //求单应矩阵
-                        CvInvoke.FindHomography(pointsr, pointsl, h, HomographyMethod.Ransac);
+                        CvInvoke.FindHomography(pointsr, pointsl, h, method);
                         CalcFourCorner(h, r);
 
                         start = Math.Min(_leftTop.X, _leftBottom.X); //开始位置，即重叠区域的左边界
@@ -592,7 +600,7 @@ namespace ImageStitchingSystem.UI
                         r = t;
                         rows = Math.Max(l.Rows, r.Rows);
                         cols = l.Cols + r.Cols;
-                        CvInvoke.FindHomography(pointsl, pointsr, h, HomographyMethod.Ransac);
+                        CvInvoke.FindHomography(pointsl, pointsr, h, method);
                         CalcFourCorner(h, r);
 
                         start = Math.Min(_leftTop.X, _leftBottom.X); //开始位置，即重叠区域的左边界
@@ -603,7 +611,7 @@ namespace ImageStitchingSystem.UI
                         rows = l.Rows + r.Rows;
                         cols = Math.Max(l.Cols, r.Cols);
 
-                        CvInvoke.FindHomography(pointsr, pointsl, h, HomographyMethod.Ransac);
+                        CvInvoke.FindHomography(pointsr, pointsl, h, method);
                         CalcFourCorner(h, r);
 
                         start = Math.Min(_leftTop.Y, _leftBottom.Y); //开始位置，即重叠区域的上边界
@@ -616,7 +624,8 @@ namespace ImageStitchingSystem.UI
                         r = t1;
                         rows = l.Rows + r.Rows;
                         cols = Math.Max(l.Cols, r.Cols);
-                        CvInvoke.FindHomography(pointsl, pointsr, h, HomographyMethod.Ransac);
+                        CvInvoke.FindHomography(pointsl, pointsr, h, method);
+
                         CalcFourCorner(h, r);
 
                         start = Math.Min(_leftTop.Y, _leftBottom.Y); //开始位置，即重叠区域的上边界
@@ -634,105 +643,172 @@ namespace ImageStitchingSystem.UI
 
                 Image<Bgr, byte> last = new Image<Bgr, byte>(size);
 
-                CvInvoke.WarpPerspective(r, result, sh * h, size);
+                BorderType borderType = (BorderType) Enum.Parse(typeof(BorderType), ComboBoxBorderType.SelectedItem as string);
+                //switch (ComboBoxBorderType.SelectedItem as string)
+                //{
+                //    case "NegativeOne":
+                        
+                //        break;
+                //    case "Constant":
+                //        break;
+                //    case "Replicate":
+                //        break;
+                //    case "Reflect":
+                //        break;
+                //    case "Wrap":
+                //        break;
+                //    case "Default":
+                //        break;
+                //    case "Reflect101":
+                //        break;
+                //    case "Transparent":
+                //        break;
+                //    case "Isolated":
+                //        break;
+                //}
+
+                CvInvoke.WarpPerspective(r, result, sh * h, size,Inter.Linear,Warp.Default,borderType);
+
+                if (CheckBoxIsShowWarpResult.IsChecked != null && CheckBoxIsShowWarpResult.IsChecked.Value)
+                {
+                    ImageBox box0 = new ImageBox { Image = result.Bitmap };
+                    box0.Show();
+                }
+
 
                 last = result.Clone();
 
-                if (horizontal)
+                if (CheckBoxWeightedAverage.IsChecked != null && CheckBoxWeightedAverage.IsChecked.Value)
                 {
-                    l.ROI = new Rectangle(new System.Drawing.Point(0, 0),
-                        new System.Drawing.Size(Math.Min(_leftTop.X, _leftBottom.X), l.Height));
-                    last.ROI = new Rectangle(new System.Drawing.Point(0, 0),
-                        new System.Drawing.Size(Math.Min(_leftTop.X, _leftBottom.X), l.Height));
+                    #region 重叠区域加权平均
 
-                }
-                else
-                {
-                    l.ROI = new Rectangle(new System.Drawing.Point(0, 0),
-                        new System.Drawing.Size(l.Width, Math.Min(_leftTop.Y, _leftBottom.Y)));
-                    last.ROI = new Rectangle(new System.Drawing.Point(0, 0),
-                        new System.Drawing.Size(l.Width, Math.Min(_leftTop.Y, _leftBottom.Y)));
-                }
-
-                l.CopyTo(last); //先用左图片填充重叠区域左边或上边
-
-                l.ROI = Rectangle.Empty;
-                last.ROI = Rectangle.Empty;
-                //ImageBox box0 = new ImageBox {Image = last.Bitmap};
-                //box0.Show();
-
-                double alpha = 1; //左图中像素的权重
-
-                if (horizontal)
-                {
-                    for (int i = 0; i < last.Height; i++)
-                    {
-                        for (int j = start; j < l.Width; j++)
-                        {
-                            if (last[i, j].Red < 50 && last[i, j].Green < 50 && last[i, j].Blue < 50)
-                            {
-                                alpha = 1;
-                            }
-                            else
-                            {
-                                alpha = (processWidthOrHeight - (j - start)) * 1.0 / processWidthOrHeight;
-                            }
-                            Bgr b = l[i, j];
-                            Bgr c = result[i, j];
-                            double blue = b.Blue * alpha + c.Blue * (1 - alpha);
-                            double green = b.Green * alpha + c.Green * (1 - alpha);
-                            double red = b.Red * alpha + c.Red * (1 - alpha);
-                            last[i, j] = new Bgr(blue, green, red);
-                        }
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < last.Width; i++)
-                    {
-                        for (int j = start; j < l.Height; j++)
-                        {
-                            //如果是黑色像素 则全由左图填充
-                            if (last[j, i].Red < 50 && last[j, i].Green < 50 && last[j, i].Blue < 50)
-                            {
-                                alpha = 1;
-                            }
-                            else
-                            {
-                                alpha = (processWidthOrHeight - (j - start)) * 1.0 / processWidthOrHeight;
-                            }
-                            Bgr b = l[j, i];
-                            Bgr c = result[j, i];
-                            double blue = b.Blue * alpha + c.Blue * (1 - alpha);
-                            double green = b.Green * alpha + c.Green * (1 - alpha);
-                            double red = b.Red * alpha + c.Red * (1 - alpha);
-                            last[j, i] = new Bgr(blue, green, red);
-                        }
-                    }
-                }
-
-                //裁剪
-                try
-                {
                     if (horizontal)
                     {
-                        int w = Math.Max(_rightTop.X, _rightBottom.X);
-                        last.ROI = new Rectangle(new System.Drawing.Point(0, 0), new System.Drawing.Size(w, last.Height));
+                        l.ROI = new Rectangle(new System.Drawing.Point(0, 0),
+                            new System.Drawing.Size(Math.Min(_leftTop.X, _leftBottom.X), l.Height));
+                        last.ROI = new Rectangle(new System.Drawing.Point(0, 0),
+                            new System.Drawing.Size(Math.Min(_leftTop.X, _leftBottom.X), l.Height));
+
                     }
                     else
                     {
-                        int hi = Math.Max(_leftBottom.Y, _rightBottom.Y);
-                        last.ROI = new Rectangle(new System.Drawing.Point(0, 0), new System.Drawing.Size(last.Width, hi));
+                        l.ROI = new Rectangle(new System.Drawing.Point(0, 0),
+                            new System.Drawing.Size(l.Width, Math.Min(_leftTop.Y, _leftBottom.Y)));
+                        last.ROI = new Rectangle(new System.Drawing.Point(0, 0),
+                            new System.Drawing.Size(l.Width, Math.Min(_leftTop.Y, _leftBottom.Y)));
                     }
 
+                    l.CopyTo(last); //先用左图片填充重叠区域左边或上边
+
+                    l.ROI = Rectangle.Empty;
+                    last.ROI = Rectangle.Empty;
+
+                    ImageBox box00 = new ImageBox { Image = last.Bitmap };
+                    box00.Show();
+
+                    double alpha; //左图中像素的权重
+                    if (horizontal)
+                    {
+                        for (int i = 0; i < last.Height; i++)
+                        {
+                            for (int j = start; j < l.Width; j++)
+                            {
+                                if (last[i, j].IsBlack())
+                                {
+                                    alpha = 1;
+                                }
+                                else
+                                {
+                                    alpha = (processWidthOrHeight - (j - start)) * 1.0 / processWidthOrHeight;
+                                }
+                                Bgr b = l[i, j];
+                                Bgr c = result[i, j];
+                                double blue = b.Blue * alpha + c.Blue * (1 - alpha);
+                                double green = b.Green * alpha + c.Green * (1 - alpha);
+                                double red = b.Red * alpha + c.Red * (1 - alpha);
+                                last[i, j] = new Bgr(blue, green, red);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < last.Width; i++)
+                        {
+                            for (int j = start; j < l.Height; j++)
+                            {
+                                //如果是黑色像素 则全由左图填充
+                                if (last[j, i].IsBlack())
+                                {
+                                    alpha = 1;
+                                }
+                                else
+                                {
+                                    alpha = (processWidthOrHeight - (j - start)) * 1.0 / processWidthOrHeight;
+                                }
+                                Bgr b = l[j, i];
+                                Bgr c = result[j, i];
+                                double blue = b.Blue * alpha + c.Blue * (1 - alpha);
+                                double green = b.Green * alpha + c.Green * (1 - alpha);
+                                double red = b.Red * alpha + c.Red * (1 - alpha);
+                                last[j, i] = new Bgr(blue, green, red);
+                            }
+                        }
+                    }
+                    #endregion
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine(ex.StackTrace);
-                    MessageBox.Show("裁剪时遇到一点问题..." + ex.Message);
+                    last.ROI = new Rectangle(new System.Drawing.Point(0, 0),
+                        new System.Drawing.Size(l.Width, l.Height));
+                    l.CopyTo(last);
+                    last.ROI=Rectangle.Empty;
+
+                    for (int i = 0; i < result.Rows; i++)
+                    {
+                        for (int j = 0; j < result.Cols; j++)
+                        {
+                            if (!result[i, j].IsBlack())
+                            {
+                                last[i,j] = result[i, j];
+                            }
+                        }
+                    }
                 }
-                ImageBox box = new ImageBox { Image = result.Bitmap };
-                box.Show();
+
+                //if (horizontal)
+                //{
+                //    last.ROI = new Rectangle(l.Width - 10, 0, l.Width + 10, last.Height);
+                //    last.SmoothMedian(5);
+                //    last.ROI=Rectangle.Empty;
+                //}
+                //else
+                //{
+                //    last.ROI = new Rectangle(0, l.Height - 10, last.Width, l.Height + 10);
+                //    last.SmoothMedian(5);
+                //    last.ROI = Rectangle.Empty;
+                //}
+
+                #region 裁剪
+                if (CheckBoxAutoResize.IsChecked != null && CheckBoxAutoResize.IsChecked.Value)
+                    try
+                    {
+                        if (horizontal)
+                        {
+                            int w = Math.Max(_rightTop.X, _rightBottom.X);
+                            last.ROI = new Rectangle(new System.Drawing.Point(0, 0), new System.Drawing.Size(w, last.Height));
+                        }
+                        else
+                        {
+                            int hi = Math.Max(_leftBottom.Y, _rightBottom.Y);
+                            last.ROI = new Rectangle(new System.Drawing.Point(0, 0), new System.Drawing.Size(last.Width, hi));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.StackTrace);
+                        MessageBox.Show("裁剪时遇到一点问题..." + ex.Message);
+                    }
+                #endregion
 
                 if (!TextBoxFileSaveName.Text.Trim().Equals(""))
                 {
@@ -777,27 +853,38 @@ namespace ImageStitchingSystem.UI
         private void buttonFilter_Click(object sender, RoutedEventArgs e)
         {
             //todo 过滤特征点
-            //VectorOfDMatch
+
             //int pCount = PointColletion.Count;
 
-            //Matrix<float> p1 = new Matrix<float>(pCount, 2);
-            //Matrix<float> p2 = new Matrix<float>(pCount, 2);
+
+            //PointF[] ppp1 = new PointF[pCount];
+            //PointF[] ppp2 = new PointF[pCount];
+
+            //Matrix<float> p1 = new Matrix<float>(2, pCount, 1);
+            //Matrix<float> p2 = new Matrix<float>(2, pCount, 1);
 
             //for (int i = 0; i < pCount; i++)
             //{
             //    FeaturePoint point = PointColletion.GetByIndex(i);
             //    if (point == null) continue;
-            //    p1[i, 0] = (float)point.Rx;
-            //    p1[i, 1] = (float)point.Ry;
-            //    p2[i, 0] = (float)point.Lx;
-            //    p2[i, 1] = (float)point.Ly;
+            //    //p1[0, i] = (float)point.Rx;
+            //    //p1[1, i] = (float)point.Ry;
+            //    //p2[0, i] = (float)point.Lx;
+            //    //p2[1, i] = (float)point.Ly;
+
+            //    ppp1[i] = point.TrainPoint.Point;
+            //    ppp2[i] = point.QueryPoint.Point;
             //}
 
+            //VectorOfPointF pp1 = new VectorOfPointF(ppp1);
+            //VectorOfPointF pp2 = new VectorOfPointF(ppp2);
             //// Mat m_Fundamental = new Mat();
-            //Matrix<float> mRansacStatus=new Matrix<float>(pCount,1);
+            //Matrix<float> f = new Matrix<float>(1, pCount, 1);
+
             //try
             //{
-            //    CvInvoke.FindFundamentalMat(p1, p2, mRansacStatus);
+            //    CvInvoke.FindFundamentalMat(pp1, pp2, f, FmType.Ransac, 1);
+
 
             //}
             //catch (Exception ex)
@@ -808,7 +895,7 @@ namespace ImageStitchingSystem.UI
             //var outlinerCount = 0;
             //for (int i = 0; i < pCount; i++)
             //{
-            //    if (mRansacStatus[i, 0] == 0)    // 状态为0表示野点  
+            //    if (f[0, i] == 0)    // 状态为0表示野点  
             //    {
             //        outlinerCount++;
             //    }
@@ -816,6 +903,7 @@ namespace ImageStitchingSystem.UI
 
             //int inlinerCount = pCount - outlinerCount;   // 计算内点  
             //Console.WriteLine(@"内点数为：" + inlinerCount);
+            MessageBox.Show("不支持的功能");
         }
 
         private void ButtonAccommodate_OnClick(object sender, RoutedEventArgs e)
@@ -891,8 +979,8 @@ namespace ImageStitchingSystem.UI
         private void ComboBoxProjectionR_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ComboBoxR == null) return;
-            Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo).Source);
-            string str = (sender as ComboBox).SelectedItem as string;
+            Image<Bgr, byte> r = new Image<Bgr, byte>((ComboBoxR.SelectedItem as Photo)?.Source);
+            string str = (sender as ComboBox)?.SelectedItem as string;
             switch (str)
             {
                 case "默认":

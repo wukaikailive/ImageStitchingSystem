@@ -10,9 +10,9 @@ namespace ImageStitchingSystem.Utils
             return ps[ps.Length - 1];
         }
 
-        public static double ParseZoomString()
-        {
-            return 0;
-        }
+        //public static double ParseZoomString()
+        //{
+        //    return 0;
+        //}
     }
 }
