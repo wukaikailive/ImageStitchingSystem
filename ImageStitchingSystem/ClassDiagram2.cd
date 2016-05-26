@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="用于绘制特征点的自定义控件">
+    <Position X="6.125" Y="0.937" Height="0.284" Width="1.856" />
+  </Comment>
+  <Comment CommentText="图像管理界面">
+    <Position X="3.135" Y="0.844" Height="0.302" Width="1.023" />
+  </Comment>
+  <Comment CommentText="图像拼接界面">
+    <Position X="6.615" Y="2.156" Height="0.284" Width="1.127" />
+  </Comment>
+  <Class Name="ImageStitchingSystem.UI.App" Collapsed="true">
+    <Position X="0.75" Y="1.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageStitchingSystem.UI.Base" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIIAAAAAAAAACAABAAAAAABEAABAAAAAQAAAAAAAQA=</HashCode>
+      <FileName>UI\BasePanel\Base.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ImageStitchingSystem.UI.PhotoEditWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.75" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAgQAAQRAAAAAAAgwCAAAAAAASAAAEAAgAAAAAAA=</HashCode>
+      <FileName>UI\BasePanel\PhotoEditWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ImageStitchingSystem.UI.PhotoItem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\BasePanel\PhotoItem.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ImageStitchingSystem.UI.HelpView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\Help\HelpView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ImageStitchingSystem.UI.ImageBox" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQBAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\ImageBox.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ImageStitchingSystem.UI.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>UI\MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ImageStitchingSystem.UI.SimpleView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIABAAEAgiDAQEAAAAhhQEEGBAYiMAgCYADAIUIWCAA=</HashCode>
+      <FileName>UI\SimplePanel\SimpleView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ImageStitchingSystem.UI.Weight.ImageWithCenterCross" Collapsed="true">
+    <Position X="0.75" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>UI\Weight\ImageWithCenterCross.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageStitchingSystem.UI.Weight.MyImage" Collapsed="true">
+    <Position X="6.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIABAAAAAAAQgIIAgAAAgABAAEAACAAgAMAAIIAAAAA=</HashCode>
+      <FileName>UI\Weight\MyImage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

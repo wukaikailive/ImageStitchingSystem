@@ -1,39 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using Emgu.CV.Stitching;
 using Emgu.CV.Structure;
-using Emgu.CV.Features2D;
-using Emgu.CV.XFeatures2D;
 using Emgu.CV;
 using Emgu.CV.Util;
 using ImageStitchingSystem.Utils;
 using ImageStitchingSystem.Models;
-using System.Globalization;
-using System.IO;
-using ZedGraph;
 using Emgu.CV.CvEnum;
-using MMath = ImageStitchingSystem.Utils.MMath;
 
 using ImageStitchingSystem.UI.Weight;
 using Image = System.Windows.Controls.Image;
 using Point = System.Windows.Point;
 using Rectangle = System.Drawing.Rectangle;
-using static System.Math;
 
 namespace ImageStitchingSystem.UI
 {
@@ -55,16 +39,16 @@ namespace ImageStitchingSystem.UI
         private string _zoomStringR = "100%";
 
 
-        private Point _leftPoint = new Point();
-        private Point _rightPoint = new Point();
+        private Point _leftPoint;
+        private Point _rightPoint;
 
         private bool _isShowOtherPoint = true;
 
-        private bool isLChange = false;
-        private bool isRChange = false;
+        private bool _isLChange;
+        private bool _isRChange;
 
-        private string lSaveName = Guid.NewGuid() + ".jpg";
-        private string rSaveName = Guid.NewGuid() + ".jpg";
+        private readonly string _lSaveName = Guid.NewGuid() + ".jpg";
+        private readonly string _rSaveName = Guid.NewGuid() + ".jpg";
 
         #endregion
 
@@ -99,8 +83,8 @@ namespace ImageStitchingSystem.UI
                 //PointColletion.OrderBy(o => o.Lx).ThenBy(o => o.Ly);
                 ListViewPoints.SetBinding(ItemsControl.ItemsSourceProperty, bind);
 
-                Image<Bgr, byte> l = new Image<Bgr, byte>(isLChange ? (ComboBoxL.SelectedItem as Photo).Source : lSaveName);
-                Image<Bgr, byte> r = new Image<Bgr, byte>(isRChange ? (ComboBoxR.SelectedItem as Photo).Source : rSaveName);
+                Image<Bgr, byte> l = new Image<Bgr, byte>(_isLChange ? (ComboBoxL.SelectedItem as Photo)?.Source : _lSaveName);
+                Image<Bgr, byte> r = new Image<Bgr, byte>(_isRChange ? (ComboBoxR.SelectedItem as Photo)?.Source : _rSaveName);
                 int i = -1;
                 Random romdom = new Random();
 
@@ -206,7 +190,7 @@ namespace ImageStitchingSystem.UI
             Photo item = ComboBoxL.SelectedItem as Photo;
             if (item != null)
                 ImgL.Source = item.Image;
-            isLChange = true;
+            _isLChange = true;
         }
 
         private void comboBoxR_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -214,7 +198,7 @@ namespace ImageStitchingSystem.UI
             Photo item = ComboBoxR.SelectedItem as Photo;
             if (item != null)
                 ImgR.Source = item.Image;
-            isRChange = true;
+            _isRChange = true;
         }
 
         private void algsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -222,28 +206,18 @@ namespace ImageStitchingSystem.UI
 
         }
 
-        private void buttonNext_Click(object sender, RoutedEventArgs e)
-        {
-            StichingParamsWindow wd = new StichingParamsWindow();
-            wd.Show();
-        }
-
         private void buttonFindFeatures_Click(object sender, RoutedEventArgs e)
         {
             string s = AlgsComboBox.SelectedItem as string;
             Debug.Assert(s != null);
-            switch (s)
+            if (ComboBoxL.SelectedItem == null || ComboBoxR.SelectionBoxItem == null)
             {
-                case "SURF":
-
-                    break;
-                case "Orb":
-                    break;
+                MessageBox.Show("请先选择要拼接的图片。");
+                return;
             }
-            // stitcher.SetFeaturesFinder(finder);
 
-            Image<Bgr, byte> l = new Image<Bgr, byte>(isLChange ? (ComboBoxL.SelectedItem as Photo).Source : lSaveName);
-            Image<Bgr, byte> r = new Image<Bgr, byte>(isRChange ? (ComboBoxR.SelectedItem as Photo).Source : rSaveName);
+            Image<Bgr, byte> l = new Image<Bgr, byte>(_isLChange ? (ComboBoxL.SelectedItem as Photo).Source : _lSaveName);
+            Image<Bgr, byte> r = new Image<Bgr, byte>(_isRChange ? (ComboBoxR.SelectedItem as Photo).Source : _rSaveName);
 
             Mat homography;
             VectorOfKeyPoint modelKeyPoints;
@@ -333,8 +307,8 @@ namespace ImageStitchingSystem.UI
         {
             try
             {
-                using (Image<Bgr, byte> l = new Image<Bgr, byte>(isLChange ? (ComboBoxL.SelectedItem as Photo).Source : lSaveName))
-                using (Image<Bgr, byte> r = new Image<Bgr, byte>(isRChange ? (ComboBoxR.SelectedItem as Photo).Source : rSaveName))
+                using (Image<Bgr, byte> l = new Image<Bgr, byte>(_isLChange ? (ComboBoxL.SelectedItem as Photo).Source : _lSaveName))
+                using (Image<Bgr, byte> r = new Image<Bgr, byte>(_isRChange ? (ComboBoxR.SelectedItem as Photo).Source : _rSaveName))
                 {
                     Image<Bgr, byte> result = CvUtils.Draw(l, r, PointColletion.ToList());
                     ImageBox box = new ImageBox();
@@ -536,7 +510,6 @@ namespace ImageStitchingSystem.UI
 
         }
 
-
         //缝合
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -555,8 +528,8 @@ namespace ImageStitchingSystem.UI
 
                 Matrix<double> h = new Matrix<double>(3, 3);
 
-                Image<Bgr, byte> l = new Image<Bgr, byte>(isLChange ? (ComboBoxL.SelectedItem as Photo)?.Source : lSaveName);
-                Image<Bgr, byte> r = new Image<Bgr, byte>(isRChange ? (ComboBoxR.SelectedItem as Photo)?.Source : rSaveName);
+                Image<Bgr, byte> l = new Image<Bgr, byte>(_isLChange ? (ComboBoxL.SelectedItem as Photo)?.Source : _lSaveName);
+                Image<Bgr, byte> r = new Image<Bgr, byte>(_isRChange ? (ComboBoxR.SelectedItem as Photo)?.Source : _rSaveName);
 
                 int rows = 0;
                 int cols = 0;
@@ -703,8 +676,8 @@ namespace ImageStitchingSystem.UI
                     l.ROI = Rectangle.Empty;
                     last.ROI = Rectangle.Empty;
 
-                    ImageBox box00 = new ImageBox { Image = last.Bitmap };
-                    box00.Show();
+                    //ImageBox box00 = new ImageBox { Image = last.Bitmap };
+                    //box00.Show();
 
                     double alpha; //左图中像素的权重
                     if (horizontal)
@@ -824,7 +797,7 @@ namespace ImageStitchingSystem.UI
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message + ex.StackTrace);
-                MessageBox.Show("操作错误:" + ex.Message);
+                MessageBox.Show("操作错误,请检查缝合参数:" + ex.Message);
             }
 
         }
@@ -934,43 +907,43 @@ namespace ImageStitchingSystem.UI
             {
                 case "默认":
                     ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
-                    isLChange = true;
+                    _isLChange = true;
                     break;
                 case "平面->柱面":
                     l = l.Plane2CyLinder(l.Width);
                     ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
-                    l.Save(lSaveName);
-                    isLChange = false;
+                    l.Save(_lSaveName);
+                    _isLChange = false;
                     break;
                 case "柱面->平面":
                     l = l.CyLinder2Plane(l.Width);
                     ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
-                    l.Save(lSaveName);
-                    isLChange = false;
+                    l.Save(_lSaveName);
+                    _isLChange = false;
                     break;
                 case "平面->球面":
                     l = l.Plane2Sphere(l.Width);
                     ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
-                    l.Save(lSaveName);
-                    isLChange = false;
+                    l.Save(_lSaveName);
+                    _isLChange = false;
                     break;
                 case "球面->平面":
                     l = l.Sphere2Plane(l.Width);
                     ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
-                    l.Save(lSaveName);
-                    isLChange = false;
+                    l.Save(_lSaveName);
+                    _isLChange = false;
                     break;
                 case "鱼眼":
                     l = l.FishEye(l.Width);
                     ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
-                    l.Save(lSaveName);
-                    isLChange = false;
+                    l.Save(_lSaveName);
+                    _isLChange = false;
                     break;
                 case "鱼眼修正":
                     l = l.FishEyeRectify(l.Width);
                     ImgL.Source = BitmapUtils.ChangeBitmapToImageSource(l.Bitmap);
-                    l.Save(lSaveName);
-                    isLChange = false;
+                    l.Save(_lSaveName);
+                    _isLChange = false;
                     break;
 
             }
@@ -985,43 +958,43 @@ namespace ImageStitchingSystem.UI
             {
                 case "默认":
                     ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
-                    isRChange = true;
+                    _isRChange = true;
                     break;
                 case "平面->柱面":
                     r = r.Plane2CyLinder(r.Width);
                     ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
-                    r.Save(rSaveName);
-                    isRChange = false;
+                    r.Save(_rSaveName);
+                    _isRChange = false;
                     break;
                 case "柱面->平面":
                     r = r.CyLinder2Plane(r.Width);
                     ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
-                    r.Save(rSaveName);
-                    isRChange = false;
+                    r.Save(_rSaveName);
+                    _isRChange = false;
                     break;
                 case "平面->球面":
                     r = r.Plane2Sphere(r.Width);
                     ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
-                    r.Save(rSaveName);
-                    isRChange = false;
+                    r.Save(_rSaveName);
+                    _isRChange = false;
                     break;
                 case "球面->平面":
                     r = r.Sphere2Plane(r.Width);
                     ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
-                    r.Save(rSaveName);
-                    isRChange = false;
+                    r.Save(_rSaveName);
+                    _isRChange = false;
                     break;
                 case "鱼眼":
                     r = r.FishEye(r.Width);
                     ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
-                    r.Save(rSaveName);
-                    isRChange = false;
+                    r.Save(_rSaveName);
+                    _isRChange = false;
                     break;
                 case "鱼眼修正":
                     r = r.FishEyeRectify(r.Width);
                     ImgR.Source = BitmapUtils.ChangeBitmapToImageSource(r.Bitmap);
-                    r.Save(rSaveName);
-                    isRChange = false;
+                    r.Save(_rSaveName);
+                    _isRChange = false;
                     break;
             }
 

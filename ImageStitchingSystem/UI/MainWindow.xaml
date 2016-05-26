@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="clr-namespace:ImageStitchingSystem.UI"
         xmlns:weight="clr-namespace:ImageStitchingSystem.UI.Weight"
-        Title="图像拼接" Height="600" Width="850">
+        Title="基于OpenCV的图像拼接软件——贵州大学-吴凯凯-1208060027" 
+        Height="600" Width="850" Icon="/Resource/Images/ic_merge.png">
     <Grid>
         <Grid.Resources>
            
@@ -38,6 +39,9 @@
             </TabItem>
             <TabItem Header="帮助">
                 <ui:HelpView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:HelpView>
+            </TabItem>
+            <TabItem Header="关于">
+                <ui:About HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ></ui:About>
             </TabItem>
         </TabControl>
 

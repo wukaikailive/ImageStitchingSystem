@@ -74,15 +74,12 @@
             <cx:String>Reflect</cx:String>
             <cx:String>Wrap</cx:String>
             <cx:String>Default</cx:String>
-            <cx:String>Reflect101</cx:String>
             <cx:String>Transparent</cx:String>
         </c:ArrayList>
 
         <c:ArrayList x:Key="FeatureAlg">
             <cx:String>SURF</cx:String>
-            <cx:String>Orb</cx:String>
         </c:ArrayList>
-        <cx:String x:Key="Surf">SURF</cx:String>
 
         <local:ExposureModeConverter x:Key="ExposureModeConverter"/>
         <local:PhotoFileNameConverter x:Key="PhotoFileNameConverter"/>

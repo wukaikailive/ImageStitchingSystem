@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="ImageStitchingSystem.UI.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageStitchingSystem.UI"
+        mc:Ignorable="d"
+        Height="300" Width="300" Background="#eeeeee" FontSize="20">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Resource/Images/gzu.png"/>
+
+            </StackPanel>
+            <Grid Margin="0 16 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Margin="0 0 8 0"  VerticalAlignment="Center">作者:</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"> 吴凯凯</TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Margin="0 0 8 0"  VerticalAlignment="Center">用途:</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center">本科毕业设计</TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" Margin="0 0 8 0"  VerticalAlignment="Center">学号:</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"  VerticalAlignment="Center">1208060027</TextBlock>
+                
+
+            </Grid>
+            <StackPanel Orientation="Horizontal">
+               
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

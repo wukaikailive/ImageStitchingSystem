@@ -74,6 +74,9 @@
     <Compile Include="Resource\UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\About\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\BasePanel\PhotoEditWindow.xaml.cs">
       <DependentUpon>PhotoEditWindow.xaml</DependentUpon>
     </Compile>
@@ -108,6 +111,10 @@
     <Compile Include="Utils\TextUtils.cs" />
     <Compile Include="Utils\UIHelper.cs" />
     <Page Include="Resource\UserControl1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\About\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -197,6 +204,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -228,7 +236,9 @@
     <Resource Include="Resource\Images\ic_match.png" />
     <Resource Include="Resource\Images\ic_clip.png" />
     <Resource Include="Resource\Images\ic_preview.png" />
+    <Resource Include="Resource\Images\gzu.png" />
     <Content Include="Resource\Images\ic_add.png" />
+    <Resource Include="Resource\Images\ic_gzu.png" />
     <Content Include="Resource\Images\ic_restore_purple.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
