@@ -8,8 +8,9 @@
              xmlns:cx="clr-namespace:System;assembly=mscorlib"
              xmlns:model="clr-namespace:ImageStitchingSystem.Models"
              xmlns:weight="clr-namespace:ImageStitchingSystem.UI.Weight"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="850">
+             d:DesignHeight="500" d:DesignWidth="980">
 
     <UserControl.Resources>
 
@@ -100,7 +101,7 @@
         </TransformGroup>
 
     </UserControl.Resources>
-    <Grid Background="#eeeeee">
+    <Grid Background="White" x:Name="RootDialog">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="60"></ColumnDefinition>
@@ -127,29 +128,29 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <DockPanel Grid.Column="0" Margin="4 4 5 4" x:Name="DockPanelOp">
+            <DockPanel Grid.Column="0" Margin="4 0 5 4" x:Name="DockPanelOp">
                 <WrapPanel DockPanel.Dock="Top">
-                    <Button x:Name="ButtonFindFeatures" Width="32" Height="32" ToolTip="查找特征点" VerticalAlignment="Top" Click="buttonFindFeatures_Click">
+                    <Button x:Name="ButtonFindFeatures" Width="48" Height="24" ToolTip="查找特征点" VerticalAlignment="Top" Click="buttonFindFeatures_Click">
                         <Button.Content>
-                            <Image Source="/Resource/Images/ic_begin.png" ></Image>
+                            <materialDesign:PackIcon Kind="Play" Foreground="White" />
                         </Button.Content>
                     </Button>
-                    <Button Margin="8 0 0 0" x:Name="ButtonRe" Width="32" Height="32" ToolTip="重新查找特征点" VerticalAlignment="Top" Click="buttonRe_Click" >
+                    <Button Margin="8 0 0 0" x:Name="ButtonRe" Width="48" Height="24" ToolTip="重新查找特征点" VerticalAlignment="Top" Click="buttonRe_Click" >
                         <Button.Content>
-                            <Image Margin="2" Source="/Resource/Images/ic_re.png" ></Image>
+                            <materialDesign:PackIcon Kind="Refresh" Foreground="White"/>
                         </Button.Content>
                     </Button>
-                    <Button  x:Name="ButtonPreview" Margin="8 0 0 0" Click="buttonPreview_Click" Width="32" Height="32" ToolTip="预览" VerticalAlignment="Top">
+                    <Button  x:Name="ButtonPreview" Margin="8 0 0 0" Click="buttonPreview_Click" Width="48" Height="24" ToolTip="预览" VerticalAlignment="Top">
                         <Button.Content>
-                            <Image Source="/Resource/Images/ic_preview.png" ></Image>
+                            <materialDesign:PackIcon Kind="Eye"  Foreground="White"/>
                         </Button.Content>
                     </Button>
                 </WrapPanel>
                 <WrapPanel DockPanel.Dock="Top">
 
-                    <Button Margin="0 4 0 0" Click="ButtonAccommodate_OnClick" x:Name="ButtonAccommodate" Width="32" Height="32" ToolTip="适应画布" VerticalAlignment="Top">
+                    <Button Margin="0 8 0 0" Click="ButtonAccommodate_OnClick" x:Name="ButtonAccommodate" Width="48" Height="24" ToolTip="适应画布" VerticalAlignment="Top">
                         <Button.Content>
-                            <Image Margin="2" Source="/Resource/Images/ic_accommodate.png" ></Image>
+                            <materialDesign:PackIcon Kind="FullscreenExit" Foreground="White"/>
                         </Button.Content>
                     </Button>
 
@@ -157,8 +158,8 @@
                 <TextBlock Text="操作" DockPanel.Dock="Bottom" Margin="0 8 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
             </DockPanel>
 
-            <GridSplitter IsEnabled="False" Width="1" Margin="0 4 0 4" Background="#bdbdbd"></GridSplitter>
-            <DockPanel Grid.Column="1" Margin="4 4 5 4">
+            <GridSplitter IsEnabled="False" Width="1" Margin="0 0 0 4" Background="#bdbdbd"></GridSplitter>
+            <DockPanel Grid.Column="1" Margin="4 0 5 4">
                 <WrapPanel DockPanel.Dock="Top">
                     <StackPanel>
                         <ComboBox x:Name="AlgsComboBox" HorizontalAlignment="Stretch" ToolTip="特征点算法" Width="100" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FeatureAlg}}" SelectedIndex="0" SelectionChanged="algsComboBox_SelectionChanged"/>
@@ -174,8 +175,8 @@
                 <TextBlock Text="属性" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
             </DockPanel>
 
-            <GridSplitter Grid.Column="1" IsEnabled="False" Width="1" Margin="0 4 0 4" Background="#bdbdbd"></GridSplitter>
-            <DockPanel Grid.Column="2" Margin="4 4 5 4">
+            <GridSplitter Grid.Column="1" IsEnabled="False" Width="1" Margin="0 0 0 4" Background="#bdbdbd"></GridSplitter>
+            <DockPanel Grid.Column="2" Margin="4 0 5 4">
                 <WrapPanel DockPanel.Dock="Top">
                     <StackPanel Orientation="Horizontal">
                         <CheckBox x:Name="CheckBoxIsClosePoint" Checked="CheckBoxIsClosePoint_Checked" Unchecked="CheckBoxIsClosePoint_Unchecked"></CheckBox>
@@ -185,24 +186,24 @@
                 <TextBlock Text="设置" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
             </DockPanel>
 
-            <GridSplitter Grid.Column="2" IsEnabled="False" Width="1" Margin="0 4 0 4" Background="#bdbdbd"></GridSplitter>
+            <GridSplitter Grid.Column="2" IsEnabled="False" Width="1" Margin="0 0 0 4" Background="#bdbdbd"></GridSplitter>
 
-            <DockPanel Grid.Column="3" Margin="4 4 5 4">
+            <DockPanel Grid.Column="3" Margin="4 0 5 4">
                 <StackPanel DockPanel.Dock="Top">
                     <WrapPanel >
-                        <Button x:Name="ButtonAdd" Width="32" Height="32" ToolTip="新增特征点" VerticalAlignment="Top" Click="buttonAdd_Click">
+                        <Button x:Name="ButtonAdd" Width="48" Height="24" ToolTip="新增特征点" VerticalAlignment="Top" Click="buttonAdd_Click">
                             <Button.Content>
-                                <Image Source="/Resource/Images/ic_add_blue.png"></Image>
+                                <materialDesign:PackIcon Kind="Plus" Foreground="White"/>
                             </Button.Content>
                         </Button>
-                        <Button x:Name="ButtonDelete" Margin="8 0 0 0"  Width="32" Height="32" ToolTip="删除当前特征点" VerticalAlignment="Top" Click="deleteButton_Click">
+                        <Button x:Name="ButtonDelete" Margin="8 0 0 0"  Width="48" Height="24" ToolTip="删除当前特征点" VerticalAlignment="Top" Click="deleteButton_Click">
                             <Button.Content>
-                                <Image Source="/Resource/Images/ic_delete_red.png" ></Image>
+                                <materialDesign:PackIcon Kind="Delete" Foreground="White"/>
                             </Button.Content>
                         </Button>
-                        <Button x:Name="ButtonDeleteAll" Margin="8 0 0 0"  Width="32" Height="32" ToolTip="删除全部特征点" VerticalAlignment="Top" Click="buttonDeleteAll_Click">
+                        <Button x:Name="ButtonDeleteAll" Margin="8 0 0 0"  Width="48" Height="24" ToolTip="删除全部特征点" VerticalAlignment="Top" Click="buttonDeleteAll_Click">
                             <Button.Content>
-                                <Image Source="/Resource/Images/ic_delete_all.png" ></Image>
+                                <materialDesign:PackIcon Kind="DeleteVariant" Foreground="White" />
                             </Button.Content>
                         </Button>
                     </WrapPanel>
@@ -213,9 +214,9 @@
                 <TextBlock Text="特征点操作" DockPanel.Dock="Bottom" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
             </DockPanel>
 
-            <GridSplitter Grid.Column="3" IsEnabled="False" Width="1" Margin="0 4 0 4" Background="#bdbdbd"></GridSplitter>
+            <GridSplitter Grid.Column="3" IsEnabled="False" Width="1" Margin="0 0 0 4" Background="#bdbdbd"></GridSplitter>
 
-            <DockPanel Visibility="Collapsed" Grid.Column="4" Margin="4 4 5 4">
+            <DockPanel Visibility="Collapsed" Grid.Column="4" Margin="4 0 5 4">
                 <StackPanel DockPanel.Dock="Top">
                     <WrapPanel >
                         <Button x:Name="ButtonFilter" Width="80" Height="24" Content="过滤特征点" ToolTip="unSuppoort" VerticalAlignment="Top" Click="buttonFilter_Click">
@@ -226,38 +227,42 @@
                 <TextBlock Text="优化" DockPanel.Dock="Bottom" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>
             </DockPanel>
 
-            <GridSplitter Grid.Column="4" IsEnabled="False" Width="1" Margin="0 4 0 4" Background="#bdbdbd"></GridSplitter>
+            <GridSplitter Grid.Column="4" IsEnabled="False" Width="1" Margin="0 0 0 4" Background="#bdbdbd"></GridSplitter>
 
-            <DockPanel Grid.Column="5" Margin="4 4 5 4">
+            <DockPanel Grid.Column="5" Margin="4 0 5 4">
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                     <StackPanel >
                         <WrapPanel >
-                            <Button x:Name="ButtonStitch" Width="32" Height="32" ToolTip="缝合" VerticalAlignment="Top" Click="Button_Click" >
+                            <Button x:Name="ButtonStitch" Width="48" Height="24" ToolTip="缝合" VerticalAlignment="Top" Click="Button_Click" >
                                 <Button.Content>
-                                    <Image Source="/Resource/Images/ic_merge.png"></Image>
+                                    <materialDesign:PackIcon Kind="VectorDifference" Foreground="White"/>
                                 </Button.Content>
                             </Button>
-                            <StackPanel Margin="4 0 0 0">
-                                <TextBlock Text="保存的文件名"></TextBlock>
-                                <TextBox x:Name="TextBoxFileSaveName" Width="100"></TextBox>
-                            </StackPanel>
+                           
                         </WrapPanel>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 8 0 0">
+                        
+                    </StackPanel>
+                    <StackPanel Margin="4 0 4 0" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
                             <ComboBox x:Name="ComboBoxOrientation" ItemsSource="{StaticResource SticheOrientation}" SelectedIndex="0">
                             </ComboBox>
                             <ComboBox x:Name="ComboBoxStitcheArithmetic" ItemsSource="{StaticResource StitcheArithmetic}" SelectedIndex="0">
                             </ComboBox>
                         </StackPanel>
+                        <ComboBox x:Name="ComboBoxBorderType" ItemsSource="{StaticResource BorderType}" SelectedIndex="4">
+                        </ComboBox>
                     </StackPanel>
 
                     <StackPanel>
                         <CheckBox x:Name="CheckBoxIsShowWarpResult" Content="查看warp结果" VerticalAlignment="Center"></CheckBox>
                         <CheckBox IsChecked="True" x:Name="CheckBoxWeightedAverage" Content="重叠区域加权平均" VerticalAlignment="Center"></CheckBox>
                         <CheckBox IsChecked="True" x:Name="CheckBoxAutoResize" Content="自动裁剪" VerticalAlignment="Center"></CheckBox>
-                        <ComboBox x:Name="ComboBoxBorderType" ItemsSource="{StaticResource BorderType}" SelectedIndex="4">
-                        </ComboBox>
+                      
                     </StackPanel>
-                    
+                    <StackPanel Margin="4 0 0 0">
+                        <TextBlock Text="保存的文件名"></TextBlock>
+                        <TextBox x:Name="TextBoxFileSaveName" Width="100"></TextBox>
+                    </StackPanel>
                 </StackPanel>
 
                 <TextBlock Text="缝合" DockPanel.Dock="Bottom" Margin="0 16 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10" Foreground="#424242"></TextBlock>

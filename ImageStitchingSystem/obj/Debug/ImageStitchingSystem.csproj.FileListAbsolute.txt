@@ -93,3 +93,16 @@ F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\ImageStitchingSystem.csprojResolveAssemblyReference.cache
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\About\About.g.cs
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\About\About.baml
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\MaterialDesignColors.dll
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\MaterialDesignThemes.Wpf.dll
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\MahApps.Metro.dll
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\MaterialDesignThemes.MahApps.dll
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\System.Windows.Interactivity.dll
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\MahApps.Metro.pdb
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Debug\MahApps.Metro.xml
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\Domain\SampleMessageDialog.baml
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\Domain\SampleProgressDialog.baml
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\Domain\SampleMessageDialog.g.cs
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\Domain\SampleProgressDialog.g.cs
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\MainWindow1.g.cs
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Debug\UI\MainWindow1.baml

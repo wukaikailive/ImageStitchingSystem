@@ -1,49 +1,35 @@
-﻿<Window x:Class="ImageStitchingSystem.UI.MainWindow"
+﻿<Controls:MetroWindow x:Class="ImageStitchingSystem.UI.MainWindow"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="clr-namespace:ImageStitchingSystem.UI"
         xmlns:weight="clr-namespace:ImageStitchingSystem.UI.Weight"
         Title="基于OpenCV的图像拼接软件——贵州大学-吴凯凯-1208060027" 
-        Height="600" Width="850" Icon="/Resource/Images/ic_merge.png">
+        Height="600" Width="850" Icon="/Resource/Images/ic_merge.png"
+        Background="{DynamicResource MaterialDesignPaper}"
+        GlowBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"   
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        >
     <Grid>
         <Grid.Resources>
            
         </Grid.Resources>
-        <!--<Menu HorizontalAlignment="Stretch" Height="22" VerticalAlignment="Top">
-            <MenuItem Header="文件" Name="file" >
-                <MenuItem Name="createProject" Header="新建项目" HorizontalAlignment="Left" Width="144"/>
-                <MenuItem Name="openProject"  Header="打开项目" HorizontalAlignment="Left" Width="144"/>
-                <MenuItem Name="loadImgs" Header="加载图片" HorizontalAlignment="Left" Width="144" Click="loadImgs_Click"/>
-                <MenuItem Name="save" Header="保存" Margin="0 10 0 0"></MenuItem>
-                <MenuItem Name="exit" Header="退出" Margin="0 10 0 0"></MenuItem>
-            </MenuItem>
-            <MenuItem Header="设置" Name="setting">
-                <MenuItem Name="IsCloseOtherPoint" Header="特征点" HorizontalAlignment="Left" Width="144">
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{StaticResource IsClosePoint}"></CheckBox>
-                        <TextBlock Text="当选中某个特征点时隐藏其他点"></TextBlock>
-                    </StackPanel>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="帮助" Name="help">
 
-            </MenuItem>
-
-        </Menu>-->
-        <TabControl Background="#eeeeee" x:Name="TabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TabItem Header="图像管理" Background="#eeeeee" Height="21" VerticalAlignment="Top">
+        <Controls:MetroTabControl  x:Name="TabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Controls:MetroTabItem Header="图像管理">
                 <ui:Base HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:Base>
-            </TabItem>
-            <TabItem Header="图像拼接">
+            </Controls:MetroTabItem>
+            <Controls:MetroTabItem Header="图像拼接">
                 <ui:SimpleView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:SimpleView>
-            </TabItem>
-            <TabItem Header="帮助">
+                </Controls:MetroTabItem>
+            <Controls:MetroTabItem Header="帮助">
                 <ui:HelpView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:HelpView>
-            </TabItem>
-            <TabItem Header="关于">
+            </Controls:MetroTabItem>
+            <Controls:MetroTabItem Header="关于">
                 <ui:About HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ></ui:About>
-            </TabItem>
-        </TabControl>
+            </Controls:MetroTabItem>
+        </Controls:MetroTabControl>
 
     </Grid>
-</Window>
+</Controls:MetroWindow>

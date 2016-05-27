@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageStitchingSystem.UI"
         mc:Ignorable="d"
-        Height="300" Width="300" Background="#eeeeee" FontSize="20">
+        Height="300" Width="300" Background="White" FontSize="20">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal">

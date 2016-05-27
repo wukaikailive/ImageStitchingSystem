@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:ImageStitchingSystem.UI"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-    <Grid Background="#eeeeee">
-        <StackPanel>
+    <Grid Background="White">
+        <StackPanel Visibility="Collapsed">
             <TextBlock >1、打开图片</TextBlock>
             <TextBlock Text="在基本面板中点击+按钮，选择图片"></TextBlock>
             <TextBlock >2、寻找特征点</TextBlock>
@@ -19,5 +19,6 @@
             <TextBlock>5、图片缝合</TextBlock>
             <TextBlock>需要用户帮助给出图片拼接方向，然后单击缝合按钮即可。如果用户输入文件名，则拼接的图像回保存到文件，否则图片将会在新窗口显示。</TextBlock>
         </StackPanel>
+        <DocumentViewer x:Name="docViewer"/>
     </Grid>
 </UserControl>

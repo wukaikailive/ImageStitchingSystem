@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -13,8 +15,9 @@ using Emgu.CV.Util;
 using ImageStitchingSystem.Utils;
 using ImageStitchingSystem.Models;
 using Emgu.CV.CvEnum;
-
+using ImageStitchingSystem.Domain;
 using ImageStitchingSystem.UI.Weight;
+using MaterialDesignThemes.Wpf;
 using Image = System.Windows.Controls.Image;
 using Point = System.Windows.Point;
 using Rectangle = System.Drawing.Rectangle;
@@ -74,7 +77,7 @@ namespace ImageStitchingSystem.UI
         /// <summary>
         /// 渲染
         /// </summary>
-        private void BindPoints()
+        private async void BindPoints()
         {
             try
             {
@@ -143,7 +146,11 @@ namespace ImageStitchingSystem.UI
             catch (Exception e)
             {
                 Console.WriteLine(e.Message + e.StackTrace);
-                MessageBox.Show("程序运行错误,请尝试提高阈值：" + e.Message);
+                var sampleMessageDialog = new SampleMessageDialog
+                {
+                    Message = { Text = "出错了，请尝试压缩图片或者提高阈值。" }
+                };
+                await DialogHost.Show(sampleMessageDialog, "RootDialog");
             }
 
         }
@@ -206,80 +213,93 @@ namespace ImageStitchingSystem.UI
 
         }
 
-        private void buttonFindFeatures_Click(object sender, RoutedEventArgs e)
+        private async void buttonFindFeatures_Click(object sender, RoutedEventArgs e)
         {
             string s = AlgsComboBox.SelectedItem as string;
             Debug.Assert(s != null);
             if (ComboBoxL.SelectedItem == null || ComboBoxR.SelectionBoxItem == null)
             {
-                MessageBox.Show("请先选择要拼接的图片。");
+                var sampleMessageDialog = new SampleMessageDialog
+                {
+                    Message = { Text = "请先选择要拼接的图片。" }
+                };
+                await DialogHost.Show(sampleMessageDialog, "RootDialog");
                 return;
             }
+
+            var processDialog = new SampleProgressDialog()
+            {
+                Message = {Text = "正在寻找特征点"}
+            };
+            DialogHost.Show(processDialog, "RootDialog");
 
             Image<Bgr, byte> l = new Image<Bgr, byte>(_isLChange ? (ComboBoxL.SelectedItem as Photo).Source : _lSaveName);
             Image<Bgr, byte> r = new Image<Bgr, byte>(_isRChange ? (ComboBoxR.SelectedItem as Photo).Source : _rSaveName);
 
-            Mat homography;
-            VectorOfKeyPoint modelKeyPoints;
-            VectorOfKeyPoint observedKeyPoints;
-            VectorOfKeyPoint keyPoints = new VectorOfKeyPoint();
+            double featurePointFinderThreshold = 1.5;
 
-            using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
+            bool Threshold = double.TryParse(TextBoxThreshold.Text, out featurePointFinderThreshold);
+            await Task.Run(() =>
             {
-                Mat mask;
-                long matchTime;
-                CvUtils.FindMatch(l.Mat, r.Mat, out matchTime, out modelKeyPoints, out observedKeyPoints, matches,
-                  out mask, out homography);
+                Mat homography;
+                VectorOfKeyPoint modelKeyPoints;
+                VectorOfKeyPoint observedKeyPoints;
+                VectorOfKeyPoint keyPoints = new VectorOfKeyPoint();
 
-                //double featurePointFinderThreshold =(double)Application.Current.Resources["FeaturePointFinderThreshold"];
-                double featurePointFinderThreshold = 1.5;
-                if (!double.TryParse(TextBoxThreshold.Text, out featurePointFinderThreshold))
+                using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
                 {
-                    return;
+                    Mat mask;
+                    long matchTime;
+                    CvUtils.FindMatch(l.Mat, r.Mat, out matchTime, out modelKeyPoints, out observedKeyPoints, matches,
+                      out mask, out homography);
+
+                    //double featurePointFinderThreshold =(double)Application.Current.Resources["FeaturePointFinderThreshold"];
+                    if (!Threshold)
+                    {
+                        return;
+                    }
+
+                    double minRatio = 1 / featurePointFinderThreshold;
+
+                    List<MDMatch> matchList = new List<MDMatch>();
+
+                    for (int i = 0; i < matches.Size; i++)
+                    {
+                        MDMatch bestMatch = matches[i][0];
+                        MDMatch betterMatch = matches[i][1];
+
+                        float distanceRatio = bestMatch.Distance / betterMatch.Distance;
+
+                        if (distanceRatio < minRatio)
+                            matchList.Add(bestMatch);
+                    }
+
+                    _matchers = matchList.ToArray();
+                    //Stopwatch stopwatch = new Stopwatch();
+                    //stopwatch.Start();
+
+                    for (int i = 0; i < _matchers.Length; i++)
+                    {
+
+                        MKeyPoint ll = modelKeyPoints[_matchers[i].TrainIdx];
+
+                        MKeyPoint rr = observedKeyPoints[_matchers[i].QueryIdx];
+
+                        FeaturePoint p = new FeaturePoint(i, ll, rr, _matchers[i].Distance);
+
+                        Bgr la = l[(int)p.Ly, (int)p.Lx];
+                        Bgr ra = r[(int)p.Ry, (int)p.Rx];
+                        if (la.IsBlack() || ra.IsBlack() || la.IsWhite() || ra.IsWhite())
+                            continue;
+                        Dispatcher.Invoke(() => PointColletion.Add(p));
+
+                    }
+                    // stopwatch.Stop();
                 }
-
-                double minRatio = 1 / featurePointFinderThreshold;
-
-                List<MDMatch> matchList = new List<MDMatch>();
-
-                for (int i = 0; i < matches.Size; i++)
-                {
-                    MDMatch bestMatch = matches[i][0];
-                    MDMatch betterMatch = matches[i][1];
-
-                    float distanceRatio = bestMatch.Distance / betterMatch.Distance;
-
-                    if (distanceRatio < minRatio)
-                        matchList.Add(bestMatch);
-                }
-
-                _matchers = matchList.ToArray();
-                //Stopwatch stopwatch = new Stopwatch();
-                //stopwatch.Start();
-
-                for (int i = 0; i < _matchers.Length; i++)
-                {
-
-                    MKeyPoint ll = modelKeyPoints[_matchers[i].TrainIdx];
-
-                    MKeyPoint rr = observedKeyPoints[_matchers[i].QueryIdx];
-
-                    FeaturePoint p = new FeaturePoint(i, ll, rr, _matchers[i].Distance);
-
-                    Bgr la = l[(int)p.Ly, (int)p.Lx];
-                    Bgr ra = r[(int)p.Ry, (int)p.Rx];
-                    if (la.IsBlack() || ra.IsBlack() || la.IsWhite() || ra.IsWhite())
-                        continue;
-
-                    PointColletion.Add(p);
-
-                }
-                // stopwatch.Stop();
-            }
+            });
 
             BindPoints();
-
-
+            DialogHost.CloseDialogCommand.Execute(processDialog,RootDialog);
         }
 
         private void comboBoxLImg_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -326,7 +346,7 @@ namespace ImageStitchingSystem.UI
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
             var point = ListViewPoints.SelectedItem as FeaturePoint;
-            Debug.Assert(point != null);
+            if (point == null) return;
             PointColletion.Remove(point);
             PointColletion.UpdateIndex();
 
@@ -511,7 +531,7 @@ namespace ImageStitchingSystem.UI
         }
 
         //缝合
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -522,7 +542,11 @@ namespace ImageStitchingSystem.UI
 
                 if (pointsl.Length < 4)
                 {
-                    MessageBox.Show("特征点小于4对，不能匹配");
+                    var sampleMessageDialog = new SampleMessageDialog
+                    {
+                        Message = { Text = "特征点小于4对,不能匹配。" }
+                    };
+                    await DialogHost.Show(sampleMessageDialog, "RootDialog");
                     return;
                 }
 
@@ -779,7 +803,11 @@ namespace ImageStitchingSystem.UI
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.StackTrace);
-                        MessageBox.Show("裁剪时遇到一点问题..." + ex.Message);
+                        var sampleMessageDialog = new SampleMessageDialog
+                        {
+                            Message = { Text = "裁剪时遇到一点问题。" }
+                        };
+                        await DialogHost.Show(sampleMessageDialog, "RootDialog");
                     }
                 #endregion
 
@@ -796,8 +824,11 @@ namespace ImageStitchingSystem.UI
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message + ex.StackTrace);
-                MessageBox.Show("操作错误,请检查缝合参数:" + ex.Message);
+                var sampleMessageDialog = new SampleMessageDialog
+                {
+                    Message = { Text = "出错了，请检查参数是否设置正确。" }
+                };
+                await DialogHost.Show(sampleMessageDialog, "RootDialog");
             }
 
         }

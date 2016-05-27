@@ -9,7 +9,8 @@
       xmlns:my="clr-namespace:ImageStitchingSystem.UI"
       xmlns:c="clr-namespace:System.Collections;assembly=mscorlib"
              xmlns:cx="clr-namespace:System;assembly=mscorlib"
-    mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="850"
       >
 
@@ -18,7 +19,7 @@
 
 
         <!--<ObjectDataProvider x:Key="Photos" ObjectType="{x:Type er:PhotoCollection}" />-->
-        
+
         <!-- Photo Template -->
         <DataTemplate DataType="{x:Type er:Photo}">
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="6">
@@ -28,7 +29,7 @@
                         <TranslateTransform X="5" Y="5" />
                     </Border.RenderTransform>
                     <Border.BitmapEffect>
-                        <BlurBitmapEffect Radius="8" />
+                        <BlurBitmapEffect Radius="5" />
                     </Border.BitmapEffect>
                 </Border>
                 <!-- Image Template -->
@@ -135,7 +136,7 @@
 
     </UserControl.Resources>
 
-    <Grid Background="#eeeeee" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
@@ -148,9 +149,9 @@
         <!--<ig:XamBusyIndicator Grid.Row="1" IsBusy="True" Animation="SpinnerBalls" Visibility="Collapsed" Name="spinnerBalls" />-->
 
         <DockPanel Grid.Column="0" Grid.Row="0"  Margin="16,16,16,16">
-            <Button  DockPanel.Dock="Left" x:Name="Loadimg" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="24" Height="24" Click="button_Click">
+            <Button  DockPanel.Dock="Left" x:Name="Loadimg" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="48" Height="24" Click="button_Click">
                 <Button.Content>
-                    <Image Source="/Resource/Images/ic_add_blue.png" Stretch="Fill"></Image>
+                    <materialDesign:PackIcon Kind="Plus" Foreground="White"/>
                 </Button.Content>
             </Button>
             <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="16 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
@@ -170,16 +171,16 @@
             </StackPanel>
             <DockPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
 
-                
-                
-                <Button x:Name="BtnEdit" Click="btnEdit_Click" Height="24" Width="24">
+
+
+                <Button x:Name="BtnEdit" Click="btnEdit_Click" Height="24" Width="48">
                     <Button.Content>
-                        <Image Source="/Resource/Images/ic_edit_green.png" Stretch="Fill"></Image>
+                        <materialDesign:PackIcon Kind="Pencil" Foreground="White"/>
                     </Button.Content>
                 </Button>
-                <Button x:Name="BtnDelete" Click="btnDelete_Click" Height="24" Width="24" Margin="16 0 0 0">
+                <Button x:Name="BtnDelete" Click="btnDelete_Click" Height="24" Width="48" Margin="16 0 0 0">
                     <Button.Content>
-                        <Image Source="/Resource/Images/ic_delete_red.png" Stretch="Fill"></Image>
+                        <materialDesign:PackIcon Kind="Delete" Foreground="White"/>
                     </Button.Content>
                 </Button>
             </DockPanel>
@@ -206,5 +207,5 @@
             </ScrollViewer>
         </GroupBox>
     </Grid>
-    
+
 </UserControl>

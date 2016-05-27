@@ -1,0 +1,81 @@
+﻿<controls:MetroWindow x:Class="ImageStitchingSystem.UI.MainWindow1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageStitchingSystem.UI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:ui="clr-namespace:ImageStitchingSystem.UI"
+        xmlns:domain="clr-namespace:ImageStitchingSystem.Domain"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Background="{DynamicResource MaterialDesignPaper}"
+        Icon="/Resource/Images/ic_vector-difference.png"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        Title="基于OpenCV的图像拼接软件——贵州大学" Height="600" Width="980">
+    
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+            <materialDesign:DrawerHost.LeftDrawerContent >
+                <DockPanel MinWidth="212" Background="White">
+                    <StackPanel DockPanel.Dock="Top" Background="{StaticResource PrimaryHueMidBrush}">
+                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                                  DockPanel.Dock="Top"
+                                      Foreground="White"
+                                  HorizontalAlignment="Right" Margin="16"
+                                  IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
+                   </StackPanel>
+                    <ListBox VerticalAlignment="Stretch" x:Name="DemoItemsListBox" Margin="0 16 0 16" SelectedIndex="0"                         
+                             PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="domain:DemoItem">
+                                <TextBlock Text="{Binding Name}" Margin="32 0 32 0" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                       
+                       
+                        <domain:DemoItem Name="图像管理">
+                            <domain:DemoItem.Content>
+                               <ui:Base></ui:Base>
+                            </domain:DemoItem.Content>
+                        </domain:DemoItem>
+                        <domain:DemoItem Name="图像拼接">
+                            <domain:DemoItem.Content>
+                                <ui:SimpleView></ui:SimpleView>
+                            </domain:DemoItem.Content>
+                        </domain:DemoItem>
+                        <domain:DemoItem Name="帮助">
+                            <domain:DemoItem.Content>
+                                <ui:HelpView></ui:HelpView>
+                            </domain:DemoItem.Content>
+                        </domain:DemoItem>
+                        <domain:DemoItem Name="关于">
+                            <domain:DemoItem.Content>
+                               <ui:About></ui:About>
+                            </domain:DemoItem.Content>
+                        </domain:DemoItem>
+                    </ListBox>
+                </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+            <DockPanel>
+                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                          Mode="PrimaryMid" DockPanel.Dock="Top">
+                    <DockPanel>
+                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
+                                      x:Name="MenuToggleButton"/>
+                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                            <StackPanel>
+                                <Button Content="Hello World" Click="MenuPopupButton_OnClick"/>
+                                <Button Content="Nice Popup" Click="MenuPopupButton_OnClick"/>
+                                <Button Content="Goodbye" Click="MenuPopupButton_OnClick"/>
+                            </StackPanel>
+                        </materialDesign:PopupBox>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">图像拼接软件</TextBlock>
+                    </DockPanel>
+                </materialDesign:ColorZone>
+                <ContentControl Margin="16" Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Content}" />
+            </DockPanel>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
+</controls:MetroWindow>
+
