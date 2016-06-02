@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -113,7 +114,8 @@ namespace ImageStitchingSystem.UI
                         System.Drawing.Point pl = new System.Drawing.Point((int)point.Lx, (int)point.Ly);
                         UiHelper.SetSmallImg(ImgLd, l, pl, ImgLd.Width, 2, 50);
                         ComboBoxLImg.SelectedItem = _zoomStringL;
-                        UiHelper.MoveToPoint(ScrollViewerL, pl);
+
+                        UiHelper.MoveToPoint(ScrollViewerL, ImgL, pl);
                     }
 
                 }
@@ -131,7 +133,7 @@ namespace ImageStitchingSystem.UI
                         System.Drawing.Point pr = new System.Drawing.Point((int)point.Rx, (int)point.Ry);
                         UiHelper.SetSmallImg(ImgRd, r, pr, ImgRd.Width, 2, 50);
                         ComboBoxRImg.SelectedItem = _zoomStringR;
-                        UiHelper.MoveToPoint(ScrollViewerR, pr);
+                        UiHelper.MoveToPoint(ScrollViewerR, ImgR, pr);
                     }
                 }
 
@@ -162,12 +164,14 @@ namespace ImageStitchingSystem.UI
         {
             if (_leftPoint.X > 0 && _leftPoint.Y > 0 && _rightPoint.X > 0 && _rightPoint.Y > 0)
             {
-                FeaturePoint point = new FeaturePoint();
-                point.Lx = _leftPoint.X;
-                point.Ly = _leftPoint.Y;
-                point.Rx = _rightPoint.X;
-                point.Ry = _rightPoint.Y;
-                point.Distance = 0;
+                FeaturePoint point = new FeaturePoint
+                {
+                    Lx = _leftPoint.X,
+                    Ly = _leftPoint.Y,
+                    Rx = _rightPoint.X,
+                    Ry = _rightPoint.Y,
+                    Distance = 0
+                };
 
                 PointColletion.Add(point);
                 PointColletion.UpdateIndex();
@@ -180,7 +184,7 @@ namespace ImageStitchingSystem.UI
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            //每次如果鼠标点击了图片意外的位置，如果此时在增加模式下把增加取消掉
+            //每次如果鼠标点击了图片以外的位置，如果此时在增加模式下把增加取消掉
             if ((!ImgL.IsMouseOver) && (!ImgR.IsMouseOver) && ((_leftPoint.X > 0 && _leftPoint.Y > 0) || (_rightPoint.X > 0 && _rightPoint.Y > 0)))
             {
                 _leftPoint = new Point();
@@ -213,6 +217,7 @@ namespace ImageStitchingSystem.UI
 
         }
 
+        //寻找特征点
         private async void buttonFindFeatures_Click(object sender, RoutedEventArgs e)
         {
             string s = AlgsComboBox.SelectedItem as string;
@@ -229,9 +234,11 @@ namespace ImageStitchingSystem.UI
 
             var processDialog = new SampleProgressDialog()
             {
-                Message = {Text = "正在寻找特征点"}
+                Message = { Text = "正在寻找特征点" }
             };
             DialogHost.Show(processDialog, "RootDialog");
+
+            int dialogMode = 0;
 
             Image<Bgr, byte> l = new Image<Bgr, byte>(_isLChange ? (ComboBoxL.SelectedItem as Photo).Source : _lSaveName);
             Image<Bgr, byte> r = new Image<Bgr, byte>(_isRChange ? (ComboBoxR.SelectedItem as Photo).Source : _rSaveName);
@@ -239,19 +246,37 @@ namespace ImageStitchingSystem.UI
             double featurePointFinderThreshold = 1.5;
 
             bool Threshold = double.TryParse(TextBoxThreshold.Text, out featurePointFinderThreshold);
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 Mat homography;
-                VectorOfKeyPoint modelKeyPoints;
-                VectorOfKeyPoint observedKeyPoints;
+                VectorOfKeyPoint modelKeyPoints = null;
+                VectorOfKeyPoint observedKeyPoints = null;
                 VectorOfKeyPoint keyPoints = new VectorOfKeyPoint();
 
                 using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
                 {
                     Mat mask;
                     long matchTime;
-                    CvUtils.FindMatch(l.Mat, r.Mat, out matchTime, out modelKeyPoints, out observedKeyPoints, matches,
-                      out mask, out homography);
+                    try
+                    {
+                        CvUtils.FindMatch(l.Mat, r.Mat, out matchTime, out modelKeyPoints, out observedKeyPoints,
+                            matches,
+                            out mask, out homography);
+                    }
+                    catch (Exception ex)
+                    {
+                        await Dispatcher.Invoke(async () =>
+                         {
+                             DialogHost.CloseDialogCommand.Execute(processDialog, RootDialog);
+                             var sampleMessageDialog = new SampleMessageDialog
+                             {
+                                 Message = { Text = "无法查找特征点，请检查图片是否正确。" }
+                             };
+                             await DialogHost.Show(sampleMessageDialog, "RootDialog");
+
+                         });
+                        return;
+                    }
 
                     //double featurePointFinderThreshold =(double)Application.Current.Resources["FeaturePointFinderThreshold"];
                     if (!Threshold)
@@ -299,7 +324,7 @@ namespace ImageStitchingSystem.UI
             });
 
             BindPoints();
-            DialogHost.CloseDialogCommand.Execute(processDialog,RootDialog);
+            DialogHost.CloseDialogCommand.Execute(processDialog, RootDialog);
         }
 
         private void comboBoxLImg_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -307,7 +332,7 @@ namespace ImageStitchingSystem.UI
             if (ScrollViewerL == null) return;
 
             ComboBox box = sender as ComboBox;
-            _zoomStringL = box.SelectedItem as string;
+            if (box != null) _zoomStringL = box.SelectedItem as string;
 
             BindPoints();
         }
@@ -318,7 +343,7 @@ namespace ImageStitchingSystem.UI
             if (ScrollViewerR == null) return;
 
             ComboBox box = sender as ComboBox;
-            _zoomStringR = box.SelectedItem as string;
+            if (box != null) _zoomStringR = box.SelectedItem as string;
 
             BindPoints();
         }
@@ -331,8 +356,7 @@ namespace ImageStitchingSystem.UI
                 using (Image<Bgr, byte> r = new Image<Bgr, byte>(_isRChange ? (ComboBoxR.SelectedItem as Photo).Source : _rSaveName))
                 {
                     Image<Bgr, byte> result = CvUtils.Draw(l, r, PointColletion.ToList());
-                    ImageBox box = new ImageBox();
-                    box.Image = result.Bitmap;
+                    ImageBox box = new ImageBox { Image = result.Bitmap };
                     box.Show();
                 }
 
@@ -365,22 +389,23 @@ namespace ImageStitchingSystem.UI
 
             ImgL.SelectedIndex = _selectedPointIndex;
             ImgR.SelectedIndex = _selectedPointIndex;
-            UiHelper.MoveToPoint(ScrollViewerL, new System.Drawing.Point((int)_selectedPoint.Lx, (int)_selectedPoint.Ly));
-            UiHelper.MoveToPoint(ScrollViewerR, new System.Drawing.Point((int)_selectedPoint.Rx, (int)_selectedPoint.Ry));
+            //UiHelper.MoveToPoint(ScrollViewerL, ImgL, new System.Drawing.Point((int)_selectedPoint.Lx, (int)_selectedPoint.Ly));
+            //UiHelper.MoveToPoint(ScrollViewerR, ImgR, new System.Drawing.Point((int)_selectedPoint.Rx, (int)_selectedPoint.Ry));
 
             BindPoints();
         }
 
-        private void buttonDeleteAll_Click(object sender, RoutedEventArgs e)
+        private async void buttonDeleteAll_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult r = MessageBox.Show("你确定要全部删除吗", "提示", MessageBoxButton.OKCancel);
-            if (r == MessageBoxResult.OK)
+            var simpleDialog = new SampleDialog { Message = { Text = "你确定要全部删除吗?" } };
+            simpleDialog.Ok.Click += (o, args) =>
             {
                 PointColletion.Clear();
                 _selectedPoint = null;
                 _selectedPointIndex = -1;
                 BindPoints();
-            }
+            };
+            await DialogHost.Show(simpleDialog, "RootDialog");
         }
 
         private void imgL_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -564,20 +589,8 @@ namespace ImageStitchingSystem.UI
                 double[,] tData = { { 1.0, 0, 0 }, { 0, 1.0, 0 }, { 0, 0, 1.0 } };
 
                 bool horizontal = true;
-                HomographyMethod method = (HomographyMethod) Enum.Parse(typeof(HomographyMethod),
+                HomographyMethod method = (HomographyMethod)Enum.Parse(typeof(HomographyMethod),
                     ComboBoxStitcheArithmetic.SelectedItem as string);
-                //switch (ComboBoxStitcheArithmetic.SelectedItem as string)
-                //{
-                //    case "Ransac":
-                //        method = HomographyMethod.Ransac;
-                //        break;
-                //    case "LMEDS":
-                //        method = HomographyMethod.LMEDS;
-                //        break;
-                //    case "Default":
-                //        method = HomographyMethod.Default;
-                //        break;
-                //}
 
                 switch (ComboBoxOrientation.SelectedItem as string)
                 {
@@ -640,31 +653,9 @@ namespace ImageStitchingSystem.UI
 
                 Image<Bgr, byte> last = new Image<Bgr, byte>(size);
 
-                BorderType borderType = (BorderType) Enum.Parse(typeof(BorderType), ComboBoxBorderType.SelectedItem as string);
-                //switch (ComboBoxBorderType.SelectedItem as string)
-                //{
-                //    case "NegativeOne":
-                        
-                //        break;
-                //    case "Constant":
-                //        break;
-                //    case "Replicate":
-                //        break;
-                //    case "Reflect":
-                //        break;
-                //    case "Wrap":
-                //        break;
-                //    case "Default":
-                //        break;
-                //    case "Reflect101":
-                //        break;
-                //    case "Transparent":
-                //        break;
-                //    case "Isolated":
-                //        break;
-                //}
+                BorderType borderType = (BorderType)Enum.Parse(typeof(BorderType), ComboBoxBorderType.SelectedItem as string);
 
-                CvInvoke.WarpPerspective(r, result, sh * h, size,Inter.Linear,Warp.Default,borderType);
+                CvInvoke.WarpPerspective(r, result, sh * h, size, Inter.Linear, Warp.Default, borderType);
 
                 if (CheckBoxIsShowWarpResult.IsChecked != null && CheckBoxIsShowWarpResult.IsChecked.Value)
                 {
@@ -758,7 +749,7 @@ namespace ImageStitchingSystem.UI
                     last.ROI = new Rectangle(new System.Drawing.Point(0, 0),
                         new System.Drawing.Size(l.Width, l.Height));
                     l.CopyTo(last);
-                    last.ROI=Rectangle.Empty;
+                    last.ROI = Rectangle.Empty;
 
                     for (int i = 0; i < result.Rows; i++)
                     {
@@ -766,24 +757,11 @@ namespace ImageStitchingSystem.UI
                         {
                             if (!result[i, j].IsBlack())
                             {
-                                last[i,j] = result[i, j];
+                                last[i, j] = result[i, j];
                             }
                         }
                     }
                 }
-
-                //if (horizontal)
-                //{
-                //    last.ROI = new Rectangle(l.Width - 10, 0, l.Width + 10, last.Height);
-                //    last.SmoothMedian(5);
-                //    last.ROI=Rectangle.Empty;
-                //}
-                //else
-                //{
-                //    last.ROI = new Rectangle(0, l.Height - 10, last.Width, l.Height + 10);
-                //    last.SmoothMedian(5);
-                //    last.ROI = Rectangle.Empty;
-                //}
 
                 #region 裁剪
                 if (CheckBoxAutoResize.IsChecked != null && CheckBoxAutoResize.IsChecked.Value)

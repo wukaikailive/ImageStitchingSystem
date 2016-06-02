@@ -205,10 +205,22 @@ namespace ImageStitchingSystem.Utils
             imgSmall.Source = BitmapUtils.ChangeBitmapToImageSource(ld.Bitmap);
         }
 
-        public static void MoveToPoint(ScrollViewer view, System.Drawing.Point p)
+        public static void MoveToPoint(ScrollViewer view,Image img, System.Drawing.Point p)
         {
-            view.ScrollToHorizontalOffset(p.X);
-            view.ScrollToVerticalOffset(p.Y);
+            double zoom = 1D;
+            if (img.Source.Width / img.Source.Height > img.ActualWidth / img.ActualHeight)
+            {
+                zoom = img.ActualWidth / img.Source.Width;
+            }         
+            else      
+            {           
+                zoom = img.ActualHeight / img.Source.Height;
+            }
+
+            double px = view.ActualWidth / 2;
+            double py = view.ActualHeight / 2;
+            view.ScrollToHorizontalOffset(p.X*zoom-px);
+            view.ScrollToVerticalOffset(p.Y*zoom-py);
         }
 
         public static void DrawCross(DrawingContext dc, Point p, int l,Brush brush)

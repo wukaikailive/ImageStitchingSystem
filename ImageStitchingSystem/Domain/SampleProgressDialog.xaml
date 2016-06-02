@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
     <StackPanel Margin="16">
-        <ProgressBar Width="24" Height="24" 
+        <ProgressBar x:Name="ProgressBar" Width="24" Height="24" 
                  Style="{DynamicResource MaterialDesignCircularProgressBar}"
                  IsIndeterminate="True"
                  Value="33"/>
-        <TextBlock x:Name="Message" Margin="0 16 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        <TextBlock FontSize="18" x:Name="Message" Margin="0 16 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
     </StackPanel>
     
 </UserControl>

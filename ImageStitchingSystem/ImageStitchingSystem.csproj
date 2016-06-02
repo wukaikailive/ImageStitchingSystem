@@ -37,7 +37,14 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>vector-difference.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dragablz, Version=0.0.3.162, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dragablz.0.0.3.162\lib\net45\Dragablz.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Emgu.CV.UI">
       <HintPath>..\..\..\..\..\..\..\Emgu\emgucv-windesktop 3.1.0.2282\bin\Emgu.CV.UI.dll</HintPath>
     </Reference>
@@ -97,10 +104,16 @@
     </ApplicationDefinition>
     <Compile Include="Domain\AnotherCommandImplementation.cs" />
     <Compile Include="Domain\DemoItem.cs" />
+    <Compile Include="Domain\FlyoutContent.xaml.cs">
+      <DependentUpon>FlyoutContent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Domain\FutureDateValidationRule.cs" />
     <Compile Include="Domain\ListFieldsViewModel.cs" />
     <Compile Include="Domain\NotEmptyValidationRule.cs" />
     <Compile Include="Domain\NotifyPropertyChangedExtension.cs" />
+    <Compile Include="Domain\SampleDialog.xaml.cs">
+      <DependentUpon>SampleDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Domain\SampleMessageDialog.xaml.cs">
       <DependentUpon>SampleMessageDialog.xaml</DependentUpon>
     </Compile>
@@ -155,6 +168,14 @@
     <Compile Include="Utils\MMath.cs" />
     <Compile Include="Utils\TextUtils.cs" />
     <Compile Include="Utils\UIHelper.cs" />
+    <Page Include="Domain\FlyoutContent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Domain\SampleDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Domain\SampleMessageDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -287,6 +308,7 @@
     <Resource Include="Resource\Images\ic_save_green.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="vector-difference.ico" />
     <Resource Include="Resource\Images\ic_vector-difference.png" />
     <Resource Include="Resource\Images\ic_vector-union.png" />
     <Resource Include="Resource\Images\ic_refresh.png" />

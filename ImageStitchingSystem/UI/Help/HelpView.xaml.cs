@@ -24,9 +24,15 @@ namespace ImageStitchingSystem.UI
         public HelpView()
         {
             InitializeComponent();
-          
-            docViewer.Document =   new XpsDocument(AppDomain.CurrentDomain.BaseDirectory + "/help.xps", System.IO.FileAccess.Read).GetFixedDocumentSequence();
-            docViewer.FitToWidth();
+            try
+            {
+                docViewer.Document = new XpsDocument(AppDomain.CurrentDomain.BaseDirectory + "/help.xps", System.IO.FileAccess.Read).GetFixedDocumentSequence();
+                docViewer.FitToWidth();
+            }
+            catch (Exception e)
+            {
+                
+            }
         }
     }
 }

@@ -13,7 +13,7 @@
         Icon="/Resource/Images/ic_vector-difference.png"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         Title="基于OpenCV的图像拼接软件——贵州大学" Height="600" Width="980">
-    
+
     <materialDesign:DialogHost Identifier="RootDialog">
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
             <materialDesign:DrawerHost.LeftDrawerContent >
@@ -21,10 +21,10 @@
                     <StackPanel DockPanel.Dock="Top" Background="{StaticResource PrimaryHueMidBrush}">
                         <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
                                   DockPanel.Dock="Top"
-                                      Foreground="White"
+                                  Foreground="White"
                                   HorizontalAlignment="Right" Margin="16"
                                   IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
-                   </StackPanel>
+                    </StackPanel>
                     <ListBox VerticalAlignment="Stretch" x:Name="DemoItemsListBox" Margin="0 16 0 16" SelectedIndex="0"                         
                              PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
                         <ListBox.ItemTemplate>
@@ -32,11 +32,11 @@
                                 <TextBlock Text="{Binding Name}" Margin="32 0 32 0" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-                       
-                       
+
+
                         <domain:DemoItem Name="图像管理">
                             <domain:DemoItem.Content>
-                               <ui:Base></ui:Base>
+                                <ui:Base></ui:Base>
                             </domain:DemoItem.Content>
                         </domain:DemoItem>
                         <domain:DemoItem Name="图像拼接">
@@ -51,7 +51,7 @@
                         </domain:DemoItem>
                         <domain:DemoItem Name="关于">
                             <domain:DemoItem.Content>
-                               <ui:About></ui:About>
+                                <ui:About></ui:About>
                             </domain:DemoItem.Content>
                         </domain:DemoItem>
                     </ListBox>

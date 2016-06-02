@@ -13,7 +13,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using ZedGraph;
 
 namespace ImageStitchingSystem.Utils
 {

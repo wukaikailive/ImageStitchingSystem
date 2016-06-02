@@ -136,7 +136,7 @@
 
     </UserControl.Resources>
 
-    <Grid Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid Background="White" x:Name="RootDialog" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>

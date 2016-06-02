@@ -4,32 +4,38 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="clr-namespace:ImageStitchingSystem.UI"
         xmlns:weight="clr-namespace:ImageStitchingSystem.UI.Weight"
+        xmlns:dockablz="clr-namespace:Dragablz.Dockablz;assembly=Dragablz"
+        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+        xmlns:domain="clr-namespace:ImageStitchingSystem.Domain"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="基于OpenCV的图像拼接软件——贵州大学-吴凯凯-1208060027" 
         Height="600" Width="850" Icon="/Resource/Images/ic_merge.png"
-        Background="{DynamicResource MaterialDesignPaper}"
-        GlowBrush="{DynamicResource AccentColorBrush}"
-        BorderThickness="1"   
+        WindowTransitionsEnabled="False"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"					  
+        GlowBrush="{DynamicResource AccentColorBrush}"					  
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         >
-    <Grid>
-        <Grid.Resources>
-           
-        </Grid.Resources>
-
-        <Controls:MetroTabControl  x:Name="TabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Controls:MetroTabItem Header="图像管理">
-                <ui:Base HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:Base>
-            </Controls:MetroTabItem>
-            <Controls:MetroTabItem Header="图像拼接">
-                <ui:SimpleView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:SimpleView>
-                </Controls:MetroTabItem>
-            <Controls:MetroTabItem Header="帮助">
-                <ui:HelpView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:HelpView>
-            </Controls:MetroTabItem>
-            <Controls:MetroTabItem Header="关于">
-                <ui:About HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ></ui:About>
-            </Controls:MetroTabItem>
-        </Controls:MetroTabControl>
-
-    </Grid>
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <dockablz:Layout x:Name="RootDialog">
+            <dragablz:TabablzControl BorderThickness="0"
+                                 Margin="0">
+                <dragablz:TabablzControl.InterTabController>
+                    <dragablz:InterTabController />
+                </dragablz:TabablzControl.InterTabController>
+                <TabItem Header="图像管理">
+                    <ui:Base Margin="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:Base>
+                </TabItem>
+                <TabItem Header="图像拼接" >
+                    <ui:SimpleView Margin="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:SimpleView>
+                </TabItem>
+                <TabItem Header="帮助" >
+                    <ui:HelpView Margin="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ui:HelpView>
+                </TabItem>
+                <TabItem Header="关于" >
+                    <ui:About Margin="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ></ui:About>
+                </TabItem>
+            </dragablz:TabablzControl>
+        </dockablz:Layout>
+    </materialDesign:DialogHost>
 </Controls:MetroWindow>
