@@ -319,6 +319,7 @@ namespace ImageStitchingSystem.UI
                         Dispatcher.Invoke(() => PointColletion.Add(p));
 
                     }
+                    Dispatcher.Invoke(() => PointColletion.UpdateIndex());
                     // stopwatch.Stop();
                 }
             });

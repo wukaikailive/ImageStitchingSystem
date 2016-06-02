@@ -27,10 +27,10 @@ namespace ImageStitchingSystem.Utils
             System.Drawing.Point result= new System.Drawing.Point(point.X - h, point.Y - h);
             return result;
         }
-        public static Point GetLeftPoint(System.Windows.Point point, int rectWith)
+        public static System.Drawing.Point GetLeftPoint(System.Windows.Point point, int rectWith)
         {
             int h = rectWith / 2;
-            return new Point(point.X - h, point.Y - h);
+            return new System.Drawing.Point((int) (point.X - h), (int) (point.Y - h));
         }
 
         /// <summary>
