@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ImageStitchingSystem</RootNamespace>
     <AssemblyName>ImageStitchingSystem</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -25,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,13 +35,40 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>vector-difference.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dragablz, Version=0.0.3.162, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dragablz.0.0.3.162\lib\net45\Dragablz.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Emgu.CV.UI">
       <HintPath>..\..\..\..\..\..\..\Emgu\emgucv-windesktop 3.1.0.2282\bin\Emgu.CV.UI.dll</HintPath>
     </Reference>
     <Reference Include="Emgu.CV.World">
       <HintPath>..\..\..\..\..\..\..\Emgu\emgucv-windesktop 3.1.0.2282\bin\Emgu.CV.World.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.MahApps, Version=0.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.MahApps.0.0.4\lib\net45\MaterialDesignThemes.MahApps.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=1.5.0.523, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.1.5.0.523\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
@@ -48,6 +76,10 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,6 +102,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Domain\AnotherCommandImplementation.cs" />
+    <Compile Include="Domain\DemoItem.cs" />
+    <Compile Include="Domain\FlyoutContent.xaml.cs">
+      <DependentUpon>FlyoutContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\FutureDateValidationRule.cs" />
+    <Compile Include="Domain\ListFieldsViewModel.cs" />
+    <Compile Include="Domain\NotEmptyValidationRule.cs" />
+    <Compile Include="Domain\NotifyPropertyChangedExtension.cs" />
+    <Compile Include="Domain\SampleDialog.xaml.cs">
+      <DependentUpon>SampleDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\SampleMessageDialog.xaml.cs">
+      <DependentUpon>SampleMessageDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\SampleProgressDialog.xaml.cs">
+      <DependentUpon>SampleProgressDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\SelectableViewModel.cs" />
+    <Compile Include="Domain\SimpleDataTemplateSelector.cs" />
+    <Compile Include="Domain\SimpleDateValidationRule.cs" />
+    <Compile Include="Domain\TextFieldsViewModel.cs" />
+    <Compile Include="Domain\TreesViewModel.cs" />
     <Compile Include="Exceptions\UnSupportException.cs" />
     <Compile Include="Resource\UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
@@ -89,6 +144,9 @@
     <Compile Include="Models\Converters.cs" />
     <Compile Include="Models\FeaturePoint.cs" />
     <Compile Include="Other\Photo.cs" />
+    <Compile Include="UI\MainWindow1.xaml.cs">
+      <DependentUpon>MainWindow1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\SimplePanel\SimpleView.xaml.cs">
       <DependentUpon>SimpleView.xaml</DependentUpon>
     </Compile>
@@ -110,6 +168,22 @@
     <Compile Include="Utils\MMath.cs" />
     <Compile Include="Utils\TextUtils.cs" />
     <Compile Include="Utils\UIHelper.cs" />
+    <Page Include="Domain\FlyoutContent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Domain\SampleDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Domain\SampleMessageDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Domain\SampleProgressDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resource\UserControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -158,6 +232,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\MainWindow1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\SettingDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -203,8 +281,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -228,17 +308,27 @@
     <Resource Include="Resource\Images\ic_save_green.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resource\Images\ic_accommodate.png" />
-    <Resource Include="Resource\Images\ic_re.png" />
-    <Resource Include="Resource\Images\ic_begin.png" />
+    <Resource Include="vector-difference.ico" />
+    <Resource Include="Resource\Images\ic_vector-difference.png" />
+    <Resource Include="Resource\Images\ic_vector-union.png" />
+    <Resource Include="Resource\Images\ic_refresh.png" />
     <Resource Include="Resource\Images\ic_merge.png" />
     <Resource Include="Resource\Images\ic_delete_all.png" />
+    <Resource Include="Resource\Images\ic_accommodate.png" />
+    <Resource Include="Resource\Images\ic_re.png" />
+    <Resource Include="Resource\Images\ic_play.png" />
+    <Resource Include="Resource\Images\ic_begin.png" />
     <Resource Include="Resource\Images\ic_match.png" />
     <Resource Include="Resource\Images\ic_clip.png" />
     <Resource Include="Resource\Images\ic_preview.png" />
     <Resource Include="Resource\Images\gzu.png" />
+    <Resource Include="Resource\Images\ic_fullscreen-exit.png" />
     <Content Include="Resource\Images\ic_add.png" />
     <Resource Include="Resource\Images\ic_gzu.png" />
+    <Resource Include="Resource\Images\ic_add_white_48dp.png" />
+    <Resource Include="Resource\Images\ic_edit_white_48dp.png" />
+    <Resource Include="Resource\Images\ic_delete_white_48dp.png" />
+    <Resource Include="Resource\Images\ic_eye_white_48dp.png" />
     <Content Include="Resource\Images\ic_restore_purple.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -54,9 +54,11 @@ namespace ImageStitchingSystem.UI
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            openFileDialog.Filter = "图片文件|*.jpg;*.png;*.bmp";
-            openFileDialog.Multiselect = true;
+            System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog
+            {
+                Filter = "图片文件|*.jpg;*.png;*.bmp",
+                Multiselect = true
+            };
             //spinnerBalls.Visibility = Visibility.Visible;
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {

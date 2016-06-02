@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\obj\Release\
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\obj\Release\
 ImageStitchingSystem
 none
 false
 TRACE
-C:\Users\bigface\Documents\Visual Studio 2013\Projects\ImageStitchingSystem\ImageStitchingSystem\App.xaml
-3-542178884
-
-91761224898
-141012385901
-Base.xaml;MainWindow.xaml;photoview.xaml;
+F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\UI\App.xaml
+19-1479062403
+2-1536882767
+47-1026425459
+27687148881
+Domain\FlyoutContent.xaml;Domain\SampleDialog.xaml;Domain\SampleMessageDialog.xaml;Domain\SampleProgressDialog.xaml;Resource\UserControl1.xaml;UI\About\About.xaml;UI\BasePanel\Base.xaml;UI\Help\HelpView.xaml;UI\ImageBox.xaml;UI\MainWindow.xaml;UI\BasePanel\PhotoEditWindow.xaml;UI\BasePanel\PhotoItem.xaml;UI\BasePanel\photoview.xaml;UI\MainWindow1.xaml;UI\SettingDictionary.xaml;UI\SimplePanel\SimpleView.xaml;UI\SimplePanel\StitcheParamsWindow.xaml;UI\Weight\ScrollViewerWithoutKeyDown.xaml;UI\Weight\TabControlWithBackground.xaml;
 
 False
 

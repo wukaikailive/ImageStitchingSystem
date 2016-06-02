@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -10,7 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Xps.Packaging;
+using Microsoft.Office.Interop.Word;
 
 namespace ImageStitchingSystem.UI
 {
@@ -22,6 +24,15 @@ namespace ImageStitchingSystem.UI
         public HelpView()
         {
             InitializeComponent();
+            try
+            {
+                docViewer.Document = new XpsDocument(AppDomain.CurrentDomain.BaseDirectory + "/help.xps", System.IO.FileAccess.Read).GetFixedDocumentSequence();
+                docViewer.FitToWidth();
+            }
+            catch (Exception e)
+            {
+                
+            }
         }
     }
 }
