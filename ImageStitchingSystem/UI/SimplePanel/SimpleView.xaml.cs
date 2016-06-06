@@ -78,7 +78,7 @@ namespace ImageStitchingSystem.UI
         /// <summary>
         /// 渲染
         /// </summary>
-        private async void BindPoints()
+        private void BindPoints()
         {
             try
             {
@@ -147,12 +147,7 @@ namespace ImageStitchingSystem.UI
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message + e.StackTrace);
-                var sampleMessageDialog = new SampleMessageDialog
-                {
-                    Message = { Text = "出错了，请尝试压缩图片或者提高阈值。" }
-                };
-                await DialogHost.Show(sampleMessageDialog, "RootDialog");
+                OpenMsgDialog("出错了，请尝试压缩图片或者提高阈值。");
             }
 
         }
@@ -224,19 +219,11 @@ namespace ImageStitchingSystem.UI
             Debug.Assert(s != null);
             if (ComboBoxL.SelectedItem == null || ComboBoxR.SelectionBoxItem == null)
             {
-                var sampleMessageDialog = new SampleMessageDialog
-                {
-                    Message = { Text = "请先选择要拼接的图片。" }
-                };
-                await DialogHost.Show(sampleMessageDialog, "RootDialog");
+                OpenMsgDialog("先选择要拼接的图片。");
                 return;
             }
 
-            var processDialog = new SampleProgressDialog()
-            {
-                Message = { Text = "正在寻找特征点" }
-            };
-            DialogHost.Show(processDialog, "RootDialog");
+            OpenProcessDialog("正在寻找特征点...");
 
             int dialogMode = 0;
 
@@ -246,7 +233,7 @@ namespace ImageStitchingSystem.UI
             double featurePointFinderThreshold = 1.5;
 
             bool Threshold = double.TryParse(TextBoxThreshold.Text, out featurePointFinderThreshold);
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
                 Mat homography;
                 VectorOfKeyPoint modelKeyPoints = null;
@@ -265,16 +252,12 @@ namespace ImageStitchingSystem.UI
                     }
                     catch (Exception ex)
                     {
-                        await Dispatcher.Invoke(async () =>
-                         {
-                             DialogHost.CloseDialogCommand.Execute(processDialog, RootDialog);
-                             var sampleMessageDialog = new SampleMessageDialog
-                             {
-                                 Message = { Text = "无法查找特征点，请检查图片是否正确。" }
-                             };
-                             await DialogHost.Show(sampleMessageDialog, "RootDialog");
+                        Dispatcher.Invoke(() =>
+                        {
+                            CloseProcessDialog();
+                            OpenMsgDialog("无法查找特征点，请检查图片是否正确。");
 
-                         });
+                        });
                         return;
                     }
 
@@ -325,7 +308,7 @@ namespace ImageStitchingSystem.UI
             });
 
             BindPoints();
-            DialogHost.CloseDialogCommand.Execute(processDialog, RootDialog);
+            CloseProcessDialog();
         }
 
         private void comboBoxLImg_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -398,15 +381,7 @@ namespace ImageStitchingSystem.UI
 
         private async void buttonDeleteAll_Click(object sender, RoutedEventArgs e)
         {
-            var simpleDialog = new SampleDialog { Message = { Text = "你确定要全部删除吗?" } };
-            simpleDialog.Ok.Click += (o, args) =>
-            {
-                PointColletion.Clear();
-                _selectedPoint = null;
-                _selectedPointIndex = -1;
-                BindPoints();
-            };
-            await DialogHost.Show(simpleDialog, "RootDialog");
+            OpenYesNoDialog("你确定要全部删除吗?");
         }
 
         private void imgL_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -568,11 +543,7 @@ namespace ImageStitchingSystem.UI
 
                 if (pointsl.Length < 4)
                 {
-                    var sampleMessageDialog = new SampleMessageDialog
-                    {
-                        Message = { Text = "特征点小于4对,不能匹配。" }
-                    };
-                    await DialogHost.Show(sampleMessageDialog, "RootDialog");
+                    OpenMsgDialog("特征点小于4对,不能匹配。");
                     return;
                 }
 
@@ -782,11 +753,7 @@ namespace ImageStitchingSystem.UI
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.StackTrace);
-                        var sampleMessageDialog = new SampleMessageDialog
-                        {
-                            Message = { Text = "裁剪时遇到一点问题。" }
-                        };
-                        await DialogHost.Show(sampleMessageDialog, "RootDialog");
+                        OpenMsgDialog("裁剪时遇到一点问题。");
                     }
                 #endregion
 
@@ -803,11 +770,7 @@ namespace ImageStitchingSystem.UI
             }
             catch (Exception ex)
             {
-                var sampleMessageDialog = new SampleMessageDialog
-                {
-                    Message = { Text = "出错了，请检查参数是否设置正确。" }
-                };
-                await DialogHost.Show(sampleMessageDialog, "RootDialog");
+                OpenMsgDialog("出错了，请检查参数是否设置正确。");
             }
 
         }
@@ -1008,6 +971,67 @@ namespace ImageStitchingSystem.UI
                     break;
             }
 
+        }
+
+
+
+        private void OpenMsgDialog(string msg)
+        {
+            GridOP.IsEnabled = false;
+            Message.Text = msg;
+
+            GridMsgDialog.Visibility=Visibility.Visible;
+        }
+        private void CloseMsgDialog()
+        {
+            GridOP.IsEnabled = true;
+            Message.Text = "";
+            GridMsgDialog.Visibility = Visibility.Collapsed;
+        }
+
+        private void OpenProcessDialog(string msg)
+        {
+            GridOP.IsEnabled = false;
+            MessageDialog.Text = msg;
+            GridProcessDialog.Visibility = Visibility.Visible;
+        }
+        private void CloseProcessDialog()
+        {
+            GridOP.IsEnabled = true;
+            MessageDialog.Text = "";
+            GridProcessDialog.Visibility = Visibility.Collapsed;
+        }
+
+        private void OpenYesNoDialog(string msg)
+        {
+            GridOP.IsEnabled = false;
+            MessageYesNo.Text = msg;
+            GridYesNoDialog.Visibility = Visibility.Visible;
+        }
+        private void CloseYesNoDialog()
+        {
+            GridOP.IsEnabled = true;
+            MessageYesNo.Text = "";
+            GridYesNoDialog.Visibility = Visibility.Collapsed;
+        }
+
+        private void ButtonMsgDialog_OnClick(object sender, RoutedEventArgs e)
+        {
+            CloseMsgDialog();
+        }
+
+        private void Ok_OnClick(object sender, RoutedEventArgs e)
+        {
+            CloseYesNoDialog();
+            PointColletion.Clear();
+            _selectedPoint = null;
+            _selectedPointIndex = -1;
+            BindPoints();
+        }
+
+        private void Cancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            CloseYesNoDialog();
         }
     }
 }

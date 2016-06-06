@@ -14,7 +14,6 @@
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         Title="基于OpenCV的图像拼接软件——贵州大学" Height="600" Width="980">
 
-    <materialDesign:DialogHost Identifier="RootDialog">
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
             <materialDesign:DrawerHost.LeftDrawerContent >
                 <DockPanel MinWidth="212" Background="White">
@@ -76,6 +75,5 @@
                 <ContentControl Margin="16" Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Content}" />
             </DockPanel>
         </materialDesign:DrawerHost>
-    </materialDesign:DialogHost>
 </controls:MetroWindow>
 

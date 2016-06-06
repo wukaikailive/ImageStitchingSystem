@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\UI\App.xaml
-19-1479062403
+172143303391
 2-1536882767
-47-1026425459
-28295693631
-Domain\FlyoutContent.xaml;Domain\SampleDialog.xaml;Domain\SampleMessageDialog.xaml;Domain\SampleProgressDialog.xaml;Resource\UserControl1.xaml;UI\About\About.xaml;UI\BasePanel\Base.xaml;UI\Help\HelpView.xaml;UI\ImageBox.xaml;UI\MainWindow.xaml;UI\BasePanel\PhotoEditWindow.xaml;UI\BasePanel\PhotoItem.xaml;UI\BasePanel\photoview.xaml;UI\MainWindow1.xaml;UI\SettingDictionary.xaml;UI\SimplePanel\SimpleView.xaml;UI\SimplePanel\StitcheParamsWindow.xaml;UI\Weight\ScrollViewerWithoutKeyDown.xaml;UI\Weight\TabControlWithBackground.xaml;
+43-411137743
+27-2105476917
+Resources\Icons.xaml;Resources\IconsNonShared.xaml;Resource\UserControl1.xaml;UI\About\About.xaml;UI\BasePanel\Base.xaml;UI\Help\HelpView.xaml;UI\ImageBox.xaml;UI\MainWindow.xaml;UI\BasePanel\PhotoEditWindow.xaml;UI\BasePanel\PhotoItem.xaml;UI\BasePanel\photoview.xaml;UI\MainWindow1.xaml;UI\SettingDictionary.xaml;UI\SimplePanel\SimpleView.xaml;UI\SimplePanel\StitcheParamsWindow.xaml;UI\Weight\ScrollViewerWithoutKeyDown.xaml;UI\Weight\TabControlWithBackground.xaml;
 
 False
 

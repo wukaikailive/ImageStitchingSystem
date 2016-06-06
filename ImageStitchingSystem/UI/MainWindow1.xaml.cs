@@ -35,12 +35,7 @@ namespace ImageStitchingSystem.UI
 
         private async void MenuPopupButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var sampleMessageDialog = new SampleMessageDialog
-            {
-                Message = { Text = ((ButtonBase)sender).Content.ToString() }
-            };
-
-            await DialogHost.Show(sampleMessageDialog, "RootDialog");
+            
         }
     }
 }

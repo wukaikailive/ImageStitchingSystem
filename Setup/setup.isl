@@ -341,14 +341,26 @@
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>Component</td><td>{6B943E53-63CD-4C07-A640-C3188AA07D2D}</td><td>INSTALLDIR</td><td>2</td><td/><td>File</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Component1</td><td>{667B7B6C-19D9-4CCC-B08E-4B385F18BABF}</td><td>INSTALLDIR</td><td>2</td><td/><td>File</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Dragablz.dll</td><td>{8B54CCDD-E771-4DEC-B40B-937CB62AAC61}</td><td>INSTALLDIR</td><td>2</td><td/><td>dragablz.dll</td><td>20</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Emgu.CV.UI.dll</td><td>{10B0C732-C6C5-40C7-A56C-6D51C176C529}</td><td>INSTALLDIR</td><td>2</td><td/><td>emgu.cv.ui.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Emgu.CV.World.dll</td><td>{3FD62D88-9D4E-4B35-BA86-0230AD88FD8B}</td><td>INSTALLDIR</td><td>2</td><td/><td>emgu.cv.world.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{95FE628B-EF5F-4056-8FA5-C61396EE804D}</td><td>SOURCE</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{04D41DB4-6187-45E8-A9CB-64D0AF60FA5D}</td><td>X64</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{30AB7ED6-D0D3-4C21-9C59-FD2B4A47FD43}</td><td>X86</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT3</td><td>{EE90CB34-B87B-45CD-BA88-4D2711188743}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>MahApps.Metro.dll</td><td>{A4999366-DD37-4752-B20B-BAD8002B04C1}</td><td>INSTALLDIR</td><td>2</td><td/><td>mahapps.metro.dll</td><td>20</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>MaterialDesignColors.dll</td><td>{B6154399-DED2-4329-BA2F-096AC1E59C63}</td><td>INSTALLDIR</td><td>2</td><td/><td>materialdesigncolors.dll</td><td>20</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>MaterialDesignThemes.MahApps.dll</td><td>{507DF872-2168-498B-8BB0-10B7FBF8DCE8}</td><td>INSTALLDIR</td><td>2</td><td/><td>materialdesignthemes.mahapps</td><td>20</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>MaterialDesignThemes.Wpf.dll</td><td>{1984FC82-4200-4881-BB2A-F690C6A6E63A}</td><td>INSTALLDIR</td><td>2</td><td/><td>materialdesignthemes.wpf.dll</td><td>20</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Windows.Interactivity.dll</td><td>{D1F3297C-3F1F-404B-9E54-5CB93B346121}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.windows.interactivity</td><td>20</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>cvextern.dll</td><td>{47C7D7B2-175B-46B0-A8FB-200659D6A13E}</td><td>X64</td><td>2</td><td/><td>cvextern.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>cvextern.dll1</td><td>{B7A7F774-90EC-4A70-BA7E-89FBF71F8E2A}</td><td>X86</td><td>2</td><td/><td>cvextern.dll1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>msvcp120.dll</td><td>{C72B0F02-5A46-4027-9544-188D5059BA4F}</td><td>INSTALLDIR</td><td>2</td><td/><td>msvcp120.dll</td><td>20</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>msvcr120.dll</td><td>{192A2C9F-CB82-482C-9FD1-DECD7528B18D}</td><td>INSTALLDIR</td><td>2</td><td/><td>msvcr120.dll</td><td>20</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>opencv_ffmpeg310.dll</td><td>{D7218BFC-6E80-490C-AA60-3683982EF2D2}</td><td>X86</td><td>2</td><td/><td>opencv_ffmpeg310.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>opencv_ffmpeg310_64.dll</td><td>{F35ED805-9AE9-4E1B-9B11-553149489ECE}</td><td>X64</td><td>2</td><td/><td>opencv_ffmpeg310_64.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>vccorlib120.dll</td><td>{96D30DAF-1645-4D4E-AEAB-D5E451C1B54C}</td><td>INSTALLDIR</td><td>2</td><td/><td>vccorlib120.dll</td><td>20</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1058,14 +1070,26 @@
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
 		<row><td>INSTALLDIR</td><td>Component</td></row>
+		<row><td>INSTALLDIR</td><td>Component1</td></row>
+		<row><td>INSTALLDIR</td><td>Dragablz.dll</td></row>
+		<row><td>INSTALLDIR</td><td>Emgu.CV.UI.dll</td></row>
+		<row><td>INSTALLDIR</td><td>Emgu.CV.World.dll</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT3</td></row>
+		<row><td>INSTALLDIR</td><td>MahApps.Metro.dll</td></row>
+		<row><td>INSTALLDIR</td><td>MaterialDesignColors.dll</td></row>
+		<row><td>INSTALLDIR</td><td>MaterialDesignThemes.MahApps.dll</td></row>
+		<row><td>INSTALLDIR</td><td>MaterialDesignThemes.Wpf.dll</td></row>
+		<row><td>INSTALLDIR</td><td>System.Windows.Interactivity.dll</td></row>
 		<row><td>INSTALLDIR</td><td>cvextern.dll</td></row>
 		<row><td>INSTALLDIR</td><td>cvextern.dll1</td></row>
+		<row><td>INSTALLDIR</td><td>msvcp120.dll</td></row>
+		<row><td>INSTALLDIR</td><td>msvcr120.dll</td></row>
 		<row><td>INSTALLDIR</td><td>opencv_ffmpeg310.dll</td></row>
 		<row><td>INSTALLDIR</td><td>opencv_ffmpeg310_64.dll</td></row>
+		<row><td>INSTALLDIR</td><td>vccorlib120.dll</td></row>
 		<row><td>SOURCE</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>X64</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>X64</td><td>cvextern.dll</td></row>
@@ -1889,14 +1913,26 @@
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>Component</td></row>
+		<row><td>AlwaysInstall</td><td>Component1</td></row>
+		<row><td>AlwaysInstall</td><td>Dragablz.dll</td></row>
+		<row><td>AlwaysInstall</td><td>Emgu.CV.UI.dll</td></row>
+		<row><td>AlwaysInstall</td><td>Emgu.CV.World.dll</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT3</td></row>
+		<row><td>AlwaysInstall</td><td>MahApps.Metro.dll</td></row>
+		<row><td>AlwaysInstall</td><td>MaterialDesignColors.dll</td></row>
+		<row><td>AlwaysInstall</td><td>MaterialDesignThemes.MahApps.dll</td></row>
+		<row><td>AlwaysInstall</td><td>MaterialDesignThemes.Wpf.dll</td></row>
+		<row><td>AlwaysInstall</td><td>System.Windows.Interactivity.dll</td></row>
 		<row><td>AlwaysInstall</td><td>cvextern.dll</td></row>
 		<row><td>AlwaysInstall</td><td>cvextern.dll1</td></row>
+		<row><td>AlwaysInstall</td><td>msvcp120.dll</td></row>
+		<row><td>AlwaysInstall</td><td>msvcr120.dll</td></row>
 		<row><td>AlwaysInstall</td><td>opencv_ffmpeg310.dll</td></row>
 		<row><td>AlwaysInstall</td><td>opencv_ffmpeg310_64.dll</td></row>
+		<row><td>AlwaysInstall</td><td>vccorlib120.dll</td></row>
 	</table>
 
 	<table name="File">
@@ -1911,12 +1947,23 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
-		<row><td>File</td><td>Component</td><td>ImageStitchingSystem.主输出</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ImageStitchingSystem&gt;|Built</td><td>3</td><td/></row>
+		<row><td>File</td><td>Component1</td><td>ImageStitchingSystem.主输出</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ImageStitchingSystem&gt;|Built</td><td>3</td><td/></row>
 		<row><td>cvextern.dll</td><td>cvextern.dll</td><td>cvextern.dll</td><td>0</td><td/><td/><td/><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\x64\cvextern.dll</td><td>1</td><td/></row>
 		<row><td>cvextern.dll1</td><td>cvextern.dll1</td><td>cvextern.dll</td><td>0</td><td/><td/><td/><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\x86\cvextern.dll</td><td>1</td><td/></row>
+		<row><td>dragablz.dll</td><td>Dragablz.dll</td><td>Dragablz.dll</td><td>0</td><td/><td/><td>0</td><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\Dragablz.dll</td><td>1</td><td/></row>
+		<row><td>emgu.cv.ui.dll</td><td>Emgu.CV.UI.dll</td><td>EMGUCV~1.DLL|Emgu.CV.UI.dll</td><td>0</td><td/><td/><td/><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\Emgu.CV.UI.dll</td><td>1</td><td/></row>
+		<row><td>emgu.cv.world.dll</td><td>Emgu.CV.World.dll</td><td>EMGUCV~1.DLL|Emgu.CV.World.dll</td><td>0</td><td/><td/><td/><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\Emgu.CV.World.dll</td><td>1</td><td/></row>
 		<row><td>help.xps</td><td>ISX_DEFAULTCOMPONENT3</td><td>help.xps</td><td>0</td><td/><td/><td/><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\help.xps</td><td>1</td><td/></row>
+		<row><td>mahapps.metro.dll</td><td>MahApps.Metro.dll</td><td>MAHAPP~1.DLL|MahApps.Metro.dll</td><td>0</td><td/><td/><td>0</td><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\MahApps.Metro.dll</td><td>1</td><td/></row>
+		<row><td>materialdesigncolors.dll</td><td>MaterialDesignColors.dll</td><td>MATERI~1.DLL|MaterialDesignColors.dll</td><td>0</td><td/><td/><td>0</td><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\MaterialDesignColors.dll</td><td>1</td><td/></row>
+		<row><td>materialdesignthemes.mahapps</td><td>MaterialDesignThemes.MahApps.dll</td><td>MATERI~1.DLL|MaterialDesignThemes.MahApps.dll</td><td>0</td><td/><td/><td>0</td><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\MaterialDesignThemes.MahApps.dll</td><td>1</td><td/></row>
+		<row><td>materialdesignthemes.wpf.dll</td><td>MaterialDesignThemes.Wpf.dll</td><td>MATERI~1.DLL|MaterialDesignThemes.Wpf.dll</td><td>0</td><td/><td/><td>0</td><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\MaterialDesignThemes.Wpf.dll</td><td>1</td><td/></row>
+		<row><td>msvcp120.dll</td><td>msvcp120.dll</td><td>msvcp120.dll</td><td>0</td><td/><td/><td>0</td><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\Setup\Setup\Express\DVD-5\DiskImages\DISK1\System32\msvcp120.dll</td><td>1</td><td/></row>
+		<row><td>msvcr120.dll</td><td>msvcr120.dll</td><td>msvcr120.dll</td><td>0</td><td/><td/><td>0</td><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\Setup\Setup\Express\DVD-5\DiskImages\DISK1\System32\msvcr120.dll</td><td>1</td><td/></row>
 		<row><td>opencv_ffmpeg310.dll</td><td>opencv_ffmpeg310.dll</td><td>OPENCV~1.DLL|opencv_ffmpeg310.dll</td><td>0</td><td/><td/><td/><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\x86\opencv_ffmpeg310.dll</td><td>1</td><td/></row>
 		<row><td>opencv_ffmpeg310_64.dll</td><td>opencv_ffmpeg310_64.dll</td><td>OPENCV~1.DLL|opencv_ffmpeg310_64.dll</td><td>0</td><td/><td/><td/><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\x64\opencv_ffmpeg310_64.dll</td><td>1</td><td/></row>
+		<row><td>system.windows.interactivity</td><td>System.Windows.Interactivity.dll</td><td>SYSTEM~1.DLL|System.Windows.Interactivity.dll</td><td>0</td><td/><td/><td>0</td><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\System.Windows.Interactivity.dll</td><td>1</td><td/></row>
+		<row><td>vccorlib120.dll</td><td>vccorlib120.dll</td><td>VCCORL~1.DLL|vccorlib120.dll</td><td>0</td><td/><td/><td>0</td><td>1</td><td>F:\大四第二学期\毕业设计\ImageStitchingSystem\Setup\Setup\Express\DVD-5\DiskImages\DISK1\System32\vccorlib120.dll</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2059,14 +2106,26 @@
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
 		<row><td>Component</td><td/><td/><td>_6D0EA123_5DD5_41D0_BA25_B4B85B734CA3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Component1</td><td/><td/><td>_7541EA6B_78D8_4984_8ED7_194190795A7B_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Dragablz.dll</td><td/><td/><td>_AB8611A6_53A0_44AA_88B8_2838F2817F7A_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Emgu.CV.UI.dll</td><td/><td/><td>_EE4839CA_0381_427F_9BC4_D5245FB91C90_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Emgu.CV.World.dll</td><td/><td/><td>_B8A06D3E_4CE7_4F2A_9806_0123064035B5_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_AB6CED62_398F_4E98_B34D_8842884D4207_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_95DB5C85_9ADC_4A5E_AFAA_7DD7236D57BE_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_1C1C89BA_2490_48E8_8737_B5E07F0CBA26_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT3</td><td/><td/><td>_6D406949_CD39_41F6_9463_C0A42573C81E_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>MahApps.Metro.dll</td><td/><td/><td>_18AF1E63_F04C_416C_A9B4_914143573D5A_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>MaterialDesignColors.dll</td><td/><td/><td>_9429419D_9096_4BBF_B5B3_CA169276431E_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>MaterialDesignThemes.MahApps.dll</td><td/><td/><td>_ED80E125_6267_4D61_9D9B_38CB598340CD_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>MaterialDesignThemes.Wpf.dll</td><td/><td/><td>_2145A012_075D_482B_8C08_157CAF07B53D_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Windows.Interactivity.dll</td><td/><td/><td>_DF80B094_56D3_44CA_A112_D11C7450A611_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>cvextern.dll</td><td/><td/><td>_DED233C6_22E5_4E65_8561_DC0D4CCCFFCC_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>cvextern.dll1</td><td/><td/><td>_52220D10_A004_47EA_9724_DC0D9D961009_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>msvcp120.dll</td><td/><td/><td>_C297B0DF_05CB_40CF_A67D_FA4FF4159EFD_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>msvcr120.dll</td><td/><td/><td>_FA03B19E_984B_4E77_8EE7_A431CA724362_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>opencv_ffmpeg310.dll</td><td/><td/><td>_1868FBB7_FC52_4B5A_B3D6_EBAC03063227_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>opencv_ffmpeg310_64.dll</td><td/><td/><td>_D7D7DDC1_D423_406D_B17E_D3F8350FF8E0_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>vccorlib120.dll</td><td/><td/><td>_601F1D9F_0556_4AD9_BE8D_B4A350C1F482_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -2626,6 +2685,9 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
+		<row><td>_7C1183DD_D1E1_47ED_BAD8_CC029F8E37FE_</td><td>Microsoft Visual C++ 2015 Redistributable Package (x86).prq</td><td/><td/><td/></row>
+		<row><td>_B69EA6B6_7FA4_4959_A49F_4A91BAB8069A_</td><td>Microsoft Visual C++ 2015 Redistributable Package (x64).prq</td><td/><td/><td/></row>
+		<row><td>_D9A2622E_EA5B_4E03_BBFC_6D7420A03256_</td><td>Microsoft .NET Framework 4.5 Full.prq</td><td/><td/><td/></row>
 	</table>
 
 	<table name="ISSetupType">
@@ -2659,10 +2721,12 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>2052</td><td>GZU</td><td>0</td><td/><td>-89910249</td></row>
+		<row><td>COMPANY_NAME</td><td>2052</td><td>GZU</td><td>0</td><td/><td>455370127</td></row>
 		<row><td>DN_AlwaysInstall</td><td>2052</td><td>始终安装</td><td>0</td><td/><td>-89906185</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>2052</td><td>系统颜色设置不足以运行 [ProductName]。</td><td>0</td><td/><td>-89906185</td></row>
-		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION45FULL</td><td>2052</td><td>Microsoft .NET Framework 4.5 Full package or greater needs to be installed for this installation to continue.</td><td>0</td><td/><td>-89906185</td></row>
+		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION40CLIENT</td><td>1033</td><td>Microsoft .NET Framework 4.0 Client Package or greater needs to be installed for this installation to continue.</td><td>0</td><td/><td>455402031</td></row>
+		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION40CLIENT</td><td>2052</td><td>Microsoft .NET Framework 4.0 Client Package or greater needs to be installed for this installation to continue.</td><td>0</td><td/><td>455402031</td></row>
+		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION45FULL</td><td>2052</td><td>Microsoft .NET Framework 4.5 Full package or greater needs to be installed for this installation to continue.</td><td>0</td><td/><td>455361136</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>2052</td><td>操作系统不足以运行 [ProductName]。</td><td>0</td><td/><td>-89906185</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_PROCESSOR</td><td>2052</td><td>处理器不足以运行 [ProductName]。</td><td>0</td><td/><td>-89906185</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_RAM</td><td>2052</td><td>RAM 量不足以运行 [ProductName]。</td><td>0</td><td/><td>-89906185</td></row>
@@ -3762,9 +3826,9 @@
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>2052</td><td>对于运行 [ProductName] 内存量不足。</td><td>0</td><td/><td>-89906185</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>2052</td><td>对于运行 [ProductName] 屏幕分辨率不足。</td><td>0</td><td/><td>-89906185</td></row>
 		<row><td>ID_STRING1</td><td>2052</td><td/><td>0</td><td/><td>-89906185</td></row>
-		<row><td>ID_STRING2</td><td>2052</td><td>http://www.GZU.com</td><td>0</td><td/><td>-89910249</td></row>
+		<row><td>ID_STRING2</td><td>2052</td><td>http://www.GZU.com</td><td>0</td><td/><td>455370127</td></row>
 		<row><td>ID_STRING3</td><td>2052</td><td>Launch |Built</td><td>0</td><td/><td>-89906185</td></row>
-		<row><td>ID_STRING4</td><td>2052</td><td>GZU</td><td>0</td><td/><td>-89910249</td></row>
+		<row><td>ID_STRING4</td><td>2052</td><td>GZU</td><td>0</td><td/><td>455370127</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>2052</td><td>系统将不安装此功能。</td><td>0</td><td/><td>-89906185</td></row>
 	</table>
 
@@ -3993,8 +4057,8 @@
 		<col def="S0">Value</col>
 		<row><td>ActiveLanguage</td><td>2052</td></row>
 		<row><td>Comments</td><td/></row>
-		<row><td>CurrentMedia</td><td dt:dt="bin.base64" md5="de9f554a3bc05c12be9c31b998217995">
-UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
+		<row><td>CurrentMedia</td><td dt:dt="bin.base64" md5="6d78a46bf2c52ee27034bbcad20f7f95">
+QwBEAF8AUgBPAE0AAQBFAHgAcAByAGUAcwBzAA==
 			</td></row>
 		<row><td>DefaultProductConfiguration</td><td>Express</td></row>
 		<row><td>EnableSwidtag</td><td>1</td></row>
@@ -4011,7 +4075,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{4C514429-2C40-4B22-BE95-47D8E085026D}</td></row>
 		<row><td>ISUSSignature</td><td>{4FCCFB84-412A-4C98-BAAD-553791C0919A}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewISToday,viewProject,viewUI,viewEnvironmentVariables,viewAppFiles,viewSystemSearch,viewRelease</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewISToday,viewProject,viewUI,viewEnvironmentVariables,viewAppFiles,viewSystemSearch,viewRelease,viewFileExtensions,viewIniFiles,viewVRoots,viewCustomActions,viewRegistry,viewShortcuts,viewServices,viewObjects,viewTextMessages</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>

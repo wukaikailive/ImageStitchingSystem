@@ -117,7 +117,7 @@
 
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Grid.ColumnSpan="3">
+        <Grid Grid.Row="0" Grid.ColumnSpan="3" x:Name="GridOP">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -238,9 +238,9 @@
                                     <materialDesign:PackIcon Kind="VectorDifference" Foreground="White"/>
                                 </Button.Content>
                             </Button>
-                           
+
                         </WrapPanel>
-                        
+
                     </StackPanel>
                     <StackPanel Margin="4 0 4 0" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left">
                         <StackPanel Orientation="Horizontal">
@@ -257,7 +257,7 @@
                         <CheckBox x:Name="CheckBoxIsShowWarpResult" Content="查看warp结果" VerticalAlignment="Center"></CheckBox>
                         <CheckBox IsChecked="True" x:Name="CheckBoxWeightedAverage" Content="重叠区域加权平均" VerticalAlignment="Center"></CheckBox>
                         <CheckBox IsChecked="True" x:Name="CheckBoxAutoResize" Content="自动裁剪" VerticalAlignment="Center"></CheckBox>
-                      
+
                     </StackPanel>
                     <StackPanel Margin="4 0 0 0">
                         <TextBlock Text="保存的文件名"></TextBlock>
@@ -282,7 +282,7 @@
 
             </ComboBox>
 
-            <ComboBox DockPanel.Dock="Left" Grid.Column="0" Grid.Row="1"
+            <ComboBox  DockPanel.Dock="Left" Grid.Column="0" Grid.Row="1"
                   x:Name="ComboBoxL"  d:LayoutOverrides="Height" SelectedIndex="0"
                   ItemsSource="{Binding Mode=OneWay, Source={StaticResource Photos}}" SelectionChanged="comboBoxL_SelectionChanged">
 
@@ -319,7 +319,7 @@
             <weight:ImageWithCenterCross DockPanel.Dock="Top" x:Name="ImgLd" HorizontalAlignment="Left" Width="60" Height="60"></weight:ImageWithCenterCross>
             <weight:ImageWithCenterCross DockPanel.Dock="Bottom" x:Name="ImgRd" HorizontalAlignment="Right" Width="60" Height="60"></weight:ImageWithCenterCross>
         </DockPanel>
-        
+
         <ScrollViewer x:Name="ScrollViewerR" Grid.Column="2" Grid.Row="2" 
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                       VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" Background="#BDBDBD">
@@ -355,6 +355,97 @@
                 </ListView>
 
             </GroupBox>
+
+        </Grid>
+        <Grid Visibility="Collapsed" x:Name="GridMsgDialog" ColumnSpan="10" RowSpan="10" Background="#44000000" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+
+            </Grid.RowDefinitions>
+            <Border Grid.Column="1" Grid.Row="1" CornerRadius="5" Background="White">
+                <StackPanel>
+                    <TextBlock x:Name="Message" 
+                   Margin="16"
+                   FontSize="18" />
+                    <Button x:Name="ButtonMsgDialog" Click="ButtonMsgDialog_OnClick"
+                IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                HorizontalAlignment="Right"
+                Margin="16 16 16 0"
+               >
+                        确定
+                    </Button>
+                </StackPanel>
+            </Border>
+
+        </Grid>
+        <Grid Visibility="Collapsed" x:Name="GridProcessDialog" ColumnSpan="10" RowSpan="10" Background="#44000000" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+
+            </Grid.RowDefinitions>
+            <Border Grid.Column="1" Grid.Row="1" CornerRadius="5" Background="White">
+                <StackPanel Margin="16">
+                    <ProgressBar x:Name="ProgressBar" Width="24" Height="24" 
+                 Style="{DynamicResource MaterialDesignCircularProgressBar}"
+                 IsIndeterminate="True"
+                 Value="33"/>
+                    <TextBlock FontSize="18" x:Name="MessageDialog" Margin="0 16 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+                </StackPanel>
+            </Border>
+
+        </Grid>
+
+        <Grid Visibility="Collapsed" x:Name="GridYesNoDialog" ColumnSpan="10" RowSpan="10" Background="#44000000" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+
+            </Grid.RowDefinitions>
+            <Border Grid.Column="1" Grid.Row="1" CornerRadius="5" Background="White">
+                <StackPanel Margin="16">
+                    <TextBlock FontSize="18" x:Name="MessageYesNo" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center"
+                    Margin="0 16 0 0">
+                        <Button x:Name="Ok" Style="{DynamicResource MaterialDesignFlatButton}" Click="Ok_OnClick">
+                            确定
+                        </Button>
+                        <Button x:Name="Cancel" Margin="8 0 0 0" Style="{DynamicResource MaterialDesignFlatButton}" Click="Cancel_OnClick">
+                            取消
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
 
         </Grid>
 

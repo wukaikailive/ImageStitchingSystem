@@ -21,8 +21,6 @@ F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\ImageStitchingSystem.pdb
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\Dragablz.dll
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\MahApps.Metro.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\MaterialDesignColors.dll
-F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\MaterialDesignThemes.MahApps.dll
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\MaterialDesignThemes.Wpf.dll
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\System.Windows.Interactivity.dll
 F:\大四第二学期\毕业设计\ImageStitchingSystem\ImageStitchingSystem\bin\Release\Dragablz.pdb

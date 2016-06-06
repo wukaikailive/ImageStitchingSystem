@@ -10,6 +10,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{5F0D92F1-62D7-4F72-AF17-743312783028}"
 EndProject
 Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "setup", "Setup\setup.isproj", "{624C0B20-A483-4D5C-BD19-E64C1AA7F6AE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{980F565D-2135-4433-BDC2-83187B6C23CA} = {980F565D-2135-4433-BDC2-83187B6C23CA}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
